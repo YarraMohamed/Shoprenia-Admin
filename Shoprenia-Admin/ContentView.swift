@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    var viewModel = ViewModel()
     var body: some View {
+
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
@@ -16,6 +18,9 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear{
+            viewModel.fetchVendor()
+        }
     }
 }
 

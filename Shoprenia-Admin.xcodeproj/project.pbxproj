@@ -6,7 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3871B8A42DE7DDE800693FE8 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A32DE7DDE800693FE8 /* Apollo */; };
+		3871B8A62DE7DDE800693FE8 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A52DE7DDE800693FE8 /* ApolloWebSocket */; };
+		3871B8B42DE7E62200693FE8 /* Shopify in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8B32DE7E62200693FE8 /* Shopify */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		3864DD9F2DE7F73000AE5510 /* getVendors.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getVendors.graphql; sourceTree = "<group>"; };
+		3871B8AC2DE7E56500693FE8 /* API */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = API; sourceTree = "<group>"; };
+		3871B8AD2DE7E56500693FE8 /* getProducts.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getProducts.graphql; sourceTree = "<group>"; };
+		3871B8AE2DE7E56500693FE8 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shoprenia-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -23,16 +33,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3871B8B42DE7E62200693FE8 /* Shopify in Frameworks */,
+				3871B8A42DE7DDE800693FE8 /* Apollo in Frameworks */,
+				3871B8A62DE7DDE800693FE8 /* ApolloWebSocket in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3871B8AF2DE7E56500693FE8 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				3871B8AC2DE7E56500693FE8 /* API */,
+				3871B8AD2DE7E56500693FE8 /* getProducts.graphql */,
+				3864DD9F2DE7F73000AE5510 /* getVendors.graphql */,
+				3871B8AE2DE7E56500693FE8 /* schema.graphqls */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
+		3871B8B52DE7E6B100693FE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		38ADCE1D2DE630F8005EEC69 = {
 			isa = PBXGroup;
 			children = (
+				3871B8AF2DE7E56500693FE8 /* GraphQL */,
 				38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */,
+				3871B8B52DE7E6B100693FE8 /* Frameworks */,
 				38ADCE272DE630F8005EEC69 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +98,9 @@
 			);
 			name = "Shoprenia-Admin";
 			packageProductDependencies = (
+				3871B8A32DE7DDE800693FE8 /* Apollo */,
+				3871B8A52DE7DDE800693FE8 /* ApolloWebSocket */,
+				3871B8B32DE7E62200693FE8 /* Shopify */,
 			);
 			productName = "Shoprenia-Admin";
 			productReference = 38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */;
@@ -94,6 +130,10 @@
 			);
 			mainGroup = 38ADCE1D2DE630F8005EEC69;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3871B8A22DE7DDE800693FE8 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				3871B8B22DE7E62200693FE8 /* XCLocalSwiftPackageReference "GraphQL/API" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 38ADCE272DE630F8005EEC69 /* Products */;
 			projectDirPath = "";
@@ -320,6 +360,41 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		3871B8B22DE7E62200693FE8 /* XCLocalSwiftPackageReference "GraphQL/API" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = GraphQL/API;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3871B8A22DE7DDE800693FE8 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.21.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3871B8A32DE7DDE800693FE8 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3871B8A22DE7DDE800693FE8 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		3871B8A52DE7DDE800693FE8 /* ApolloWebSocket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3871B8A22DE7DDE800693FE8 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloWebSocket;
+		};
+		3871B8B32DE7E62200693FE8 /* Shopify */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shopify;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 38ADCE1E2DE630F8005EEC69 /* Project object */;
 }
