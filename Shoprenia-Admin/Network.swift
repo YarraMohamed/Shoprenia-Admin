@@ -11,8 +11,9 @@ import Foundation
 class Network {
     static let shared = Network()
     private lazy var store = ApolloStore()
-    
+
     private let accessToken = ProcessInfo.processInfo.environment["Admin_Access_Token"] ?? ""
+
 
     
     private(set) lazy var apollo: ApolloClient = {
