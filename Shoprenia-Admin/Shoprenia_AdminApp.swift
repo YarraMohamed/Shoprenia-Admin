@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Shoprenia_AdminApp: App {
+    init(){
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor(named: "shopreniaBlue") ?? ""]
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+           AuthenticationScreen()
         }
     }
 }
