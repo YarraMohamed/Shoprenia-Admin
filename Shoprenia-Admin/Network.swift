@@ -11,11 +11,9 @@ import Foundation
 class Network {
     static let shared = Network()
     private lazy var store = ApolloStore()
-    //private let accessToken = "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"
+    
     private let accessToken = ProcessInfo.processInfo.environment["Admin_Access_Token"] ?? ""
 
-
-//    private(set) lazy var apollo = ApolloClient(url: URL(string: "https://mad45-ios1-sv.myshopify.com/admin/api/2025-04/graphql.json")!)
     
     private(set) lazy var apollo: ApolloClient = {
         let url = URL(string: "https://mad45-ios1-sv.myshopify.com/admin/api/2025-04/graphql.json")!
