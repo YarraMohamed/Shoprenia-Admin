@@ -10,5 +10,5 @@ import Foundation
 protocol AuthenticationViewModelProtocol {
     
     func getAdminAuthenticationData() -> (email : String , password : String)
-    
+    func validatateAdminCredentials(email : String , password : String) -> Bool
 }

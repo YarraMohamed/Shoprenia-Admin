@@ -9,29 +9,42 @@ import SwiftUI
 
 struct AuthenticationScreen: View {
     var viewModel : AuthenticationViewModelProtocol = AuthenticationViewModel()
-    @State var navigate = false
+    @State var email : String = ""
+    @State var password : String = ""
+    @State var showMessage : Bool = false
+    @State var shouldNavigate = false
+    @State var message : String = ""
+    @State var color : Color = Color(.clear)
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment : .leading, spacing: 10){
                 GreetingSection()
                     .padding(.bottom,40)
-                EmailAndPasswordSection()
-                NavigationLink(destination: HomeScreen(), isActive: $navigate) {
-                    Text("Login")
-                        .font(.system(size: 20, weight: .medium, design: .default))
-                        .foregroundStyle(.white)
-                        .frame(width: 300, height: 50, alignment: .center)
-                        .background(Color("shopreniaBlue"))
-                        .cornerRadius(25)
-                        .padding()
-                        .onTapGesture {
-                            
-                        }
+                EmailAndPasswordSection(email: $email, password: $password)
+                CustomButton(title: "Login") {
+                    if viewModel.validatateAdminCredentials(email: email, password: password){
+                        message = "Login Successful"
+                        color = .green
+                        showMessage = true
+                        shouldNavigate = true
+                    }else{
+                        showMessage = true
+                        message = "Invalid Credentials"
+                        color = .red
+                    }
+                }.navigationDestination(isPresented: $shouldNavigate) {
+                    HomeScreen()
                 }
+                
+                
                 Spacer()
             }.padding()
                 .navigationTitle("Shoprenia")
-
+            
+            if showMessage {
+                ShowMessage(color: $color, message: $message)
+            }
+            
         }
     }
 }
@@ -51,8 +64,8 @@ struct GreetingSection : View {
 }
 
 struct EmailAndPasswordSection : View {
-    @State var email : String = ""
-    @State var password : String = ""
+    @Binding var email : String
+    @Binding var password : String
     var body: some View {
         VStack(alignment : .leading){
             Text("Email :")
@@ -84,6 +97,39 @@ struct EmailAndPasswordSection : View {
     }
     
 }
+
+struct CustomButton : View {
+    var title : String
+    var action : ()->Void
+    var body: some View{
+        
+        Button(title){
+            action()
+        }
+        .font(.system(size: 20, weight: .medium, design: .default))
+        .foregroundStyle(.white)
+        .frame(width: 300, height: 50, alignment: .center)
+        .background(Color("shopreniaBlue"))
+        .cornerRadius(25)
+        .padding()
+    }
+}
+
+struct ShowMessage : View {
+    @Binding var color : Color
+    @Binding var message : String
+    var body : some View {
+        ZStack{
+            Circle()
+                .frame(width: 150, height: 150, alignment: .bottom)
+                .foregroundStyle(color)
+            Text(message)
+                .foregroundStyle(.white)
+                .font(.system(size: 15, weight: .bold, design: .default))
+        }
+    }
+}
+
 
 #Preview {
     AuthenticationScreen()
