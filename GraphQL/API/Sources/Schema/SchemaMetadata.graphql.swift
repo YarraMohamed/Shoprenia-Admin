@@ -151,7 +151,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductConnection": return Shopify.Objects.ProductConnection
     case "ProductDeleteOperation": return Shopify.Objects.ProductDeleteOperation
     case "ProductDuplicateOperation": return Shopify.Objects.ProductDuplicateOperation
-    case "ProductEdge": return Shopify.Objects.ProductEdge
     case "ProductFeed": return Shopify.Objects.ProductFeed
     case "ProductOption": return Shopify.Objects.ProductOption
     case "ProductOptionValue": return Shopify.Objects.ProductOptionValue

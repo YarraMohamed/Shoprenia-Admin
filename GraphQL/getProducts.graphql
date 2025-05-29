@@ -1,11 +1,9 @@
 query GetProducts {
-  products(first: 10) {
-    edges {
-      node {
-        id
-        title
-      }
+    products(first: 20) {
+        nodes {
+            id
+            title
+        }
     }
-  }
 }
  
