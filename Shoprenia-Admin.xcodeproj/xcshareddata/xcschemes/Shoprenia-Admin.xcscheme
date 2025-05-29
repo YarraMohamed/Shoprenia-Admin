@@ -50,6 +50,13 @@
             ReferencedContainer = "container:Shoprenia-Admin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "Admin_Access_Token"
+            value = "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"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
