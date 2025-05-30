@@ -21,6 +21,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3891BEC02DEA122600F5550E /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
+		3891BEC12DEA123500F5550E /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Shoprenia-Admin";
@@ -63,6 +73,8 @@
 		38ADCE1D2DE630F8005EEC69 = {
 			isa = PBXGroup;
 			children = (
+				3891BEC12DEA123500F5550E /* Assets */,
+				3891BEC02DEA122600F5550E /* App */,
 				3871B8AF2DE7E56500693FE8 /* GraphQL */,
 				38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */,
 				3871B8B52DE7E6B100693FE8 /* Frameworks */,
@@ -94,6 +106,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3891BEC02DEA122600F5550E /* App */,
+				3891BEC12DEA123500F5550E /* Assets */,
 				38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */,
 			);
 			name = "Shoprenia-Admin";

@@ -41,7 +41,7 @@ struct VendorImage : View {
             switch phase {
             case .empty:
                 ProgressView()
-                    .frame(width: 150, height: 150)
+                    .frame(width: 150, height: 160)
             case .success(let image):
                 image
                     .resizable()

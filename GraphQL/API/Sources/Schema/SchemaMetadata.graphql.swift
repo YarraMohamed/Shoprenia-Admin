@@ -126,6 +126,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MarketWebPresence": return Shopify.Objects.MarketWebPresence
     case "MarketingActivity": return Shopify.Objects.MarketingActivity
     case "MarketingEvent": return Shopify.Objects.MarketingEvent
+    case "MediaConnection": return Shopify.Objects.MediaConnection
     case "MediaImage": return Shopify.Objects.MediaImage
     case "Menu": return Shopify.Objects.Menu
     case "Metafield": return Shopify.Objects.Metafield
@@ -159,6 +160,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductTaxonomyNode": return Shopify.Objects.ProductTaxonomyNode
     case "ProductVariant": return Shopify.Objects.ProductVariant
     case "ProductVariantComponent": return Shopify.Objects.ProductVariantComponent
+    case "ProductVariantConnection": return Shopify.Objects.ProductVariantConnection
     case "Publication": return Shopify.Objects.Publication
     case "PublicationResourceOperation": return Shopify.Objects.PublicationResourceOperation
     case "QuantityPriceBreak": return Shopify.Objects.QuantityPriceBreak

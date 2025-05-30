@@ -1,9 +1,26 @@
 query GetProducts {
-    products(first: 20) {
+    products(first: 100) {
         nodes {
             id
             title
+            totalInventory
+            variants(first: 1) {
+                nodes {
+                    availableForSale
+                    price
+                }
+            }
+            media(first: 1) {
+                nodes {
+                    ... on MediaImage {
+                        image {
+                            url
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
  

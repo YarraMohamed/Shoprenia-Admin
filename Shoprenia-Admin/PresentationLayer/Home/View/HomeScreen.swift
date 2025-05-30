@@ -34,7 +34,10 @@ struct HomeScreen: View {
         }
     }
     init() {
-        _viewModel = StateObject(wrappedValue: HomeViewModel(usecase: FetchVendorsUsecase(networkSercive: NetworkService())))
+        _viewModel = StateObject(
+            wrappedValue: HomeViewModel(
+                usecase: FetchVendorsUsecase(
+                    networkSercive: NetworkService())))
     }
 }
 
