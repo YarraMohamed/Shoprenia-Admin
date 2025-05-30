@@ -10,6 +10,6 @@ import Foundation
 import Shopify
 
 protocol NetworkServiceProtocol {
-    func getAllVendorsName(completionHandler : @escaping (Result<[String],Error>)->Void)
+    func getAllVendors(completionHandler : @escaping (Result<[GetAllVendorsQuery.Data.Collections.Node],Error>)->Void)
     func getAllProducts(completionHandler : @escaping (Result<[GetProductsQuery.Data.Products.Node],Error>)->Void)
 }

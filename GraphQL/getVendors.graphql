@@ -1,6 +1,13 @@
-query GetVendors {
-    productVendors(first: 100) {
-        nodes
+query GetAllVendors {
+  collections(first: 20) {
+        nodes {
+            handle
+            image {
+                url
+            }
+            id
+        }
     }
 }
+
 

@@ -12,34 +12,42 @@ struct AuthenticationScreen: View {
     @State var email : String = ""
     @State var password : String = ""
     @State var showMessage : Bool = false
-    @State var shouldNavigate = false
+    @State var path = NavigationPath()
     @State var message : String = ""
     @State var color : Color = Color(.clear)
+    
     var body: some View {
-        NavigationStack {
-            VStack(alignment : .leading, spacing: 10){
+        NavigationStack (path: $path) {
+            VStack(alignment : .leading, spacing: 20){//1
                 GreetingSection()
-                    .padding(.bottom,40)
+                    .padding(.bottom,20)//2
                 EmailAndPasswordSection(email: $email, password: $password)
                 CustomButton(title: "Login") {
                     if viewModel.validatateAdminCredentials(email: email, password: password){
                         message = "Login Successful"
                         color = .green
                         showMessage = true
-                        shouldNavigate = true
-                    }else{
+                        path.removeLast(path.count)
+                        path.append("RootViewScreen")
+                    } else {
                         showMessage = true
                         message = "Invalid Credentials"
                         color = .red
                     }
-                }.navigationDestination(isPresented: $shouldNavigate) {
-                    HomeScreen()
                 }
-                
-                
                 Spacer()
-            }.padding()
+            }.frame(maxWidth: .infinity, alignment: .center) //3
+            .padding()
                 .navigationTitle("Shoprenia")
+                .navigationDestination(for : String.self) { value in
+                    if value == "RootViewScreen"{
+                        RootView()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationTitle("Shoprenia")
+                    }else {
+                        RootView()
+                    }
+                }
             
             if showMessage {
                 ShowMessage(color: $color, message: $message)
@@ -49,16 +57,15 @@ struct AuthenticationScreen: View {
     }
 }
 
-
 struct GreetingSection : View {
     var body: some View {
-        VStack(alignment : .leading){
+        VStack(alignment : .leading , spacing: 5){ //4
             Text("Hello, Admin!")
                 .foregroundStyle(Color("shopreniaBlue"))
-                .font(.system(size: 38, weight: .medium, design: .default))
+                .font(.system(size: 36, weight: .medium, design: .default)) //5
             
             Text("Please Login").foregroundStyle(Color("shopreniaBlue"))
-                .font(.system(size: 38, weight: .medium, design: .default))
+                .font(.system(size: 28, weight: .medium, design: .default)) //6
         }
     }
 }
@@ -67,33 +74,34 @@ struct EmailAndPasswordSection : View {
     @Binding var email : String
     @Binding var password : String
     var body: some View {
-        VStack(alignment : .leading){
-            Text("Email :")
-                .font(.system(size: 20, weight: .medium, design: .default))
-                .foregroundStyle(.black)
+        VStack(spacing : 16){
+            VStack(alignment : .leading , spacing: 6){
+                Text("Email :")
+                    .font(.system(size: 18, weight: .medium, design: .default))
+                    .foregroundStyle(.black)
+                
+                TextField("Email",text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(height: 45)
+            }.padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
             
-            TextField("Email",text: $email)
-                .frame(width: 300, height: 50)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-        }.padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
-        
-        VStack(alignment : .leading){
-            Text("Password :")
-                .font(.system(size: 20, weight: .medium, design: .default))
-                .foregroundStyle(.black)
-            
-            
-            SecureField("Password",text: $password)
-                .frame(width: 300, height: 50)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-        }.padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
+            VStack(alignment : .leading , spacing : 6){
+                Text("Password :")
+                    .font(.system(size: 18, weight: .medium, design: .default))
+                    .foregroundStyle(.black)
+                
+                SecureField("Password",text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(height : 45)
+                
+            }.padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
+        }
     }
     
 }
@@ -129,7 +137,6 @@ struct ShowMessage : View {
         }
     }
 }
-
 
 #Preview {
     AuthenticationScreen()

@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// An auto-generated type for paginating through multiple Strings.
-  static let StringConnection = ApolloAPI.Object(
-    typename: "StringConnection",
+  /// An auto-generated type for paginating through multiple Collections.
+  static let CollectionConnection = ApolloAPI.Object(
+    typename: "CollectionConnection",
     implementedInterfaces: [],
     keyFields: nil
   )

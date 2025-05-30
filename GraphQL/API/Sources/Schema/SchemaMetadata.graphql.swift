@@ -48,6 +48,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ChannelInformation": return Shopify.Objects.ChannelInformation
     case "CheckoutProfile": return Shopify.Objects.CheckoutProfile
     case "Collection": return Shopify.Objects.Collection
+    case "CollectionConnection": return Shopify.Objects.CollectionConnection
     case "Comment": return Shopify.Objects.Comment
     case "CommentEvent": return Shopify.Objects.CommentEvent
     case "Company": return Shopify.Objects.Company
@@ -199,7 +200,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "StoreCreditAccountDebitTransaction": return Shopify.Objects.StoreCreditAccountDebitTransaction
     case "StoreCreditAccountExpirationTransaction": return Shopify.Objects.StoreCreditAccountExpirationTransaction
     case "StorefrontAccessToken": return Shopify.Objects.StorefrontAccessToken
-    case "StringConnection": return Shopify.Objects.StringConnection
     case "SubscriptionBillingAttempt": return Shopify.Objects.SubscriptionBillingAttempt
     case "SubscriptionBillingCycleEditedContract": return Shopify.Objects.SubscriptionBillingCycleEditedContract
     case "SubscriptionContract": return Shopify.Objects.SubscriptionContract

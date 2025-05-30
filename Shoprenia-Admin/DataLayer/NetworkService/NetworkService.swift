@@ -50,12 +50,13 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func getAllVendorsName(completionHandler: @escaping (Result<[String], Error>) -> Void) {
-        NetworkService.shared.apollo.fetch(query: GetVendorsQuery()) { result in
+    func getAllVendors(completionHandler: @escaping (Result<[GetAllVendorsQuery.Data.Collections.Node], Error>) -> Void) {
+        NetworkService.shared.apollo.fetch(query: GetAllVendorsQuery()) { result in
             switch result {
             case .success(let graphQLResult):
-                if let vendors = graphQLResult.data?.productVendors?.nodes {
-                    completionHandler(.success(vendors))
+                if let vendors = graphQLResult.data?.collections.nodes{
+                    let filteredVendors = vendors.filter { $0.image != nil }
+                    completionHandler(.success(filteredVendors))
                 } else {
                     completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
                 }
