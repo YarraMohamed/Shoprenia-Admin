@@ -9,7 +9,7 @@ import SwiftUI
 import Shopify
 
 struct VendorsRow : View {
-    
+    @Binding var path : NavigationPath
     var vendor : GetAllVendorsQuery.Data.Collections.Node?
     var body: some View {
         VStack(spacing : 20){
@@ -30,6 +30,11 @@ struct VendorsRow : View {
             .background(Color.white)
             .cornerRadius(12)
             .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
+            .onTapGesture {
+                print(vendor?.handle ?? "No Value")
+                guard let title = vendor?.title else { return }
+                path.append(AppRoute.vendorProducts(vendorName: vendor?.title ?? ""))
+            }
         
     }
 }
@@ -63,5 +68,5 @@ struct VendorImage : View {
 
 
 #Preview {
-    VendorsRow()
+    //VendorsRow()
 }

@@ -2,6 +2,7 @@ query GetAllVendors {
   collections(first: 20) {
         nodes {
             handle
+            title
             image {
                 url
             }

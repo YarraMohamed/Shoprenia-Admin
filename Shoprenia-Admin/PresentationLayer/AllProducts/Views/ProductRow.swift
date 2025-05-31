@@ -9,6 +9,7 @@ import SwiftUI
 import Shopify
 
 struct ProductRow: View {
+    @Binding var path : NavigationPath
     var product : GetProductsQuery.Data.Products.Node?
     var body: some View {
         VStack{
@@ -40,10 +41,12 @@ struct ProductRow: View {
             .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
             .onTapGesture {
                 print(product?.title ?? "No Title")
+                guard let product = product else { return }
+                path.append(AppRoute.productDetails(product: product))
             }
     }
 }
 
 #Preview {
-    ProductRow(product: GetProductsQuery.Data.Products.Node(_dataDict: DataDict(data: [String : AnyHashable](), fulfilledFragments: Set<ObjectIdentifier>())))
+    //ProductRow(product: GetProductsQuery.Data.Products.Node(_dataDict: DataDict(data: [String : AnyHashable](), fulfilledFragments: Set<ObjectIdentifier>())))
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AllProductsScreen: View {
     @StateObject var viewModel : AllProductsViewModel
+    @Binding var path : NavigationPath
     var coloumns = [GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
         VStack{
@@ -21,7 +22,7 @@ struct AllProductsScreen: View {
                 ScrollView{
                     LazyVGrid(columns: coloumns, spacing: 20){
                         ForEach(viewModel.products , id: \.id){ product in
-                            ProductRow(product: product)
+                            ProductRow(path: $path,product: product)
                         }
                     }
                 }
@@ -33,11 +34,12 @@ struct AllProductsScreen: View {
                 print(viewModel.products.count)
             }
     }
-    init() {
+    init(path : Binding<NavigationPath>) {
         _viewModel = StateObject(wrappedValue: AllProductsViewModel(usecase: FetchProductsUsecase(networkService: NetworkService())))
+        self._path = path
     }
 }
 
 #Preview {
-    AllProductsScreen()
+    //AllProductsScreen()
 }

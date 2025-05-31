@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct RootView: View {
+    @Binding var path : NavigationPath
     var body: some View {
         TabView{
-            HomeScreen()
+            HomeScreen(path: $path)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
                 }
-            AllProductsScreen()
+            AllProductsScreen(path: $path)
                 .tabItem{
                     Image(.products)
                     Text("Products")
@@ -30,5 +31,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView()
+    //RootView()
 }

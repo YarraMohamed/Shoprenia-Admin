@@ -9,7 +9,7 @@ import Foundation
 import Shopify
 
 enum AppRoute : Hashable {
-    case homeScreen
+    case rootView
     case productDetails(product : GetProductsQuery.Data.Products.Node)
     case vendorProducts(vendorName : String)
 }

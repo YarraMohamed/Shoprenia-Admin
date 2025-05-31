@@ -7,7 +7,7 @@ public class GetAllVendorsQuery: GraphQLQuery {
   public static let operationName: String = "GetAllVendors"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetAllVendors { collections(first: 20) { __typename nodes { __typename handle image { __typename url } id } } }"#
+      #"query GetAllVendors { collections(first: 20) { __typename nodes { __typename handle title image { __typename url } id } } }"#
     ))
 
   public init() {}
@@ -51,6 +51,7 @@ public class GetAllVendorsQuery: GraphQLQuery {
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("handle", String.self),
+          .field("title", String.self),
           .field("image", Image?.self),
           .field("id", Shopify.ID.self),
         ] }
@@ -61,6 +62,8 @@ public class GetAllVendorsQuery: GraphQLQuery {
         ///
         /// The handle can be used in themes by the Liquid templating language to refer to the collection, but using the ID is preferred because it never changes.
         public var handle: String { __data["handle"] }
+        /// The name of the collection. It's displayed in the Shopify admin and is typically displayed in sales channels, such as an online store.
+        public var title: String { __data["title"] }
         /// The image associated with the collection.
         public var image: Image? { __data["image"] }
         /// A globally-unique ID.

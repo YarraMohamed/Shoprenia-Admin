@@ -9,6 +9,7 @@ import SwiftUI
 import Shopify
 
 struct HomeScreen: View {
+    @Binding var path : NavigationPath
     @StateObject var viewModel : HomeViewModel
     var coloumns = [GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
@@ -23,7 +24,7 @@ struct HomeScreen: View {
                 }else{
                     LazyVGrid(columns: coloumns,spacing: 24){//2
                         ForEach(viewModel.vendors , id: \.id ){ vendor in
-                            VendorsRow(vendor: vendor)
+                            VendorsRow(path: $path,vendor: vendor)
                         }
                     }.padding()
                 }
@@ -33,16 +34,17 @@ struct HomeScreen: View {
             viewModel.getAllVendors()
         }
     }
-    init() {
+    init(path : Binding<NavigationPath>) {
         _viewModel = StateObject(
             wrappedValue: HomeViewModel(
                 usecase: FetchVendorsUsecase(
                     networkSercive: NetworkService())))
+        self._path = path
     }
 }
 
 
 
 #Preview {
-    HomeScreen()
+    //HomeScreen()
 }

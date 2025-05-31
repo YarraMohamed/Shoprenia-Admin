@@ -28,7 +28,7 @@ struct AuthenticationScreen: View {
                         color = .green
                         showMessage = true
                         path.removeLast(path.count)
-                        path.append("RootViewScreen")
+                        path.append(AppRoute.rootView)
                     } else {
                         showMessage = true
                         message = "Invalid Credentials"
@@ -38,17 +38,21 @@ struct AuthenticationScreen: View {
                 Spacer()
             }.frame(maxWidth: .infinity, alignment: .center) //3
             .padding()
-                .navigationTitle("Shoprenia")
-                .navigationDestination(for : String.self) { value in
-                    if value == "RootViewScreen"{
-                        RootView()
+                .navigationDestination(for : AppRoute.self) { value in
+                    switch value{
+                    case .rootView :
+                        RootView(path: $path)
                             .navigationBarBackButtonHidden(true)
                             .navigationTitle("Shoprenia")
-                    }else {
-                        RootView()
+                    case .productDetails(product: let product):
+                        Text("Product Details")
+                            .navigationTitle("Shoprenia")
+                    case .vendorProducts(vendorName: let vendorName):
+                        Text("Vendor products")
+                            .navigationTitle("Shoprenia")
                     }
                 }
-            
+                .navigationTitle("Shoprenia")
             if showMessage {
                 ShowMessage(color: $color, message: $message)
             }
