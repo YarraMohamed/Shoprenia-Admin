@@ -1,0 +1,24 @@
+query GetVendorProducts($vendor: String!) {
+  products(query: $vendor, first: 20) {
+    nodes {
+      id
+      media(first: 1) {
+        nodes {
+          ... on MediaImage {
+            image {
+              url
+            }
+          }
+        }
+      }
+      title
+      totalInventory
+      variants(first: 1) {
+        nodes {
+          availableForSale
+          price
+        }
+      }
+    }
+  }
+}

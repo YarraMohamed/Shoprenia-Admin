@@ -67,5 +67,37 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
+    func getVendorProducts(vendorName :String,completionHandler: @escaping (Result<[GetVendorProductsQuery.Data.Products.Node], any Error>) -> Void){
+        NetworkService.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName)){ result in
+            switch result {
+            case .success(let graphQlResult) :
+                if let products = graphQlResult.data?.products.nodes{
+                    completionHandler(.success(products))
+                } else {
+                    completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
+                }
+            case .failure(let error) :
+                print("Error: \(error)")
+                completionHandler(.failure(error))
+            }
+            
+        }
+    }
+    
+    func getProductByID(productID : ID ,completionHandler: @escaping (Result<GetProductByIDQuery.Data.Product,Error>)->Void){
+        NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID)){ result in
+            switch result {
+            case .success(let graohQLResult) :
+                if let product = graohQLResult.data?.product{
+                    completionHandler(.success(product))
+                }else{
+                    completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
+                }
+            case .failure(let error) :
+                completionHandler(.failure(error))
+            }
+            
+        }
+    }
     
 }

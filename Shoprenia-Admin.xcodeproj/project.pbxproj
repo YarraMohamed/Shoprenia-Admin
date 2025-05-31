@@ -13,9 +13,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3864DD9F2DE7F73000AE5510 /* getVendors.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getVendors.graphql; sourceTree = "<group>"; };
 		3871B8AC2DE7E56500693FE8 /* API */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = API; sourceTree = "<group>"; };
-		3871B8AD2DE7E56500693FE8 /* getProducts.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getProducts.graphql; sourceTree = "<group>"; };
 		3871B8AE2DE7E56500693FE8 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shoprenia-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -34,6 +32,11 @@
 		38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Shoprenia-Admin";
+			sourceTree = "<group>";
+		};
+		38BCE5352DEBC2FC007CD04C /* Queries */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Queries;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -55,9 +58,8 @@
 		3871B8AF2DE7E56500693FE8 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
+				38BCE5352DEBC2FC007CD04C /* Queries */,
 				3871B8AC2DE7E56500693FE8 /* API */,
-				3871B8AD2DE7E56500693FE8 /* getProducts.graphql */,
-				3864DD9F2DE7F73000AE5510 /* getVendors.graphql */,
 				3871B8AE2DE7E56500693FE8 /* schema.graphqls */,
 			);
 			path = GraphQL;

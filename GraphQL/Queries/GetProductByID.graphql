@@ -1,0 +1,26 @@
+
+query GetProductByID($id : ID!) {
+    product(id: $id) {
+        description
+        id
+        media(first: 5) {
+            nodes {
+                ... on MediaImage {
+                    image {
+                        url
+                    }
+                }
+            }
+        }
+        title
+        totalInventory
+        totalVariants
+        variants(first: 20) {
+            nodes {
+                availableForSale
+                displayName
+                price
+            }
+        }
+    }
+}
