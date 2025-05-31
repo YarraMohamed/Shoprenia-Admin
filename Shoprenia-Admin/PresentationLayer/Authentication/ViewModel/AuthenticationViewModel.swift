@@ -12,7 +12,7 @@ class AuthenticationViewModel : AuthenticationViewModelProtocol {
     private let usecase : FetchAdminEmailAndPasswordUsecaseProtocol
     
     init() {
-        UserDefaults.standard.set("Admin@shoprenia.com",forKey: "adminEmail")
+        UserDefaults.standard.set("Admin",forKey: "adminEmail")
         UserDefaults.standard.set( "12345678",forKey: "adminPassword")
         self.usecase = FetchAdminEmailAndPasswordUsecase()
     }
