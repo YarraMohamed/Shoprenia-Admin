@@ -81,11 +81,11 @@ struct EmailAndPasswordSection : View {
     var body: some View {
         VStack(spacing : 16){
             VStack(alignment : .leading , spacing: 6){
-                Text("Email :")
+                Text("Username :")
                     .font(.system(size: 18, weight: .medium, design: .default))
                     .foregroundStyle(.black)
                 
-                TextField("Email",text: $email)
+                TextField("Username",text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(height: 45)
             }.padding()
