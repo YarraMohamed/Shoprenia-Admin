@@ -18,7 +18,7 @@ struct AuthenticationScreen: View {
     
     var body: some View {
         NavigationStack (path: $path) {
-            VStack(alignment : .leading, spacing: 20){//1
+            VStack(spacing: 20){//1
                 GreetingSection()
                     .padding(.bottom,20)//2
                 EmailAndPasswordSection(email: $email, password: $password)
@@ -59,13 +59,18 @@ struct AuthenticationScreen: View {
 
 struct GreetingSection : View {
     var body: some View {
-        VStack(alignment : .leading , spacing: 5){ //4
-            Text("Hello, Admin!")
-                .foregroundStyle(Color("shopreniaBlue"))
-                .font(.system(size: 36, weight: .medium, design: .default)) //5
-            
-            Text("Please Login").foregroundStyle(Color("shopreniaBlue"))
-                .font(.system(size: 28, weight: .medium, design: .default)) //6
+        HStack{
+            VStack{
+                VStack(alignment : .leading , spacing: 5){ //4
+                    Text("Hello, Admin!")
+                        .foregroundStyle(Color("shopreniaBlue"))
+                        .font(.system(size: 32, weight: .medium, design: .default)) //5
+                    
+                    Text("Please Login").foregroundStyle(Color("shopreniaBlue"))
+                        .font(.system(size: 32, weight: .medium, design: .default)) //6
+                }
+            }
+            Spacer()
         }
     }
 }
@@ -110,16 +115,17 @@ struct CustomButton : View {
     var title : String
     var action : ()->Void
     var body: some View{
-        
-        Button(title){
-            action()
+        HStack{
+            Button(title){
+                action()
+            }
+            .font(.system(size: 20, weight: .medium, design: .default))
+            .foregroundStyle(.white)
+            .frame(width: 300, height: 50, alignment: .center)
+            .background(Color("shopreniaBlue"))
+            .cornerRadius(25)
+            .padding()
         }
-        .font(.system(size: 20, weight: .medium, design: .default))
-        .foregroundStyle(.white)
-        .frame(width: 300, height: 50, alignment: .center)
-        .background(Color("shopreniaBlue"))
-        .cornerRadius(25)
-        .padding()
     }
 }
 
