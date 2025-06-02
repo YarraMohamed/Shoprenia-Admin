@@ -45,7 +45,7 @@ struct AuthenticationScreen: View {
                             .navigationBarBackButtonHidden(true)
                             .navigationTitle("Shoprenia")
                     case .productDetails(product: let product):
-                        Text("Product Details")
+                       ProductDetailsScreen()
                             .navigationTitle("Shoprenia")
                     case .vendorProducts(vendorName: let vendorName):
                         Text("Vendor products")

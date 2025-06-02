@@ -1,8 +1,32 @@
 
 query GetProductByID($id : ID!) {
     product(id: $id) {
-        description
         id
+        title
+        descriptionHtml
+        isGiftCard
+        totalInventory
+        vendor
+        productType
+        tags
+        variants(first: 10) {
+            nodes {
+                availableForSale
+                id
+                price
+                title
+                inventoryQuantity
+            }
+        }
+        options(first: 5) {
+            id
+            name
+            optionValues {
+                hasVariants
+                id
+                name
+            }
+        }
         media(first: 5) {
             nodes {
                 ... on MediaImage {
@@ -10,16 +34,6 @@ query GetProductByID($id : ID!) {
                         url
                     }
                 }
-            }
-        }
-        title
-        totalInventory
-        totalVariants
-        variants(first: 20) {
-            nodes {
-                availableForSale
-                displayName
-                price
             }
         }
     }
