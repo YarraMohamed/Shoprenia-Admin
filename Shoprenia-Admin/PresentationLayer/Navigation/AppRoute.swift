@@ -10,6 +10,6 @@ import Shopify
 
 enum AppRoute : Hashable {
     case rootView
-    case productDetails(product : GetProductsQuery.Data.Products.Node)
+    case productDetails(productID : ID)
     case vendorProducts(vendorName : String)
 }

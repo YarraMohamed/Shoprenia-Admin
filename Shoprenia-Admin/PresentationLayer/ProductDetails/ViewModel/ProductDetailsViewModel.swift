@@ -11,7 +11,7 @@ import Shopify
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol , ObservableObject {
     
     let usecase : GetProductByIdUsecaseProtocol
-    @Published private var product : GetProductByIDQuery.Data.Product? = nil
+    @Published var product : GetProductByIDQuery.Data.Product? = nil
     
     func getProductById(id: ID) {
         usecase.excute(id: id) { [weak self] result in

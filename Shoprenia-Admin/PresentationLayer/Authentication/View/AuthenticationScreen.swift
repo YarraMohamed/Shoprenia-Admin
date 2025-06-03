@@ -15,6 +15,7 @@ struct AuthenticationScreen: View {
     @State var path = NavigationPath()
     @State var message : String = ""
     @State var color : Color = Color(.clear)
+    @State var showingButtomSheet : Bool = false
     
     var body: some View {
         NavigationStack (path: $path) {
@@ -44,9 +45,22 @@ struct AuthenticationScreen: View {
                         RootView(path: $path)
                             .navigationBarBackButtonHidden(true)
                             .navigationTitle("Shoprenia")
-                    case .productDetails(product: let product):
-                       ProductDetailsScreen()
+                    case .productDetails(productID: let productID):
+                        ProductDetailsScreen(productID: productID,showBottomSheet:$showingButtomSheet)
                             .navigationTitle("Shoprenia")
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    Button {
+                                        print("show button Modal")
+                                        showingButtomSheet.toggle()
+                                    } label: {
+                                        Image(.edit)
+                                    }
+
+                                        
+                                    
+                                }
+                            }
                     case .vendorProducts(vendorName: let vendorName):
                         Text("Vendor products")
                             .navigationTitle("Shoprenia")

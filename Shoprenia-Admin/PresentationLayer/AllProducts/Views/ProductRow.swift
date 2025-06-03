@@ -42,11 +42,11 @@ struct ProductRow: View {
             .onTapGesture {
                 print(product?.title ?? "No Title")
                 guard let product = product else { return }
-                path.append(AppRoute.productDetails(product: product))
+                path.append(AppRoute.productDetails(productID: product.id))
             }
     }
 }
 
 #Preview {
-    //ProductRow(product: GetProductsQuery.Data.Products.Node(_dataDict: DataDict(data: [String : AnyHashable](), fulfilledFragments: Set<ObjectIdentifier>())))
+    //ProductRow(path: Binding<NavigationPath>(nil) ,product: nil)
 }
