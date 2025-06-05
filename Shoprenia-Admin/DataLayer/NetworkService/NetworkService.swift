@@ -88,7 +88,7 @@ class NetworkService : NetworkServiceProtocol {
         NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID)){ result in
             switch result {
             case .success(let graohQLResult) :
-                if let product = graohQLResult.data?.product{
+                if let product = graohQLResult.data?.product,let data = graohQLResult.data{
                     completionHandler(.success(product))
                 }else{
                     completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
@@ -99,5 +99,29 @@ class NetworkService : NetworkServiceProtocol {
             
         }
     }
+    
+    func createProduct(productInput: ProductCreateInput, completionHandler: @escaping (Result<CreateProductMutation.Data.ProductCreate.Product, any Error>) -> Void) {
+        let color = "red"
+        let optionValues = [
+            OptionValueCreateInput(name:.init(stringLiteral: color)),
+            OptionValueCreateInput(name:.init(stringLiteral: "blue") )
+        ]
+
+        let colorOption = OptionCreateInput(name: .init(stringLiteral: "color") , values: .some(optionValues))
+        NetworkService.shared.apollo.perform(mutation: CreateProductMutation(product: productInput)){ product in
+           switch product{
+           case .success(let graphQLResult):
+               if let product = graphQLResult.data?.productCreate?.product{
+                   completionHandler(.success(product))
+               }else{
+                   completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
+               }
+           case .failure(let error):
+               print(error.localizedDescription)
+           }
+            
+        }
+    }
+    
     
 }

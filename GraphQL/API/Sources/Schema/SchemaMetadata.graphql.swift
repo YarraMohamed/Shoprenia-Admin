@@ -23,6 +23,8 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "AbandonedCheckout": return Shopify.Objects.AbandonedCheckout
     case "AbandonedCheckoutLineItem": return Shopify.Objects.AbandonedCheckoutLineItem
     case "Abandonment": return Shopify.Objects.Abandonment
+    case "AbandonmentEmailStateUpdateUserError": return Shopify.Objects.AbandonmentEmailStateUpdateUserError
+    case "AbandonmentUpdateActivitiesDeliveryStatusesUserError": return Shopify.Objects.AbandonmentUpdateActivitiesDeliveryStatusesUserError
     case "AddAllProductsOperation": return Shopify.Objects.AddAllProductsOperation
     case "AdditionalFee": return Shopify.Objects.AdditionalFee
     case "App": return Shopify.Objects.App
@@ -31,26 +33,52 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "AppInstallation": return Shopify.Objects.AppInstallation
     case "AppPurchaseOneTime": return Shopify.Objects.AppPurchaseOneTime
     case "AppRevenueAttributionRecord": return Shopify.Objects.AppRevenueAttributionRecord
+    case "AppRevokeAccessScopesAppRevokeScopeError": return Shopify.Objects.AppRevokeAccessScopesAppRevokeScopeError
     case "AppSubscription": return Shopify.Objects.AppSubscription
+    case "AppSubscriptionTrialExtendUserError": return Shopify.Objects.AppSubscriptionTrialExtendUserError
     case "AppUsageRecord": return Shopify.Objects.AppUsageRecord
     case "Article": return Shopify.Objects.Article
+    case "ArticleCreateUserError": return Shopify.Objects.ArticleCreateUserError
+    case "ArticleDeleteUserError": return Shopify.Objects.ArticleDeleteUserError
+    case "ArticleUpdateUserError": return Shopify.Objects.ArticleUpdateUserError
     case "BasicEvent": return Shopify.Objects.BasicEvent
+    case "BillingAttemptUserError": return Shopify.Objects.BillingAttemptUserError
     case "Blog": return Shopify.Objects.Blog
+    case "BlogCreateUserError": return Shopify.Objects.BlogCreateUserError
+    case "BlogDeleteUserError": return Shopify.Objects.BlogDeleteUserError
+    case "BlogUpdateUserError": return Shopify.Objects.BlogUpdateUserError
+    case "BulkMutationUserError": return Shopify.Objects.BulkMutationUserError
     case "BulkOperation": return Shopify.Objects.BulkOperation
+    case "BulkOperationUserError": return Shopify.Objects.BulkOperationUserError
+    case "BulkProductResourceFeedbackCreateUserError": return Shopify.Objects.BulkProductResourceFeedbackCreateUserError
+    case "BusinessCustomerUserError": return Shopify.Objects.BusinessCustomerUserError
     case "BusinessEntity": return Shopify.Objects.BusinessEntity
     case "CalculatedOrder": return Shopify.Objects.CalculatedOrder
+    case "CarrierServiceCreateUserError": return Shopify.Objects.CarrierServiceCreateUserError
+    case "CarrierServiceDeleteUserError": return Shopify.Objects.CarrierServiceDeleteUserError
+    case "CarrierServiceUpdateUserError": return Shopify.Objects.CarrierServiceUpdateUserError
     case "CartTransform": return Shopify.Objects.CartTransform
+    case "CartTransformCreateUserError": return Shopify.Objects.CartTransformCreateUserError
+    case "CartTransformDeleteUserError": return Shopify.Objects.CartTransformDeleteUserError
     case "CashTrackingAdjustment": return Shopify.Objects.CashTrackingAdjustment
     case "CashTrackingSession": return Shopify.Objects.CashTrackingSession
     case "CatalogCsvOperation": return Shopify.Objects.CatalogCsvOperation
+    case "CatalogUserError": return Shopify.Objects.CatalogUserError
     case "Channel": return Shopify.Objects.Channel
     case "ChannelDefinition": return Shopify.Objects.ChannelDefinition
     case "ChannelInformation": return Shopify.Objects.ChannelInformation
+    case "CheckoutBrandingUpsertUserError": return Shopify.Objects.CheckoutBrandingUpsertUserError
     case "CheckoutProfile": return Shopify.Objects.CheckoutProfile
     case "Collection": return Shopify.Objects.Collection
+    case "CollectionAddProductsV2UserError": return Shopify.Objects.CollectionAddProductsV2UserError
     case "CollectionConnection": return Shopify.Objects.CollectionConnection
+    case "CombinedListingUpdateUserError": return Shopify.Objects.CombinedListingUpdateUserError
     case "Comment": return Shopify.Objects.Comment
+    case "CommentApproveUserError": return Shopify.Objects.CommentApproveUserError
+    case "CommentDeleteUserError": return Shopify.Objects.CommentDeleteUserError
     case "CommentEvent": return Shopify.Objects.CommentEvent
+    case "CommentNotSpamUserError": return Shopify.Objects.CommentNotSpamUserError
+    case "CommentSpamUserError": return Shopify.Objects.CommentSpamUserError
     case "Company": return Shopify.Objects.Company
     case "CompanyAddress": return Shopify.Objects.CompanyAddress
     case "CompanyContact": return Shopify.Objects.CompanyContact
@@ -60,19 +88,38 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "CompanyLocationCatalog": return Shopify.Objects.CompanyLocationCatalog
     case "CompanyLocationStaffMemberAssignment": return Shopify.Objects.CompanyLocationStaffMemberAssignment
     case "ConsentPolicy": return Shopify.Objects.ConsentPolicy
+    case "ConsentPolicyError": return Shopify.Objects.ConsentPolicyError
     case "CookieBanner": return Shopify.Objects.CookieBanner
     case "Customer": return Shopify.Objects.Customer
     case "CustomerAccountAppExtensionPage": return Shopify.Objects.CustomerAccountAppExtensionPage
     case "CustomerAccountNativePage": return Shopify.Objects.CustomerAccountNativePage
+    case "CustomerCancelDataErasureUserError": return Shopify.Objects.CustomerCancelDataErasureUserError
+    case "CustomerEmailMarketingConsentUpdateUserError": return Shopify.Objects.CustomerEmailMarketingConsentUpdateUserError
+    case "CustomerMergeUserError": return Shopify.Objects.CustomerMergeUserError
     case "CustomerPaymentMethod": return Shopify.Objects.CustomerPaymentMethod
+    case "CustomerPaymentMethodCreateFromDuplicationDataUserError": return Shopify.Objects.CustomerPaymentMethodCreateFromDuplicationDataUserError
+    case "CustomerPaymentMethodGetDuplicationDataUserError": return Shopify.Objects.CustomerPaymentMethodGetDuplicationDataUserError
+    case "CustomerPaymentMethodGetUpdateUrlUserError": return Shopify.Objects.CustomerPaymentMethodGetUpdateUrlUserError
+    case "CustomerPaymentMethodRemoteUserError": return Shopify.Objects.CustomerPaymentMethodRemoteUserError
+    case "CustomerPaymentMethodUserError": return Shopify.Objects.CustomerPaymentMethodUserError
+    case "CustomerRequestDataErasureUserError": return Shopify.Objects.CustomerRequestDataErasureUserError
     case "CustomerSegmentMember": return Shopify.Objects.CustomerSegmentMember
     case "CustomerSegmentMembersQuery": return Shopify.Objects.CustomerSegmentMembersQuery
+    case "CustomerSegmentMembersQueryUserError": return Shopify.Objects.CustomerSegmentMembersQueryUserError
+    case "CustomerSendAccountInviteEmailUserError": return Shopify.Objects.CustomerSendAccountInviteEmailUserError
+    case "CustomerSetUserError": return Shopify.Objects.CustomerSetUserError
+    case "CustomerSmsMarketingConsentError": return Shopify.Objects.CustomerSmsMarketingConsentError
     case "CustomerVisit": return Shopify.Objects.CustomerVisit
+    case "DataSaleOptOutUserError": return Shopify.Objects.DataSaleOptOutUserError
+    case "DelegateAccessTokenCreateUserError": return Shopify.Objects.DelegateAccessTokenCreateUserError
+    case "DelegateAccessTokenDestroyUserError": return Shopify.Objects.DelegateAccessTokenDestroyUserError
     case "DeliveryCarrierService": return Shopify.Objects.DeliveryCarrierService
     case "DeliveryCondition": return Shopify.Objects.DeliveryCondition
     case "DeliveryCountry": return Shopify.Objects.DeliveryCountry
     case "DeliveryCustomization": return Shopify.Objects.DeliveryCustomization
+    case "DeliveryCustomizationError": return Shopify.Objects.DeliveryCustomizationError
     case "DeliveryLocationGroup": return Shopify.Objects.DeliveryLocationGroup
+    case "DeliveryLocationLocalPickupSettingsError": return Shopify.Objects.DeliveryLocationLocalPickupSettingsError
     case "DeliveryMethod": return Shopify.Objects.DeliveryMethod
     case "DeliveryMethodDefinition": return Shopify.Objects.DeliveryMethodDefinition
     case "DeliveryParticipant": return Shopify.Objects.DeliveryParticipant
@@ -80,6 +127,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "DeliveryProfileItem": return Shopify.Objects.DeliveryProfileItem
     case "DeliveryPromiseParticipant": return Shopify.Objects.DeliveryPromiseParticipant
     case "DeliveryPromiseProvider": return Shopify.Objects.DeliveryPromiseProvider
+    case "DeliveryPromiseProviderUpsertUserError": return Shopify.Objects.DeliveryPromiseProviderUpsertUserError
     case "DeliveryProvince": return Shopify.Objects.DeliveryProvince
     case "DeliveryRateDefinition": return Shopify.Objects.DeliveryRateDefinition
     case "DeliveryZone": return Shopify.Objects.DeliveryZone
@@ -88,87 +136,184 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "DiscountCodeNode": return Shopify.Objects.DiscountCodeNode
     case "DiscountNode": return Shopify.Objects.DiscountNode
     case "DiscountRedeemCodeBulkCreation": return Shopify.Objects.DiscountRedeemCodeBulkCreation
+    case "DiscountUserError": return Shopify.Objects.DiscountUserError
+    case "DisputeEvidenceUpdateUserError": return Shopify.Objects.DisputeEvidenceUpdateUserError
     case "Domain": return Shopify.Objects.Domain
     case "DraftOrder": return Shopify.Objects.DraftOrder
     case "DraftOrderLineItem": return Shopify.Objects.DraftOrderLineItem
     case "DraftOrderTag": return Shopify.Objects.DraftOrderTag
     case "Duty": return Shopify.Objects.Duty
+    case "ErrorsServerPixelUserError": return Shopify.Objects.ErrorsServerPixelUserError
+    case "ErrorsWebPixelUserError": return Shopify.Objects.ErrorsWebPixelUserError
     case "ExchangeLineItem": return Shopify.Objects.ExchangeLineItem
     case "ExchangeV2": return Shopify.Objects.ExchangeV2
     case "ExternalVideo": return Shopify.Objects.ExternalVideo
+    case "FilesUserError": return Shopify.Objects.FilesUserError
     case "Fulfillment": return Shopify.Objects.Fulfillment
     case "FulfillmentConstraintRule": return Shopify.Objects.FulfillmentConstraintRule
+    case "FulfillmentConstraintRuleCreateUserError": return Shopify.Objects.FulfillmentConstraintRuleCreateUserError
+    case "FulfillmentConstraintRuleDeleteUserError": return Shopify.Objects.FulfillmentConstraintRuleDeleteUserError
+    case "FulfillmentConstraintRuleUpdateUserError": return Shopify.Objects.FulfillmentConstraintRuleUpdateUserError
     case "FulfillmentEvent": return Shopify.Objects.FulfillmentEvent
     case "FulfillmentHold": return Shopify.Objects.FulfillmentHold
     case "FulfillmentLineItem": return Shopify.Objects.FulfillmentLineItem
     case "FulfillmentOrder": return Shopify.Objects.FulfillmentOrder
     case "FulfillmentOrderDestination": return Shopify.Objects.FulfillmentOrderDestination
+    case "FulfillmentOrderHoldUserError": return Shopify.Objects.FulfillmentOrderHoldUserError
     case "FulfillmentOrderLineItem": return Shopify.Objects.FulfillmentOrderLineItem
+    case "FulfillmentOrderLineItemsPreparedForPickupUserError": return Shopify.Objects.FulfillmentOrderLineItemsPreparedForPickupUserError
     case "FulfillmentOrderMerchantRequest": return Shopify.Objects.FulfillmentOrderMerchantRequest
+    case "FulfillmentOrderMergeUserError": return Shopify.Objects.FulfillmentOrderMergeUserError
+    case "FulfillmentOrderReleaseHoldUserError": return Shopify.Objects.FulfillmentOrderReleaseHoldUserError
+    case "FulfillmentOrderRescheduleUserError": return Shopify.Objects.FulfillmentOrderRescheduleUserError
+    case "FulfillmentOrderSplitUserError": return Shopify.Objects.FulfillmentOrderSplitUserError
+    case "FulfillmentOrdersSetFulfillmentDeadlineUserError": return Shopify.Objects.FulfillmentOrdersSetFulfillmentDeadlineUserError
     case "GenericFile": return Shopify.Objects.GenericFile
     case "GiftCard": return Shopify.Objects.GiftCard
     case "GiftCardCreditTransaction": return Shopify.Objects.GiftCardCreditTransaction
+    case "GiftCardDeactivateUserError": return Shopify.Objects.GiftCardDeactivateUserError
     case "GiftCardDebitTransaction": return Shopify.Objects.GiftCardDebitTransaction
+    case "GiftCardSendNotificationToCustomerUserError": return Shopify.Objects.GiftCardSendNotificationToCustomerUserError
+    case "GiftCardSendNotificationToRecipientUserError": return Shopify.Objects.GiftCardSendNotificationToRecipientUserError
+    case "GiftCardTransactionUserError": return Shopify.Objects.GiftCardTransactionUserError
+    case "GiftCardUserError": return Shopify.Objects.GiftCardUserError
     case "Image": return Shopify.Objects.Image
+    case "InventoryAdjustQuantitiesUserError": return Shopify.Objects.InventoryAdjustQuantitiesUserError
     case "InventoryAdjustmentGroup": return Shopify.Objects.InventoryAdjustmentGroup
+    case "InventoryBulkToggleActivationUserError": return Shopify.Objects.InventoryBulkToggleActivationUserError
     case "InventoryItem": return Shopify.Objects.InventoryItem
     case "InventoryItemMeasurement": return Shopify.Objects.InventoryItemMeasurement
     case "InventoryLevel": return Shopify.Objects.InventoryLevel
+    case "InventoryMoveQuantitiesUserError": return Shopify.Objects.InventoryMoveQuantitiesUserError
     case "InventoryQuantity": return Shopify.Objects.InventoryQuantity
+    case "InventorySetOnHandQuantitiesUserError": return Shopify.Objects.InventorySetOnHandQuantitiesUserError
+    case "InventorySetQuantitiesUserError": return Shopify.Objects.InventorySetQuantitiesUserError
+    case "InventorySetScheduledChangesUserError": return Shopify.Objects.InventorySetScheduledChangesUserError
     case "LineItem": return Shopify.Objects.LineItem
     case "LineItemGroup": return Shopify.Objects.LineItemGroup
     case "Link": return Shopify.Objects.Link
     case "Location": return Shopify.Objects.Location
+    case "LocationActivateUserError": return Shopify.Objects.LocationActivateUserError
+    case "LocationAddUserError": return Shopify.Objects.LocationAddUserError
+    case "LocationDeactivateUserError": return Shopify.Objects.LocationDeactivateUserError
+    case "LocationDeleteUserError": return Shopify.Objects.LocationDeleteUserError
+    case "LocationEditUserError": return Shopify.Objects.LocationEditUserError
     case "MailingAddress": return Shopify.Objects.MailingAddress
     case "Market": return Shopify.Objects.Market
     case "MarketCatalog": return Shopify.Objects.MarketCatalog
+    case "MarketCurrencySettingsUserError": return Shopify.Objects.MarketCurrencySettingsUserError
     case "MarketRegionCountry": return Shopify.Objects.MarketRegionCountry
+    case "MarketUserError": return Shopify.Objects.MarketUserError
     case "MarketWebPresence": return Shopify.Objects.MarketWebPresence
     case "MarketingActivity": return Shopify.Objects.MarketingActivity
+    case "MarketingActivityUserError": return Shopify.Objects.MarketingActivityUserError
     case "MarketingEvent": return Shopify.Objects.MarketingEvent
     case "MediaConnection": return Shopify.Objects.MediaConnection
+    case "MediaError": return Shopify.Objects.MediaError
     case "MediaImage": return Shopify.Objects.MediaImage
+    case "MediaImageOriginalSource": return Shopify.Objects.MediaImageOriginalSource
+    case "MediaUserError": return Shopify.Objects.MediaUserError
     case "Menu": return Shopify.Objects.Menu
+    case "MenuCreateUserError": return Shopify.Objects.MenuCreateUserError
+    case "MenuDeleteUserError": return Shopify.Objects.MenuDeleteUserError
+    case "MenuUpdateUserError": return Shopify.Objects.MenuUpdateUserError
     case "Metafield": return Shopify.Objects.Metafield
     case "MetafieldDefinition": return Shopify.Objects.MetafieldDefinition
+    case "MetafieldDefinitionCreateUserError": return Shopify.Objects.MetafieldDefinitionCreateUserError
+    case "MetafieldDefinitionDeleteUserError": return Shopify.Objects.MetafieldDefinitionDeleteUserError
+    case "MetafieldDefinitionPinUserError": return Shopify.Objects.MetafieldDefinitionPinUserError
+    case "MetafieldDefinitionUnpinUserError": return Shopify.Objects.MetafieldDefinitionUnpinUserError
+    case "MetafieldDefinitionUpdateUserError": return Shopify.Objects.MetafieldDefinitionUpdateUserError
+    case "MetafieldsSetUserError": return Shopify.Objects.MetafieldsSetUserError
     case "Metaobject": return Shopify.Objects.Metaobject
     case "MetaobjectDefinition": return Shopify.Objects.MetaobjectDefinition
+    case "MetaobjectUserError": return Shopify.Objects.MetaobjectUserError
+    case "MobilePlatformApplicationUserError": return Shopify.Objects.MobilePlatformApplicationUserError
     case "Model3d": return Shopify.Objects.Model3d
+    case "Mutation": return Shopify.Objects.Mutation
     case "OnlineStoreTheme": return Shopify.Objects.OnlineStoreTheme
+    case "OnlineStoreThemeFilesUserErrors": return Shopify.Objects.OnlineStoreThemeFilesUserErrors
     case "Order": return Shopify.Objects.Order
     case "OrderAdjustment": return Shopify.Objects.OrderAdjustment
+    case "OrderCancelUserError": return Shopify.Objects.OrderCancelUserError
+    case "OrderCreateMandatePaymentUserError": return Shopify.Objects.OrderCreateMandatePaymentUserError
+    case "OrderCreateManualPaymentOrderCreateManualPaymentError": return Shopify.Objects.OrderCreateManualPaymentOrderCreateManualPaymentError
+    case "OrderCreateUserError": return Shopify.Objects.OrderCreateUserError
+    case "OrderDeleteUserError": return Shopify.Objects.OrderDeleteUserError
     case "OrderDisputeSummary": return Shopify.Objects.OrderDisputeSummary
+    case "OrderEditAddShippingLineUserError": return Shopify.Objects.OrderEditAddShippingLineUserError
+    case "OrderEditRemoveDiscountUserError": return Shopify.Objects.OrderEditRemoveDiscountUserError
+    case "OrderEditRemoveShippingLineUserError": return Shopify.Objects.OrderEditRemoveShippingLineUserError
+    case "OrderEditUpdateDiscountUserError": return Shopify.Objects.OrderEditUpdateDiscountUserError
+    case "OrderEditUpdateShippingLineUserError": return Shopify.Objects.OrderEditUpdateShippingLineUserError
+    case "OrderInvoiceSendUserError": return Shopify.Objects.OrderInvoiceSendUserError
+    case "OrderRiskAssessmentCreateUserError": return Shopify.Objects.OrderRiskAssessmentCreateUserError
     case "OrderTransaction": return Shopify.Objects.OrderTransaction
     case "Page": return Shopify.Objects.Page
+    case "PageCreateUserError": return Shopify.Objects.PageCreateUserError
+    case "PageDeleteUserError": return Shopify.Objects.PageDeleteUserError
+    case "PageUpdateUserError": return Shopify.Objects.PageUpdateUserError
     case "PaymentCustomization": return Shopify.Objects.PaymentCustomization
+    case "PaymentCustomizationError": return Shopify.Objects.PaymentCustomizationError
     case "PaymentMandate": return Shopify.Objects.PaymentMandate
+    case "PaymentReminderSendUserError": return Shopify.Objects.PaymentReminderSendUserError
     case "PaymentSchedule": return Shopify.Objects.PaymentSchedule
     case "PaymentTerms": return Shopify.Objects.PaymentTerms
+    case "PaymentTermsCreateUserError": return Shopify.Objects.PaymentTermsCreateUserError
+    case "PaymentTermsDeleteUserError": return Shopify.Objects.PaymentTermsDeleteUserError
     case "PaymentTermsTemplate": return Shopify.Objects.PaymentTermsTemplate
+    case "PaymentTermsUpdateUserError": return Shopify.Objects.PaymentTermsUpdateUserError
     case "PriceList": return Shopify.Objects.PriceList
+    case "PriceListFixedPricesByProductBulkUpdateUserError": return Shopify.Objects.PriceListFixedPricesByProductBulkUpdateUserError
+    case "PriceListPriceUserError": return Shopify.Objects.PriceListPriceUserError
+    case "PriceListUserError": return Shopify.Objects.PriceListUserError
     case "PriceRule": return Shopify.Objects.PriceRule
     case "PriceRuleDiscountCode": return Shopify.Objects.PriceRuleDiscountCode
+    case "PrivacyFeaturesDisableUserError": return Shopify.Objects.PrivacyFeaturesDisableUserError
     case "Product": return Shopify.Objects.Product
+    case "ProductBundleMutationUserError": return Shopify.Objects.ProductBundleMutationUserError
     case "ProductBundleOperation": return Shopify.Objects.ProductBundleOperation
+    case "ProductChangeStatusUserError": return Shopify.Objects.ProductChangeStatusUserError
     case "ProductConnection": return Shopify.Objects.ProductConnection
+    case "ProductCreateMediaPayload": return Shopify.Objects.ProductCreateMediaPayload
+    case "ProductCreatePayload": return Shopify.Objects.ProductCreatePayload
     case "ProductDeleteOperation": return Shopify.Objects.ProductDeleteOperation
     case "ProductDuplicateOperation": return Shopify.Objects.ProductDuplicateOperation
     case "ProductFeed": return Shopify.Objects.ProductFeed
+    case "ProductFeedCreateUserError": return Shopify.Objects.ProductFeedCreateUserError
+    case "ProductFeedDeleteUserError": return Shopify.Objects.ProductFeedDeleteUserError
+    case "ProductFullSyncUserError": return Shopify.Objects.ProductFullSyncUserError
     case "ProductOption": return Shopify.Objects.ProductOption
+    case "ProductOptionUpdateUserError": return Shopify.Objects.ProductOptionUpdateUserError
     case "ProductOptionValue": return Shopify.Objects.ProductOptionValue
+    case "ProductOptionsCreateUserError": return Shopify.Objects.ProductOptionsCreateUserError
+    case "ProductOptionsDeleteUserError": return Shopify.Objects.ProductOptionsDeleteUserError
+    case "ProductOptionsReorderUserError": return Shopify.Objects.ProductOptionsReorderUserError
     case "ProductSetOperation": return Shopify.Objects.ProductSetOperation
+    case "ProductSetUserError": return Shopify.Objects.ProductSetUserError
     case "ProductTaxonomyNode": return Shopify.Objects.ProductTaxonomyNode
     case "ProductVariant": return Shopify.Objects.ProductVariant
     case "ProductVariantComponent": return Shopify.Objects.ProductVariantComponent
     case "ProductVariantConnection": return Shopify.Objects.ProductVariantConnection
+    case "ProductVariantRelationshipBulkUpdateUserError": return Shopify.Objects.ProductVariantRelationshipBulkUpdateUserError
+    case "ProductVariantsBulkCreateUserError": return Shopify.Objects.ProductVariantsBulkCreateUserError
+    case "ProductVariantsBulkDeleteUserError": return Shopify.Objects.ProductVariantsBulkDeleteUserError
+    case "ProductVariantsBulkReorderUserError": return Shopify.Objects.ProductVariantsBulkReorderUserError
+    case "ProductVariantsBulkUpdateUserError": return Shopify.Objects.ProductVariantsBulkUpdateUserError
+    case "PubSubWebhookSubscriptionCreateUserError": return Shopify.Objects.PubSubWebhookSubscriptionCreateUserError
+    case "PubSubWebhookSubscriptionUpdateUserError": return Shopify.Objects.PubSubWebhookSubscriptionUpdateUserError
     case "Publication": return Shopify.Objects.Publication
     case "PublicationResourceOperation": return Shopify.Objects.PublicationResourceOperation
+    case "PublicationUserError": return Shopify.Objects.PublicationUserError
     case "QuantityPriceBreak": return Shopify.Objects.QuantityPriceBreak
+    case "QuantityPricingByVariantUserError": return Shopify.Objects.QuantityPricingByVariantUserError
+    case "QuantityRuleUserError": return Shopify.Objects.QuantityRuleUserError
     case "QueryRoot": return Shopify.Objects.QueryRoot
     case "Refund": return Shopify.Objects.Refund
     case "RefundShippingLine": return Shopify.Objects.RefundShippingLine
     case "Return": return Shopify.Objects.Return
     case "ReturnLineItem": return Shopify.Objects.ReturnLineItem
+    case "ReturnUserError": return Shopify.Objects.ReturnUserError
     case "ReturnableFulfillment": return Shopify.Objects.ReturnableFulfillment
     case "ReverseDelivery": return Shopify.Objects.ReverseDelivery
     case "ReverseDeliveryLineItem": return Shopify.Objects.ReverseDeliveryLineItem
@@ -181,10 +326,13 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "Segment": return Shopify.Objects.Segment
     case "SellingPlan": return Shopify.Objects.SellingPlan
     case "SellingPlanGroup": return Shopify.Objects.SellingPlanGroup
+    case "SellingPlanGroupUserError": return Shopify.Objects.SellingPlanGroupUserError
     case "ServerPixel": return Shopify.Objects.ServerPixel
     case "Shop": return Shopify.Objects.Shop
     case "ShopAddress": return Shopify.Objects.ShopAddress
     case "ShopPolicy": return Shopify.Objects.ShopPolicy
+    case "ShopPolicyUserError": return Shopify.Objects.ShopPolicyUserError
+    case "ShopResourceFeedbackCreateUserError": return Shopify.Objects.ShopResourceFeedbackCreateUserError
     case "ShopifyPaymentsAccount": return Shopify.Objects.ShopifyPaymentsAccount
     case "ShopifyPaymentsBalanceTransaction": return Shopify.Objects.ShopifyPaymentsBalanceTransaction
     case "ShopifyPaymentsBankAccount": return Shopify.Objects.ShopifyPaymentsBankAccount
@@ -193,30 +341,55 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ShopifyPaymentsDisputeFileUpload": return Shopify.Objects.ShopifyPaymentsDisputeFileUpload
     case "ShopifyPaymentsDisputeFulfillment": return Shopify.Objects.ShopifyPaymentsDisputeFulfillment
     case "ShopifyPaymentsPayout": return Shopify.Objects.ShopifyPaymentsPayout
+    case "ShopifyPaymentsPayoutAlternateCurrencyCreateUserError": return Shopify.Objects.ShopifyPaymentsPayoutAlternateCurrencyCreateUserError
     case "ShopifyPaymentsVerification": return Shopify.Objects.ShopifyPaymentsVerification
     case "StaffMember": return Shopify.Objects.StaffMember
+    case "StandardMetafieldDefinitionEnableUserError": return Shopify.Objects.StandardMetafieldDefinitionEnableUserError
     case "StandardMetafieldDefinitionTemplate": return Shopify.Objects.StandardMetafieldDefinitionTemplate
     case "StoreCreditAccount": return Shopify.Objects.StoreCreditAccount
     case "StoreCreditAccountCreditTransaction": return Shopify.Objects.StoreCreditAccountCreditTransaction
+    case "StoreCreditAccountCreditUserError": return Shopify.Objects.StoreCreditAccountCreditUserError
     case "StoreCreditAccountDebitRevertTransaction": return Shopify.Objects.StoreCreditAccountDebitRevertTransaction
     case "StoreCreditAccountDebitTransaction": return Shopify.Objects.StoreCreditAccountDebitTransaction
+    case "StoreCreditAccountDebitUserError": return Shopify.Objects.StoreCreditAccountDebitUserError
     case "StoreCreditAccountExpirationTransaction": return Shopify.Objects.StoreCreditAccountExpirationTransaction
     case "StorefrontAccessToken": return Shopify.Objects.StorefrontAccessToken
     case "SubscriptionBillingAttempt": return Shopify.Objects.SubscriptionBillingAttempt
+    case "SubscriptionBillingCycleBulkUserError": return Shopify.Objects.SubscriptionBillingCycleBulkUserError
     case "SubscriptionBillingCycleEditedContract": return Shopify.Objects.SubscriptionBillingCycleEditedContract
+    case "SubscriptionBillingCycleSkipUserError": return Shopify.Objects.SubscriptionBillingCycleSkipUserError
+    case "SubscriptionBillingCycleUnskipUserError": return Shopify.Objects.SubscriptionBillingCycleUnskipUserError
+    case "SubscriptionBillingCycleUserError": return Shopify.Objects.SubscriptionBillingCycleUserError
     case "SubscriptionContract": return Shopify.Objects.SubscriptionContract
+    case "SubscriptionContractStatusUpdateUserError": return Shopify.Objects.SubscriptionContractStatusUpdateUserError
+    case "SubscriptionContractUserError": return Shopify.Objects.SubscriptionContractUserError
     case "SubscriptionDraft": return Shopify.Objects.SubscriptionDraft
+    case "SubscriptionDraftUserError": return Shopify.Objects.SubscriptionDraftUserError
+    case "TaxAppConfigureUserError": return Shopify.Objects.TaxAppConfigureUserError
     case "TaxonomyAttribute": return Shopify.Objects.TaxonomyAttribute
     case "TaxonomyCategory": return Shopify.Objects.TaxonomyCategory
     case "TaxonomyChoiceListAttribute": return Shopify.Objects.TaxonomyChoiceListAttribute
     case "TaxonomyMeasurementAttribute": return Shopify.Objects.TaxonomyMeasurementAttribute
     case "TaxonomyValue": return Shopify.Objects.TaxonomyValue
     case "TenderTransaction": return Shopify.Objects.TenderTransaction
+    case "ThemeCreateUserError": return Shopify.Objects.ThemeCreateUserError
+    case "ThemeDeleteUserError": return Shopify.Objects.ThemeDeleteUserError
+    case "ThemePublishUserError": return Shopify.Objects.ThemePublishUserError
+    case "ThemeUpdateUserError": return Shopify.Objects.ThemeUpdateUserError
     case "TransactionFee": return Shopify.Objects.TransactionFee
+    case "TransactionVoidUserError": return Shopify.Objects.TransactionVoidUserError
+    case "TranslationUserError": return Shopify.Objects.TranslationUserError
     case "UnverifiedReturnLineItem": return Shopify.Objects.UnverifiedReturnLineItem
     case "UrlRedirect": return Shopify.Objects.UrlRedirect
+    case "UrlRedirectBulkDeleteByIdsUserError": return Shopify.Objects.UrlRedirectBulkDeleteByIdsUserError
+    case "UrlRedirectBulkDeleteBySavedSearchUserError": return Shopify.Objects.UrlRedirectBulkDeleteBySavedSearchUserError
+    case "UrlRedirectBulkDeleteBySearchUserError": return Shopify.Objects.UrlRedirectBulkDeleteBySearchUserError
     case "UrlRedirectImport": return Shopify.Objects.UrlRedirectImport
+    case "UrlRedirectImportUserError": return Shopify.Objects.UrlRedirectImportUserError
+    case "UrlRedirectUserError": return Shopify.Objects.UrlRedirectUserError
+    case "UserError": return Shopify.Objects.UserError
     case "Validation": return Shopify.Objects.Validation
+    case "ValidationUserError": return Shopify.Objects.ValidationUserError
     case "Video": return Shopify.Objects.Video
     case "WebPixel": return Shopify.Objects.WebPixel
     case "WebPresence": return Shopify.Objects.WebPresence

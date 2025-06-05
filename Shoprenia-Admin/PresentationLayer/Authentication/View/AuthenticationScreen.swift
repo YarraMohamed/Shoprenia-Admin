@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Shopify
 struct AuthenticationScreen: View {
     var viewModel : AuthenticationViewModelProtocol = AuthenticationViewModel()
     @State var email : String = ""
@@ -16,6 +16,8 @@ struct AuthenticationScreen: View {
     @State var message : String = ""
     @State var color : Color = Color(.clear)
     @State var showingButtomSheet : Bool = false
+    var value = OptionValueCreateInput(name: "Test")
+    
     
     var body: some View {
         NavigationStack (path: $path) {
@@ -56,8 +58,7 @@ struct AuthenticationScreen: View {
                                     } label: {
                                         Image(.edit)
                                     }
-
-                                        
+        
                                     
                                 }
                             }
