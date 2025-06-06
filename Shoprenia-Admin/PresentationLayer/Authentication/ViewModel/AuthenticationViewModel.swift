@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AuthenticationViewModel : AuthenticationViewModelProtocol {
+class AuthenticationViewModel {
     
     private let usecase : FetchAdminEmailAndPasswordUsecaseProtocol
     

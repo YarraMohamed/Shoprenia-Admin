@@ -1,0 +1,19 @@
+mutation CreateProductOptions($id: ID! , $productOptions : [OptionCreateInput!]!) {
+    productOptionsCreate(
+        productId: $id
+        options: $productOptions
+    ) {
+        product {
+            bodyHtml
+            options(first: 5) {
+                id
+                name
+                optionValues {
+                    name
+                    id
+                }
+            }
+        }
+    }
+}
+

@@ -7,16 +7,32 @@ public class CreateProductMutation: GraphQLMutation {
   public static let operationName: String = "CreateProduct"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProduct($product: ProductCreateInput!) { productCreate(product: $product) { __typename product { __typename id title descriptionHtml vendor productType options { __typename id name position optionValues { __typename id name hasVariants } } } userErrors { __typename field message } } }"#
+      #"mutation CreateProduct($title: String!, $descriptionHtml: String!, $productType: String!, $vendor: String!) { productCreate( product: { title: $title descriptionHtml: $descriptionHtml productType: $productType vendor: $vendor } ) { __typename product { __typename id title descriptionHtml vendor productType tags options { __typename id name position optionValues { __typename id name hasVariants } } } userErrors { __typename field message } } }"#
     ))
 
-  public var product: ProductCreateInput
+  public var title: String
+  public var descriptionHtml: String
+  public var productType: String
+  public var vendor: String
 
-  public init(product: ProductCreateInput) {
-    self.product = product
+  public init(
+    title: String,
+    descriptionHtml: String,
+    productType: String,
+    vendor: String
+  ) {
+    self.title = title
+    self.descriptionHtml = descriptionHtml
+    self.productType = productType
+    self.vendor = vendor
   }
 
-  public var __variables: Variables? { ["product": product] }
+  public var __variables: Variables? { [
+    "title": title,
+    "descriptionHtml": descriptionHtml,
+    "productType": productType,
+    "vendor": vendor
+  ] }
 
   public struct Data: Shopify.SelectionSet {
     public let __data: DataDict
@@ -24,7 +40,12 @@ public class CreateProductMutation: GraphQLMutation {
 
     public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Mutation }
     public static var __selections: [ApolloAPI.Selection] { [
-      .field("productCreate", ProductCreate?.self, arguments: ["product": .variable("product")]),
+      .field("productCreate", ProductCreate?.self, arguments: ["product": [
+        "title": .variable("title"),
+        "descriptionHtml": .variable("descriptionHtml"),
+        "productType": .variable("productType"),
+        "vendor": .variable("vendor")
+      ]]),
     ] }
 
     /// Creates a [product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product)
@@ -81,6 +102,7 @@ public class CreateProductMutation: GraphQLMutation {
           .field("descriptionHtml", Shopify.HTML.self),
           .field("vendor", String.self),
           .field("productType", String.self),
+          .field("tags", [String].self),
           .field("options", [Option].self),
         ] }
 
@@ -98,6 +120,15 @@ public class CreateProductMutation: GraphQLMutation {
         /// The [product type](https://help.shopify.com/manual/products/details/product-type)
         /// that merchants define.
         public var productType: String { __data["productType"] }
+        /// A comma-separated list of searchable keywords that are
+        /// associated with the product. For example, a merchant might apply the `sports`
+        /// and `summer` tags to products that are associated with sportwear for summer.
+        ///
+        /// Updating `tags` overwrites
+        /// any existing tags that were previously added to the product. To add new tags without overwriting
+        /// existing tags, use the [`tagsAdd`](https://shopify.dev/api/admin-graphql/latest/mutations/tagsadd)
+        /// mutation.
+        public var tags: [String] { __data["tags"] }
         /// A list of product options. The limit is defined by the
         /// [shop's resource limits for product options](https://shopify.dev/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
         public var options: [Option] { __data["options"] }

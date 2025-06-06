@@ -8,7 +8,7 @@
 import Foundation
 import Shopify
 
-class ProductDetailsViewModel: ProductDetailsViewModelProtocol , ObservableObject {
+class ProductDetailsViewModel : ObservableObject {
     
     let usecase : GetProductByIdUsecaseProtocol
     @Published var product : GetProductByIDQuery.Data.Product? = nil

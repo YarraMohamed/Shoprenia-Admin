@@ -286,6 +286,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductOption": return Shopify.Objects.ProductOption
     case "ProductOptionUpdateUserError": return Shopify.Objects.ProductOptionUpdateUserError
     case "ProductOptionValue": return Shopify.Objects.ProductOptionValue
+    case "ProductOptionsCreatePayload": return Shopify.Objects.ProductOptionsCreatePayload
     case "ProductOptionsCreateUserError": return Shopify.Objects.ProductOptionsCreateUserError
     case "ProductOptionsDeleteUserError": return Shopify.Objects.ProductOptionsDeleteUserError
     case "ProductOptionsReorderUserError": return Shopify.Objects.ProductOptionsReorderUserError

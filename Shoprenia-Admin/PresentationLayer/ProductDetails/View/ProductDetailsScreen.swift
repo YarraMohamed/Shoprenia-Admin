@@ -11,7 +11,7 @@ import Foundation
 
 struct ProductDetailsScreen: View {
     var productID : ID
-    @Binding var showButtomSheet : Bool 
+    @Binding var showEditSheet : Bool
     @StateObject var viewModel : ProductDetailsViewModel
     private let reviews = ["1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"]
     private let numberOfReviews = ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50"]
@@ -142,16 +142,16 @@ struct ProductDetailsScreen: View {
             }.onAppear{
                 viewModel.getProductById(id: productID)
             }
-        }.sheet(isPresented: $showButtomSheet) {
-            BottomSheetView(showBottomSheet: $showButtomSheet)
+        }.sheet(isPresented: $showEditSheet) {
+            BottomSheetView(showBottomSheet: $showEditSheet)
                 .presentationDetents([.medium])
         }
     }
     
-    init(productID: ID , showBottomSheet: Binding<Bool>) {
+    init(productID: ID , showEditSheet : Binding<Bool>) {
         self.productID = productID
         _viewModel = StateObject(wrappedValue: ProductDetailsViewModel(usecase: GetProductByIdUsecase(networkService: NetworkService())))
-        _showButtomSheet = showBottomSheet
+        _showEditSheet = showEditSheet
     }
 }
 

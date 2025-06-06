@@ -8,7 +8,7 @@
 import Foundation
 import Shopify
 
-class HomeViewModel : ObservableObject , HomeViewModelProtocol {
+class HomeViewModel : ObservableObject {
     
     let usecase : FetchVendorsUsecaseProtocol
     

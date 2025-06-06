@@ -1,6 +1,6 @@
-mutation ProductCreateMedia($productId: ID!, $media: [CreateMediaInput!]!) {
+mutation CreateProductMedia($id: ID!, $media: [CreateMediaInput!]!) {
   productCreateMedia(
-    productId: $productId
+    productId: $id
     media: $media
   ) {
     media {

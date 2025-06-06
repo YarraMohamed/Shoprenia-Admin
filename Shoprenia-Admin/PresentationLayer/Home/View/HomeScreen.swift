@@ -31,18 +31,6 @@ struct HomeScreen: View {
             }
         }.onAppear{
             viewModel.getAllVendors()
-            let networkService = NetworkService()
-            
-//            let product = ProductCreateInput.init(descriptionHtml: nil, handle: nil, seo: nil, productType: "New Shirt", category: nil, tags: ["tag1","tag2","tag3"], templateSuffix: nil, giftCardTemplateSuffix: nil, title: "Raed", vendor: "Adidas", giftCard: nil, collectionsToJoin: nil, combinedListingRole: nil, metafields: nil, productOptions: nil , status: nil, requiresSellingPlan: nil, claimOwnership: nil)
-            
-//            networkService.createProduct(productInput: product) { result in
-//                switch result {
-//                case .success(let product):
-//                    print(product.title)
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
         }
     }
     init(path : Binding<NavigationPath>) {

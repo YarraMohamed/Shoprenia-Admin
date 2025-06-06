@@ -3,26 +3,26 @@
 
 @_exported import ApolloAPI
 
-public class ProductCreateMediaMutation: GraphQLMutation {
-  public static let operationName: String = "ProductCreateMedia"
+public class CreateProductMediaMutation: GraphQLMutation {
+  public static let operationName: String = "CreateProductMedia"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation ProductCreateMedia($productId: ID!, $media: [CreateMediaInput!]!) { productCreateMedia(productId: $productId, media: $media) { __typename media { __typename alt mediaErrors { __typename message } ... on MediaImage { originalSource { __typename url } } } } }"#
+      #"mutation CreateProductMedia($id: ID!, $media: [CreateMediaInput!]!) { productCreateMedia(productId: $id, media: $media) { __typename media { __typename alt mediaErrors { __typename message } ... on MediaImage { originalSource { __typename url } } } } }"#
     ))
 
-  public var productId: ID
+  public var id: ID
   public var media: [CreateMediaInput]
 
   public init(
-    productId: ID,
+    id: ID,
     media: [CreateMediaInput]
   ) {
-    self.productId = productId
+    self.id = id
     self.media = media
   }
 
   public var __variables: Variables? { [
-    "productId": productId,
+    "id": id,
     "media": media
   ] }
 
@@ -33,7 +33,7 @@ public class ProductCreateMediaMutation: GraphQLMutation {
     public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Mutation }
     public static var __selections: [ApolloAPI.Selection] { [
       .field("productCreateMedia", ProductCreateMedia?.self, arguments: [
-        "productId": .variable("productId"),
+        "productId": .variable("id"),
         "media": .variable("media")
       ]),
     ] }
@@ -104,7 +104,7 @@ public class ProductCreateMediaMutation: GraphQLMutation {
           public let __data: DataDict
           public init(_dataDict: DataDict) { __data = _dataDict }
 
-          public typealias RootEntityType = ProductCreateMediaMutation.Data.ProductCreateMedia.Medium
+          public typealias RootEntityType = CreateProductMediaMutation.Data.ProductCreateMedia.Medium
           public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.MediaImage }
           public static var __selections: [ApolloAPI.Selection] { [
             .field("originalSource", OriginalSource?.self),

@@ -88,7 +88,7 @@ class NetworkService : NetworkServiceProtocol {
         NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID)){ result in
             switch result {
             case .success(let graohQLResult) :
-                if let product = graohQLResult.data?.product,let data = graohQLResult.data{
+                if let product = graohQLResult.data?.product{
                     completionHandler(.success(product))
                 }else{
                     completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
@@ -100,28 +100,38 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func createProduct(productInput: ProductCreateInput, completionHandler: @escaping (Result<CreateProductMutation.Data.ProductCreate.Product, any Error>) -> Void) {
-        let color = "red"
-        let optionValues = [
-            OptionValueCreateInput(name:.init(stringLiteral: color)),
-            OptionValueCreateInput(name:.init(stringLiteral: "blue") )
-        ]
-
-        let colorOption = OptionCreateInput(name: .init(stringLiteral: "color") , values: .some(optionValues))
-        NetworkService.shared.apollo.perform(mutation: CreateProductMutation(product: productInput)){ product in
-           switch product{
-           case .success(let graphQLResult):
-               if let product = graphQLResult.data?.productCreate?.product{
-                   completionHandler(.success(product))
-               }else{
-                   completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
-               }
-           case .failure(let error):
-               print(error.localizedDescription)
-           }
-            
+    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        NetworkService.shared.apollo.perform(mutation: CreateProductMutation(title: title, descriptionHtml: description, productType: productType, vendor: vendor)){ result in
+            switch result {
+                 case .success(_) :
+                    completionHandler(.success(true))
+            case .failure(let error) :
+                completionHandler(.failure(error))
+            }
         }
     }
     
+    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<Bool,Error>)->Void){
+        NetworkService.shared.apollo.perform(mutation: CreateProductOptionsMutation(id: id, productOptions: productOptions)){ result in
+            switch result {
+                case .success(_) :
+                completionHandler(.success(true))
+            case .failure(let error) :
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func createProductMedia(id : ID, media : [CreateMediaInput], completionHandler : @escaping (Result<Bool,Error>)->Void){
+        NetworkService.shared.apollo.perform(mutation: CreateProductMediaMutation(id: id, media: media)){ result in
+            switch result {
+                case .success(_) :
+                completionHandler(.success(true))
+            case .failure(let error) :
+                completionHandler(.failure(error))
+            }
+        }
+    }
+
     
 }

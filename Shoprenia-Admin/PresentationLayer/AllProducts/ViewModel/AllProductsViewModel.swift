@@ -8,7 +8,7 @@
 import Foundation
 import Shopify
 
-class AllProductsViewModel: AllProductsViewModelProtocol , ObservableObject {
+class AllProductsViewModel : ObservableObject {
     
     let usecase : FetchProductsUsecaseProtocol
     @Published var products : [GetProductsQuery.Data.Products.Node] = []
