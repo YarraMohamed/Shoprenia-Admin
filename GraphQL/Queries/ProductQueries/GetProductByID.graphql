@@ -9,7 +9,7 @@ query GetProductByID($id : ID!) {
         vendor
         productType
         tags
-        variants(first: 10) {
+        variants(first: 100) {
             nodes {
                 availableForSale
                 id
@@ -18,7 +18,7 @@ query GetProductByID($id : ID!) {
                 inventoryQuantity
             }
         }
-        options(first: 5) {
+        options(first: 50) {
             id
             name
             optionValues {
@@ -27,7 +27,7 @@ query GetProductByID($id : ID!) {
                 name
             }
         }
-        media(first: 5) {
+        media(first: 50) {
             nodes {
                 ... on MediaImage {
                     image {

@@ -4,7 +4,7 @@ query GetProducts {
             id
             title
             totalInventory
-            variants(first: 1) {
+            variants(first: 100) {
                 nodes {
                     availableForSale
                     price

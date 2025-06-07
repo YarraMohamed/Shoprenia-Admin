@@ -32,12 +32,12 @@ class NetworkService : NetworkServiceProtocol {
         return ApolloClient(networkTransport: transport, store: store)
     }()
     
-    
     func getAllProducts(completionHandler : @escaping (Result<[GetProductsQuery.Data.Products.Node],Error>)->Void) {
-        NetworkService.shared.apollo.fetch(query: GetProductsQuery()){ result in
+        NetworkService.shared.apollo.fetch(query: GetProductsQuery(),cachePolicy: .fetchIgnoringCacheCompletely){ result in
             switch result {
             case .success(let graphQLResult):
                 if let products = graphQLResult.data?.products.nodes {
+                    print(products)
                     completionHandler(.success(products))
                 } else if let errors = graphQLResult.errors {
                     print("GraphQL errors: \(errors)")
@@ -51,7 +51,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func getAllVendors(completionHandler: @escaping (Result<[GetAllVendorsQuery.Data.Collections.Node], Error>) -> Void) {
-        NetworkService.shared.apollo.fetch(query: GetAllVendorsQuery()) { result in
+        NetworkService.shared.apollo.fetch(query: GetAllVendorsQuery(),cachePolicy: .fetchIgnoringCacheCompletely) { result in
             switch result {
             case .success(let graphQLResult):
                 if let vendors = graphQLResult.data?.collections.nodes{
@@ -68,7 +68,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func getVendorProducts(vendorName :String,completionHandler: @escaping (Result<[GetVendorProductsQuery.Data.Products.Node], any Error>) -> Void){
-        NetworkService.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName)){ result in
+        NetworkService.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName),cachePolicy: .fetchIgnoringCacheCompletely){ result in
             switch result {
             case .success(let graphQlResult) :
                 if let products = graphQlResult.data?.products.nodes{
@@ -85,7 +85,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func getProductByID(productID : ID ,completionHandler: @escaping (Result<GetProductByIDQuery.Data.Product,Error>)->Void){
-        NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID)){ result in
+        NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID),cachePolicy: .fetchIgnoringCacheCompletely){ result in
             switch result {
             case .success(let graohQLResult) :
                 if let product = graohQLResult.data?.product{
@@ -100,22 +100,31 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<ID, any Error>) -> Void) {
         NetworkService.shared.apollo.perform(mutation: CreateProductMutation(title: title, descriptionHtml: description, productType: productType, vendor: vendor)){ result in
             switch result {
-                 case .success(_) :
-                    completionHandler(.success(true))
+                 case .success(let graphQLRresult) :
+                if let id = graphQLRresult.data?.productCreate?.product?.id{
+                    completionHandler(.success(id))
+                }else{
+                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
+                }
             case .failure(let error) :
                 completionHandler(.failure(error))
             }
         }
     }
     
-    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<Bool,Error>)->Void){
+    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<[CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Option],Error>)->Void){
         NetworkService.shared.apollo.perform(mutation: CreateProductOptionsMutation(id: id, productOptions: productOptions)){ result in
             switch result {
-                case .success(_) :
-                completionHandler(.success(true))
+                case .success(let response) :
+                if let options = response.data?.productOptionsCreate?.product?.options{
+                    print(options)
+                    completionHandler(.success(options))
+                }else{
+                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
+                }
             case .failure(let error) :
                 completionHandler(.failure(error))
             }
@@ -133,5 +142,35 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
 
+    func createProductVariants(id: ID, variants: [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        NetworkService.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: id, variants: variants)){
+            result in
+            switch result {
+            case .success(let response):
+                let variants = response.data?.productVariantsBulkCreate?.product?.variants.nodes
+                print(variants?.count ?? 0)
+                print(response.data?.productVariantsBulkCreate?.userErrors.first?.message  ?? "No Error Found")
+                completionHandler(.success(true))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
     
+    func deleteProductByID(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        NetworkService.shared.apollo.perform(mutation: DeleteProductByIDMutation(id: id)){ result in
+            switch result{
+            case .success(let result):
+                if let id = result.data?.productDelete?.deletedProductId{
+                    print(id)
+                    print(result.data?.productDelete?.userErrors.first?.message ?? "No error")
+                    completionHandler(.success(true))
+                }else{
+                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
+                }
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
 }

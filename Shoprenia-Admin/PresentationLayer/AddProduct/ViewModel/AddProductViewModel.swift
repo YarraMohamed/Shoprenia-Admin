@@ -13,21 +13,26 @@ class AddProductViewModel : ObservableObject{
     let createProductUseCase: CreateProductUsecaseProtocol
     let createProductOptionsUseCase: CreateProductOptionsUsecaseProtocol
     let createProductMediaUseCase: CreateProductMediaUsecaseProtocol
-    @Published var creationStage : CreationStage = .firstStage
-    
+    let createProductVariantUseCase: CreateProductVariantsUsecaseProtocol
+    @Published var creationStages : CreationStage = .firstStage
+    @Published var productID : ID = .init()
+    @Published var options : [CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Option] = []
     init (createProductUseCase: CreateProductUsecaseProtocol,
           createProductOptionsUseCase: CreateProductOptionsUsecaseProtocol,
-          createProductMediaUseCase: CreateProductMediaUsecaseProtocol) {
+          createProductMediaUseCase: CreateProductMediaUsecaseProtocol,createProductVariantUseCase : CreateProductVariantsUsecaseProtocol) {
         self.createProductUseCase = createProductUseCase
         self.createProductOptionsUseCase = createProductOptionsUseCase
         self.createProductMediaUseCase = createProductMediaUseCase
+        self.createProductVariantUseCase = createProductVariantUseCase
     }
     
     func createProduct(title: String, description: String, productType: String, vendor: String){
-        createProductUseCase.excute(title: title, description: title, productType: title, vendor: title) { result in
+        createProductUseCase.excute(title: title, description: description, productType: productType, vendor: vendor) {[unowned self] result in
             switch result {
-            case .success(_):
+            case .success(let id):
                 print("Successfully Product Creation")
+                print(id)
+                self.productID = id
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -37,10 +42,13 @@ class AddProductViewModel : ObservableObject{
     func createProductOptions(id : ID, productOptions : [OptionCreateInput]){
         createProductOptionsUseCase.excute(id: id, productOptions: productOptions) { result in
             switch result {
-                case .success(_):
-                print("Successfully Product Options Creation")
-            case .failure(let failure):
-                print(failure.localizedDescription)
+                case .success(let options):
+                    self.options = options
+                    //self.creationStages = .thirdStage(id: id, options: options)
+                    print("Successfully Product Options Creation")
+                
+                case .failure(let failure):
+                    print(failure.localizedDescription)
             }
         }
     }
@@ -56,10 +64,22 @@ class AddProductViewModel : ObservableObject{
         }
     }
     
+    func createProductVariants(id : ID, variants : [ProductVariantsBulkInput]){
+        createProductVariantUseCase.excute(id: id, variants: variants) { result in
+            switch result {
+            case .success(_):
+                print("Successfully Product Variants Creation")
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
 }
 
 enum CreationStage{
     case firstStage
-    case secondStage
-    case thirdStage
+    case secondStage(id : ID)
+    case thirdStage(id : ID, options: [CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Option])
+    case forthStage(id : ID)
 }

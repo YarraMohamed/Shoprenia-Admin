@@ -8,10 +8,7 @@ mutation CreateProductOptions($id: ID! , $productOptions : [OptionCreateInput!]!
             options(first: 5) {
                 id
                 name
-                optionValues {
-                    name
-                    id
-                }
+                values
             }
         }
     }

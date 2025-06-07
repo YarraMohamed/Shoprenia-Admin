@@ -278,6 +278,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductCreateMediaPayload": return Shopify.Objects.ProductCreateMediaPayload
     case "ProductCreatePayload": return Shopify.Objects.ProductCreatePayload
     case "ProductDeleteOperation": return Shopify.Objects.ProductDeleteOperation
+    case "ProductDeletePayload": return Shopify.Objects.ProductDeletePayload
     case "ProductDuplicateOperation": return Shopify.Objects.ProductDuplicateOperation
     case "ProductFeed": return Shopify.Objects.ProductFeed
     case "ProductFeedCreateUserError": return Shopify.Objects.ProductFeedCreateUserError
@@ -297,6 +298,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductVariantComponent": return Shopify.Objects.ProductVariantComponent
     case "ProductVariantConnection": return Shopify.Objects.ProductVariantConnection
     case "ProductVariantRelationshipBulkUpdateUserError": return Shopify.Objects.ProductVariantRelationshipBulkUpdateUserError
+    case "ProductVariantsBulkCreatePayload": return Shopify.Objects.ProductVariantsBulkCreatePayload
     case "ProductVariantsBulkCreateUserError": return Shopify.Objects.ProductVariantsBulkCreateUserError
     case "ProductVariantsBulkDeleteUserError": return Shopify.Objects.ProductVariantsBulkDeleteUserError
     case "ProductVariantsBulkReorderUserError": return Shopify.Objects.ProductVariantsBulkReorderUserError

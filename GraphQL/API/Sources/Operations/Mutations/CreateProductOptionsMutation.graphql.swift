@@ -7,7 +7,7 @@ public class CreateProductOptionsMutation: GraphQLMutation {
   public static let operationName: String = "CreateProductOptions"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) { productOptionsCreate(productId: $id, options: $productOptions) { __typename product { __typename bodyHtml options(first: 5) { __typename id name optionValues { __typename name id } } } } }"#
+      #"mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) { productOptionsCreate(productId: $id, options: $productOptions) { __typename product { __typename bodyHtml options(first: 5) { __typename id name values } } } }"#
     ))
 
   public var id: ID
@@ -92,35 +92,15 @@ public class CreateProductOptionsMutation: GraphQLMutation {
             .field("__typename", String.self),
             .field("id", Shopify.ID.self),
             .field("name", String.self),
-            .field("optionValues", [OptionValue].self),
+            .field("values", [String].self),
           ] }
 
           /// A globally-unique ID.
           public var id: Shopify.ID { __data["id"] }
           /// The product option’s name.
           public var name: String { __data["name"] }
-          /// Similar to values, option_values returns all the corresponding option value objects to the product option, including values not assigned to any variants.
-          public var optionValues: [OptionValue] { __data["optionValues"] }
-
-          /// ProductOptionsCreate.Product.Option.OptionValue
-          ///
-          /// Parent Type: `ProductOptionValue`
-          public struct OptionValue: Shopify.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
-
-            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOptionValue }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("name", String.self),
-              .field("id", Shopify.ID.self),
-            ] }
-
-            /// The name of the product option value.
-            public var name: String { __data["name"] }
-            /// A globally-unique ID.
-            public var id: Shopify.ID { __data["id"] }
-          }
+          /// The corresponding value to the product option name.
+          public var values: [String] { __data["values"] }
         }
       }
     }

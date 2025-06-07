@@ -11,8 +11,12 @@ import Shopify
 struct ProductRow: View {
     @Binding var path : NavigationPath
     var product : GetProductsQuery.Data.Products.Node?
+    @Binding var showAlert : Bool
+    @Binding var productState : ID
     var body: some View {
-        VStack{
+        ZStack(alignment : .topTrailing){
+            
+            VStack(alignment : .center){
                 if let imageURL = product?.media.nodes.first?.asMediaImage?.image?.url ,
                    let imageUrl = URL(string : imageURL) {
                     VendorImage(imageUrl:imageUrl).padding(.bottom,10)
@@ -34,16 +38,27 @@ struct ProductRow: View {
                     .font(.system(size: 12, weight: .medium, design: .default))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.shopreniaBlue)
-                    Spacer()
-        }.padding()
-            .background(Color.productBG)
-            .cornerRadius(12)
-            .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
-            .onTapGesture {
-                print(product?.title ?? "No Title")
+                Spacer()
+            }.padding()
+                .background(Color.productBG)
+                .cornerRadius(12)
+                .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
+                .onTapGesture {
+                    print(product?.title ?? "No Title")
+                    guard let product = product else { return }
+                    path.append(AppRoute.productDetails(productID: product.id))
+                }
+            Button{
+                showAlert = true
                 guard let product = product else { return }
-                path.append(AppRoute.productDetails(productID: product.id))
-            }
+                productState = product.id
+            }label: {
+                Image(.delete)
+            }.padding(.top , 5)
+                .padding(.trailing , 5)
+            
+        }
+
     }
 }
 

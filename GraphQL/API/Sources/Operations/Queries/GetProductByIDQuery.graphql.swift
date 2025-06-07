@@ -7,7 +7,7 @@ public class GetProductByIDQuery: GraphQLQuery {
   public static let operationName: String = "GetProductByID"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetProductByID($id: ID!) { product(id: $id) { __typename id title descriptionHtml isGiftCard totalInventory vendor productType tags variants(first: 10) { __typename nodes { __typename availableForSale id price title inventoryQuantity } } options(first: 5) { __typename id name optionValues { __typename hasVariants id name } } media(first: 5) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } } }"#
+      #"query GetProductByID($id: ID!) { product(id: $id) { __typename id title descriptionHtml isGiftCard totalInventory vendor productType tags variants(first: 100) { __typename nodes { __typename availableForSale id price title inventoryQuantity } } options(first: 50) { __typename id name optionValues { __typename hasVariants id name } } media(first: 50) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } } }"#
     ))
 
   public var id: ID
@@ -48,9 +48,9 @@ public class GetProductByIDQuery: GraphQLQuery {
         .field("vendor", String.self),
         .field("productType", String.self),
         .field("tags", [String].self),
-        .field("variants", Variants.self, arguments: ["first": 10]),
-        .field("options", [Option].self, arguments: ["first": 5]),
-        .field("media", Media.self, arguments: ["first": 5]),
+        .field("variants", Variants.self, arguments: ["first": 100]),
+        .field("options", [Option].self, arguments: ["first": 50]),
+        .field("media", Media.self, arguments: ["first": 50]),
       ] }
 
       /// A globally-unique ID.

@@ -20,7 +20,7 @@ struct ProductDetailsScreen: View {
     var body: some View {
         ScrollView{
                 VStack{
-                        if let imageUrl = viewModel.product?.media.nodes[0].asMediaImage?.image?.url{
+                    if let imageUrl = viewModel.product?.media.nodes.first?.asMediaImage?.image?.url{
                             ProductImage(url: URL(string: imageUrl)!)
                         }
                     HStack{
@@ -85,7 +85,7 @@ struct ProductDetailsScreen: View {
                     
                     HStack {
                         Menu {
-                            ForEach(viewModel.product?.options.first?.optionValues ?? [], id: \.id) { sizeObj in
+                            ForEach(viewModel.product?.options.first(where: {$0.name.lowercased() == "size"})?.optionValues ?? [], id: \.id) { sizeObj in
                                 
                                 Button(sizeObj.name) {
                                     self.selectedSize = sizeObj.name
@@ -116,7 +116,7 @@ struct ProductDetailsScreen: View {
                     
                     HStack{
                         Menu{
-                            ForEach(viewModel.product?.options[1].optionValues ?? [] , id: \.id){ colorObj in
+                            ForEach(viewModel.product?.options.first(where: {$0.name.lowercased() == "color"})?.optionValues ?? [] , id: \.id){ colorObj in
                                 
                                 Button(colorObj.name){
                                     self.selectedColor = colorObj.name

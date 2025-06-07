@@ -7,7 +7,7 @@ public class GetProductsQuery: GraphQLQuery {
   public static let operationName: String = "GetProducts"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetProducts { products(first: 100) { __typename nodes { __typename id title totalInventory variants(first: 1) { __typename nodes { __typename availableForSale price } } media(first: 1) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } } } }"#
+      #"query GetProducts { products(first: 100) { __typename nodes { __typename id title totalInventory variants(first: 100) { __typename nodes { __typename availableForSale price } } media(first: 1) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } } } }"#
     ))
 
   public init() {}
@@ -53,7 +53,7 @@ public class GetProductsQuery: GraphQLQuery {
           .field("id", Shopify.ID.self),
           .field("title", String.self),
           .field("totalInventory", Int.self),
-          .field("variants", Variants.self, arguments: ["first": 1]),
+          .field("variants", Variants.self, arguments: ["first": 100]),
           .field("media", Media.self, arguments: ["first": 1]),
         ] }
 

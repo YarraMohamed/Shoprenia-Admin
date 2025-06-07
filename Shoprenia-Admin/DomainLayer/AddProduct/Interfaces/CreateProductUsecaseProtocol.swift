@@ -10,6 +10,6 @@ import Shopify
 
 protocol CreateProductUsecaseProtocol {
     
-    func excute(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<Bool, any Error>) ->Void)
+    func excute(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<ID, any Error>) ->Void)
 }
 
