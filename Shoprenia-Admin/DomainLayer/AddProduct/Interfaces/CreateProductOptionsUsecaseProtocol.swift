@@ -9,5 +9,5 @@ import Foundation
 import Shopify
 
 protocol CreateProductOptionsUsecaseProtocol {
-    func excute(id : ID, productOptions : [OptionCreateInput] , completionHandler : @escaping (Result<[CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Option], Error>) -> Void)
+    func excute(id : ID, productOptions : [OptionCreateInput] , completionHandler : @escaping (Result<CreateProductOptionsMutation.Data.ProductOptionsCreate.Product, Error>) -> Void)
 }

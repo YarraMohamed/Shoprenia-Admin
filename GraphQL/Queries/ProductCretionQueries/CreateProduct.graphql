@@ -1,34 +1,36 @@
-mutation CreateProduct($title : String! ,$descriptionHtml : String! ,$productType : String! , $vendor : String!){
-    productCreate(
-        product: {
-            title: $title
-            descriptionHtml: $descriptionHtml
-            productType: $productType
-            vendor: $vendor
-        }
-    ) {
-        product {
-            id
-            title
-            descriptionHtml
-            vendor
-            productType
-            tags
-            options {
-                id
-                name
-                position
-                optionValues {
-                    id
-                    name
-                    hasVariants
-                }
-            }
-        }
-        userErrors {
-            field
-            message
-        }
+mutation CreateProduct(
+  $title: String!,
+  $descriptionHtml: String!,
+  $productType: String!,
+  $vendor: String!
+) {
+  productCreate(
+    product: {
+      title: $title
+      descriptionHtml: $descriptionHtml
+      productType: $productType
+      vendor: $vendor
     }
+  ) {
+    product {
+      id
+      title
+      descriptionHtml
+      vendor
+      productType
+      tags
+      variants(first: 10) {
+        nodes {
+          inventoryItem {
+            id
+          }
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
 }
 

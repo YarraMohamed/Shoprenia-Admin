@@ -100,12 +100,13 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<ID, any Error>) -> Void) {
+    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<CreateProductMutation.Data.ProductCreate.Product, any Error>) -> Void) {
         NetworkService.shared.apollo.perform(mutation: CreateProductMutation(title: title, descriptionHtml: description, productType: productType, vendor: vendor)){ result in
             switch result {
                  case .success(let graphQLRresult) :
-                if let id = graphQLRresult.data?.productCreate?.product?.id{
-                    completionHandler(.success(id))
+                if let product = graphQLRresult.data?.productCreate?.product{
+                    print(product.id)
+                    completionHandler(.success(product))
                 }else{
                     completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
                 }
@@ -115,13 +116,13 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<[CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Option],Error>)->Void){
+    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<CreateProductOptionsMutation.Data.ProductOptionsCreate.Product,Error>)->Void){
         NetworkService.shared.apollo.perform(mutation: CreateProductOptionsMutation(id: id, productOptions: productOptions)){ result in
             switch result {
                 case .success(let response) :
-                if let options = response.data?.productOptionsCreate?.product?.options{
-                    print(options)
-                    completionHandler(.success(options))
+                if let product = response.data?.productOptionsCreate?.product{
+                    print(product.options)
+                    completionHandler(.success(product))
                 }else{
                     completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
                 }
@@ -149,6 +150,7 @@ class NetworkService : NetworkServiceProtocol {
             case .success(let response):
                 let variants = response.data?.productVariantsBulkCreate?.product?.variants.nodes
                 print(variants?.count ?? 0)
+                print(variants?.first?.title ?? "No Title Found for this variant")
                 print(response.data?.productVariantsBulkCreate?.userErrors.first?.message  ?? "No Error Found")
                 completionHandler(.success(true))
             case .failure(let error):
@@ -173,4 +175,33 @@ class NetworkService : NetworkServiceProtocol {
             }
         }
     }
+    
+    func updateProductVariant(productID: ID, variants : [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        NetworkService.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: productID, variants: variants)){ result in
+            switch result{
+                case .success(let result):
+                if let variants = result.data?.productVariantsBulkCreate?.product?.variants{
+                    print(variants.nodes.first?.title ?? "No Variants")
+                    completionHandler(.success(true))
+                }else {
+                    completionHandler(.failure(NSError(domain: "No Variants Found", code: 404, userInfo: nil)))
+                }
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func setInventoryQuantity(inventoryQuantity: InventorySetQuantitiesInput, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        NetworkService.shared.apollo.perform(mutation: SetInventoryQuantityMutation(input: inventoryQuantity)){ result in
+            switch result{
+            case .success(let graphQLResult) :
+                print(graphQLResult)
+                completionHandler(.success(true))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
 }

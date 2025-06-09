@@ -1,0 +1,20 @@
+mutation UpdateProductVariants($productId: ID!,$variants: [ProductVariantsBulkInput!]!) {
+  productVariantsBulkUpdate(
+    productId: $productId,
+    variants: $variants
+  ) {
+    product {
+      variants(first: 100) {
+        nodes {
+          id
+          title
+          price
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

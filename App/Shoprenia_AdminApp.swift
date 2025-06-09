@@ -18,7 +18,11 @@ struct Shoprenia_AdminApp: App {
                 .environmentObject(AddProductViewModel(
                     createProductUseCase: CreateProductUsecase(networkService: NetworkService()),
                     createProductOptionsUseCase: CreateProductOptionsUsecase(networkService: NetworkService()),
-                    createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()), createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService())))
+                    createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()),
+                    createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService()),
+                    updateProductVariantUsecase: UpdateProductVariantUsecase(networkService: NetworkService()),
+                    setInventoryQuantityUseCase: SetInventoryQuantityUsecase(networkService: NetworkService()))
+                )
         }
     }
 }

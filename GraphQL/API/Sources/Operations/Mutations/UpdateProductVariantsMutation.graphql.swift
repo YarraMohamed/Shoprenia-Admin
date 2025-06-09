@@ -3,27 +3,27 @@
 
 @_exported import ApolloAPI
 
-public class CreateProductOptionsMutation: GraphQLMutation {
-  public static let operationName: String = "CreateProductOptions"
+public class UpdateProductVariantsMutation: GraphQLMutation {
+  public static let operationName: String = "UpdateProductVariants"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) { productOptionsCreate(productId: $id, options: $productOptions) { __typename product { __typename variants(first: 100) { __typename nodes { __typename id price title } } options(first: 10) { __typename id values name } } userErrors { __typename field message } } }"#
+      #"mutation UpdateProductVariants($productId: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $productId, variants: $variants) { __typename product { __typename variants(first: 100) { __typename nodes { __typename id title price } } } userErrors { __typename field message } } }"#
     ))
 
-  public var id: ID
-  public var productOptions: [OptionCreateInput]
+  public var productId: ID
+  public var variants: [ProductVariantsBulkInput]
 
   public init(
-    id: ID,
-    productOptions: [OptionCreateInput]
+    productId: ID,
+    variants: [ProductVariantsBulkInput]
   ) {
-    self.id = id
-    self.productOptions = productOptions
+    self.productId = productId
+    self.variants = variants
   }
 
   public var __variables: Variables? { [
-    "id": id,
-    "productOptions": productOptions
+    "productId": productId,
+    "variants": variants
   ] }
 
   public struct Data: Shopify.SelectionSet {
@@ -32,23 +32,23 @@ public class CreateProductOptionsMutation: GraphQLMutation {
 
     public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Mutation }
     public static var __selections: [ApolloAPI.Selection] { [
-      .field("productOptionsCreate", ProductOptionsCreate?.self, arguments: [
-        "productId": .variable("id"),
-        "options": .variable("productOptions")
+      .field("productVariantsBulkUpdate", ProductVariantsBulkUpdate?.self, arguments: [
+        "productId": .variable("productId"),
+        "variants": .variable("variants")
       ]),
     ] }
 
-    /// Creates options on a product.
-    public var productOptionsCreate: ProductOptionsCreate? { __data["productOptionsCreate"] }
+    /// Updates multiple variants in a single product. This mutation can be called directly or via the bulkOperation.
+    public var productVariantsBulkUpdate: ProductVariantsBulkUpdate? { __data["productVariantsBulkUpdate"] }
 
-    /// ProductOptionsCreate
+    /// ProductVariantsBulkUpdate
     ///
-    /// Parent Type: `ProductOptionsCreatePayload`
-    public struct ProductOptionsCreate: Shopify.SelectionSet {
+    /// Parent Type: `ProductVariantsBulkUpdatePayload`
+    public struct ProductVariantsBulkUpdate: Shopify.SelectionSet {
       public let __data: DataDict
       public init(_dataDict: DataDict) { __data = _dataDict }
 
-      public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOptionsCreatePayload }
+      public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantsBulkUpdatePayload }
       public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("product", Product?.self),
@@ -60,7 +60,7 @@ public class CreateProductOptionsMutation: GraphQLMutation {
       /// The list of errors that occurred from executing the mutation.
       public var userErrors: [UserError] { __data["userErrors"] }
 
-      /// ProductOptionsCreate.Product
+      /// ProductVariantsBulkUpdate.Product
       ///
       /// Parent Type: `Product`
       public struct Product: Shopify.SelectionSet {
@@ -71,17 +71,13 @@ public class CreateProductOptionsMutation: GraphQLMutation {
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("variants", Variants.self, arguments: ["first": 100]),
-          .field("options", [Option].self, arguments: ["first": 10]),
         ] }
 
         /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
         /// If querying a single product at the root, you can fetch up to 2000 variants.
         public var variants: Variants { __data["variants"] }
-        /// A list of product options. The limit is defined by the
-        /// [shop's resource limits for product options](https://shopify.dev/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
-        public var options: [Option] { __data["options"] }
 
-        /// ProductOptionsCreate.Product.Variants
+        /// ProductVariantsBulkUpdate.Product.Variants
         ///
         /// Parent Type: `ProductVariantConnection`
         public struct Variants: Shopify.SelectionSet {
@@ -97,7 +93,7 @@ public class CreateProductOptionsMutation: GraphQLMutation {
           /// A list of nodes that are contained in ProductVariantEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
           public var nodes: [Node] { __data["nodes"] }
 
-          /// ProductOptionsCreate.Product.Variants.Node
+          /// ProductVariantsBulkUpdate.Product.Variants.Node
           ///
           /// Parent Type: `ProductVariant`
           public struct Node: Shopify.SelectionSet {
@@ -108,51 +104,28 @@ public class CreateProductOptionsMutation: GraphQLMutation {
             public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
               .field("id", Shopify.ID.self),
-              .field("price", Shopify.Money.self),
               .field("title", String.self),
+              .field("price", Shopify.Money.self),
             ] }
 
             /// A globally-unique ID.
             public var id: Shopify.ID { __data["id"] }
-            /// The price of the product variant in the default shop currency.
-            public var price: Shopify.Money { __data["price"] }
             /// The title of the product variant.
             public var title: String { __data["title"] }
+            /// The price of the product variant in the default shop currency.
+            public var price: Shopify.Money { __data["price"] }
           }
-        }
-
-        /// ProductOptionsCreate.Product.Option
-        ///
-        /// Parent Type: `ProductOption`
-        public struct Option: Shopify.SelectionSet {
-          public let __data: DataDict
-          public init(_dataDict: DataDict) { __data = _dataDict }
-
-          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOption }
-          public static var __selections: [ApolloAPI.Selection] { [
-            .field("__typename", String.self),
-            .field("id", Shopify.ID.self),
-            .field("values", [String].self),
-            .field("name", String.self),
-          ] }
-
-          /// A globally-unique ID.
-          public var id: Shopify.ID { __data["id"] }
-          /// The corresponding value to the product option name.
-          public var values: [String] { __data["values"] }
-          /// The product option’s name.
-          public var name: String { __data["name"] }
         }
       }
 
-      /// ProductOptionsCreate.UserError
+      /// ProductVariantsBulkUpdate.UserError
       ///
-      /// Parent Type: `ProductOptionsCreateUserError`
+      /// Parent Type: `ProductVariantsBulkUpdateUserError`
       public struct UserError: Shopify.SelectionSet {
         public let __data: DataDict
         public init(_dataDict: DataDict) { __data = _dataDict }
 
-        public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOptionsCreateUserError }
+        public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantsBulkUpdateUserError }
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("field", [String]?.self),

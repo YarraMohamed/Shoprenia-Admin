@@ -16,7 +16,7 @@ struct AuthenticationScreen: View {
     @State var message : String = ""
     @State var color : Color = Color(.clear)
     @State var showingEditSheet : Bool = false
-
+    
     var body: some View {
         NavigationStack (path: $path) {
             VStack(spacing: 20){//1
@@ -38,7 +38,7 @@ struct AuthenticationScreen: View {
                 }
                 Spacer()
             }.frame(maxWidth: .infinity, alignment: .center) //3
-            .padding()
+                .padding()
                 .navigationDestination(for : AppRoute.self) { value in
                     switch value{
                     case .rootView :
@@ -56,13 +56,15 @@ struct AuthenticationScreen: View {
                                         } label: {
                                             Image(.edit)
                                         }
+                                        
+                                        
                                         Button {
                                             path.append(AppRoute.addProduct)
                                         } label: {
                                             Image(.addCircle)
                                         }
+                                        
                                     }
-                                    
                                 }
                             }
                     case .vendorProducts(vendorName: let vendorName):

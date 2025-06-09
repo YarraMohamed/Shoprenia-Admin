@@ -187,6 +187,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "InventoryMoveQuantitiesUserError": return Shopify.Objects.InventoryMoveQuantitiesUserError
     case "InventoryQuantity": return Shopify.Objects.InventoryQuantity
     case "InventorySetOnHandQuantitiesUserError": return Shopify.Objects.InventorySetOnHandQuantitiesUserError
+    case "InventorySetQuantitiesPayload": return Shopify.Objects.InventorySetQuantitiesPayload
     case "InventorySetQuantitiesUserError": return Shopify.Objects.InventorySetQuantitiesUserError
     case "InventorySetScheduledChangesUserError": return Shopify.Objects.InventorySetScheduledChangesUserError
     case "LineItem": return Shopify.Objects.LineItem
@@ -302,6 +303,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductVariantsBulkCreateUserError": return Shopify.Objects.ProductVariantsBulkCreateUserError
     case "ProductVariantsBulkDeleteUserError": return Shopify.Objects.ProductVariantsBulkDeleteUserError
     case "ProductVariantsBulkReorderUserError": return Shopify.Objects.ProductVariantsBulkReorderUserError
+    case "ProductVariantsBulkUpdatePayload": return Shopify.Objects.ProductVariantsBulkUpdatePayload
     case "ProductVariantsBulkUpdateUserError": return Shopify.Objects.ProductVariantsBulkUpdateUserError
     case "PubSubWebhookSubscriptionCreateUserError": return Shopify.Objects.PubSubWebhookSubscriptionCreateUserError
     case "PubSubWebhookSubscriptionUpdateUserError": return Shopify.Objects.PubSubWebhookSubscriptionUpdateUserError

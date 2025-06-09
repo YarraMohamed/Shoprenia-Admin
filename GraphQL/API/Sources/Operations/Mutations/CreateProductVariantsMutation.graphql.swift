@@ -7,7 +7,7 @@ public class CreateProductVariantsMutation: GraphQLMutation {
   public static let operationName: String = "CreateProductVariants"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProductVariants($id: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkCreate(productId: $id, variants: $variants) { __typename product { __typename descriptionHtml id title options(first: 10) { __typename name values } productType variants(first: 10) { __typename nodes { __typename id inventoryQuantity price title } } vendor } userErrors { __typename message field } } }"#
+      #"mutation CreateProductVariants($id: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkCreate(productId: $id, variants: $variants) { __typename product { __typename descriptionHtml id title vendor totalInventory totalVariants productType options(first: 10) { __typename name values id } variants(first: 10) { __typename nodes { __typename id inventoryQuantity price title } } } userErrors { __typename field message } } }"#
     ))
 
   public var id: ID
@@ -73,10 +73,12 @@ public class CreateProductVariantsMutation: GraphQLMutation {
           .field("descriptionHtml", Shopify.HTML.self),
           .field("id", Shopify.ID.self),
           .field("title", String.self),
-          .field("options", [Option].self, arguments: ["first": 10]),
-          .field("productType", String.self),
-          .field("variants", Variants.self, arguments: ["first": 10]),
           .field("vendor", String.self),
+          .field("totalInventory", Int.self),
+          .field("totalVariants", Int.self),
+          .field("productType", String.self),
+          .field("options", [Option].self, arguments: ["first": 10]),
+          .field("variants", Variants.self, arguments: ["first": 10]),
         ] }
 
         /// The description of the product, with
@@ -88,17 +90,23 @@ public class CreateProductVariantsMutation: GraphQLMutation {
         /// The name for the product that displays to customers. The title is used to construct the product's handle.
         /// For example, if a product is titled "Black Sunglasses", then the handle is `black-sunglasses`.
         public var title: String { __data["title"] }
-        /// A list of product options. The limit is defined by the
-        /// [shop's resource limits for product options](https://shopify.dev/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
-        public var options: [Option] { __data["options"] }
+        /// The name of the product's vendor.
+        public var vendor: String { __data["vendor"] }
+        /// The quantity of inventory that's in stock.
+        public var totalInventory: Int { __data["totalInventory"] }
+        /// The number of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant)
+        /// that are associated with the product.
+        @available(*, deprecated, message: "Use `variantsCount` instead.")
+        public var totalVariants: Int { __data["totalVariants"] }
         /// The [product type](https://help.shopify.com/manual/products/details/product-type)
         /// that merchants define.
         public var productType: String { __data["productType"] }
+        /// A list of product options. The limit is defined by the
+        /// [shop's resource limits for product options](https://shopify.dev/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
+        public var options: [Option] { __data["options"] }
         /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
         /// If querying a single product at the root, you can fetch up to 2000 variants.
         public var variants: Variants { __data["variants"] }
-        /// The name of the product's vendor.
-        public var vendor: String { __data["vendor"] }
 
         /// ProductVariantsBulkCreate.Product.Option
         ///
@@ -112,12 +120,15 @@ public class CreateProductVariantsMutation: GraphQLMutation {
             .field("__typename", String.self),
             .field("name", String.self),
             .field("values", [String].self),
+            .field("id", Shopify.ID.self),
           ] }
 
           /// The product option’s name.
           public var name: String { __data["name"] }
           /// The corresponding value to the product option name.
           public var values: [String] { __data["values"] }
+          /// A globally-unique ID.
+          public var id: Shopify.ID { __data["id"] }
         }
 
         /// ProductVariantsBulkCreate.Product.Variants
@@ -174,14 +185,14 @@ public class CreateProductVariantsMutation: GraphQLMutation {
         public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantsBulkCreateUserError }
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .field("message", String.self),
           .field("field", [String]?.self),
+          .field("message", String.self),
         ] }
 
-        /// The error message.
-        public var message: String { __data["message"] }
         /// The path to the input field that caused the error.
         public var field: [String]? { __data["field"] }
+        /// The error message.
+        public var message: String { __data["message"] }
       }
     }
   }

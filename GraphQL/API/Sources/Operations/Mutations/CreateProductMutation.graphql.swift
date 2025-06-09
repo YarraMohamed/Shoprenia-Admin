@@ -7,7 +7,7 @@ public class CreateProductMutation: GraphQLMutation {
   public static let operationName: String = "CreateProduct"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProduct($title: String!, $descriptionHtml: String!, $productType: String!, $vendor: String!) { productCreate( product: { title: $title descriptionHtml: $descriptionHtml productType: $productType vendor: $vendor } ) { __typename product { __typename id title descriptionHtml vendor productType tags options { __typename id name position optionValues { __typename id name hasVariants } } } userErrors { __typename field message } } }"#
+      #"mutation CreateProduct($title: String!, $descriptionHtml: String!, $productType: String!, $vendor: String!) { productCreate( product: { title: $title descriptionHtml: $descriptionHtml productType: $productType vendor: $vendor } ) { __typename product { __typename id title descriptionHtml vendor productType tags variants(first: 10) { __typename nodes { __typename inventoryItem { __typename id } } } } userErrors { __typename field message } } }"#
     ))
 
   public var title: String
@@ -103,7 +103,7 @@ public class CreateProductMutation: GraphQLMutation {
           .field("vendor", String.self),
           .field("productType", String.self),
           .field("tags", [String].self),
-          .field("options", [Option].self),
+          .field("variants", Variants.self, arguments: ["first": 10]),
         ] }
 
         /// A globally-unique ID.
@@ -129,56 +129,58 @@ public class CreateProductMutation: GraphQLMutation {
         /// existing tags, use the [`tagsAdd`](https://shopify.dev/api/admin-graphql/latest/mutations/tagsadd)
         /// mutation.
         public var tags: [String] { __data["tags"] }
-        /// A list of product options. The limit is defined by the
-        /// [shop's resource limits for product options](https://shopify.dev/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`).
-        public var options: [Option] { __data["options"] }
+        /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
+        /// If querying a single product at the root, you can fetch up to 2000 variants.
+        public var variants: Variants { __data["variants"] }
 
-        /// ProductCreate.Product.Option
+        /// ProductCreate.Product.Variants
         ///
-        /// Parent Type: `ProductOption`
-        public struct Option: Shopify.SelectionSet {
+        /// Parent Type: `ProductVariantConnection`
+        public struct Variants: Shopify.SelectionSet {
           public let __data: DataDict
           public init(_dataDict: DataDict) { __data = _dataDict }
 
-          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOption }
+          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantConnection }
           public static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
-            .field("id", Shopify.ID.self),
-            .field("name", String.self),
-            .field("position", Int.self),
-            .field("optionValues", [OptionValue].self),
+            .field("nodes", [Node].self),
           ] }
 
-          /// A globally-unique ID.
-          public var id: Shopify.ID { __data["id"] }
-          /// The product option’s name.
-          public var name: String { __data["name"] }
-          /// The product option's position.
-          public var position: Int { __data["position"] }
-          /// Similar to values, option_values returns all the corresponding option value objects to the product option, including values not assigned to any variants.
-          public var optionValues: [OptionValue] { __data["optionValues"] }
+          /// A list of nodes that are contained in ProductVariantEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
+          public var nodes: [Node] { __data["nodes"] }
 
-          /// ProductCreate.Product.Option.OptionValue
+          /// ProductCreate.Product.Variants.Node
           ///
-          /// Parent Type: `ProductOptionValue`
-          public struct OptionValue: Shopify.SelectionSet {
+          /// Parent Type: `ProductVariant`
+          public struct Node: Shopify.SelectionSet {
             public let __data: DataDict
             public init(_dataDict: DataDict) { __data = _dataDict }
 
-            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductOptionValue }
+            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariant }
             public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
-              .field("id", Shopify.ID.self),
-              .field("name", String.self),
-              .field("hasVariants", Bool.self),
+              .field("inventoryItem", InventoryItem.self),
             ] }
 
-            /// A globally-unique ID.
-            public var id: Shopify.ID { __data["id"] }
-            /// The name of the product option value.
-            public var name: String { __data["name"] }
-            /// Whether the product option value has any linked variants.
-            public var hasVariants: Bool { __data["hasVariants"] }
+            /// The inventory item, which is used to query for inventory information.
+            public var inventoryItem: InventoryItem { __data["inventoryItem"] }
+
+            /// ProductCreate.Product.Variants.Node.InventoryItem
+            ///
+            /// Parent Type: `InventoryItem`
+            public struct InventoryItem: Shopify.SelectionSet {
+              public let __data: DataDict
+              public init(_dataDict: DataDict) { __data = _dataDict }
+
+              public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.InventoryItem }
+              public static var __selections: [ApolloAPI.Selection] { [
+                .field("__typename", String.self),
+                .field("id", Shopify.ID.self),
+              ] }
+
+              /// A globally-unique ID.
+              public var id: Shopify.ID { __data["id"] }
+            }
           }
         }
       }

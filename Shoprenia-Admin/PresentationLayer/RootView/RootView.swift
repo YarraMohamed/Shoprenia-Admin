@@ -17,6 +17,16 @@ struct RootView: View {
                     Text("Home")
                 }
             AllProductsScreen(path: $path)
+                .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        path.append(AppRoute.addProduct)
+                    } label: {
+                        Image(.addCircle)
+                            .font(.title2)
+                    }
+                }
+            }
                 .tabItem{
                     Image(.products)
                     Text("Products")

@@ -17,12 +17,12 @@ struct AddProductScreen: View {
                 
             case .firstStage:
                 FirstStageView(progress : $progress , stageNumber: $stageNumber, viewModel : viewModel)
-            case .secondStage(_):
+            case .secondStage:
                 SecondStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber)
             case .thirdStage(_, let options):
                 ThirdStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber, options: options)
                 
-            case .forthStage(_):
+            case .forthStage:
                 Text("Hello")
                 
             }
@@ -75,8 +75,6 @@ struct ThirdStageView : View {
             VStack{
                 VStack(alignment : .leading, spacing : 20){
                     HStack(spacing : 20){
-//                        Text("Add Color").foregroundStyle(Color("shopreniaBlue"))
-//                            .font(.system(size: 20, weight: .medium, design: .default))
                         if let colorOption = options.first(where: { $0.name == "Color" }) {
                             Menu {
                                 ForEach(colorOption.values, id: \.self) { value in
@@ -95,9 +93,6 @@ struct ThirdStageView : View {
                         
                     }
                     HStack(spacing : 20){
-//                        Text("Add Size").foregroundStyle(Color("shopreniaBlue"))
-//                            .font(.system(size: 20, weight: .medium, design: .default))
-                        //CustomTextField(title: "Add Size", input: $size, width: 200)
                         if let sizeOptions = options.first(where: { $0.name == "Size" }) {
                             Menu {
                                 ForEach(sizeOptions.values, id: \.self) { value in
@@ -187,8 +182,11 @@ struct ThirdStageView : View {
                         ], price: GraphQLNullable.some(String(format: "%.2f", dto.price))
                     )
                 }
-                viewModel.createProductVariants(id: viewModel.productID, variants: variantDTOs)
-                viewModel.creationStages = .forthStage(id: viewModel.productID)
+                guard let productID = viewModel.product?.id else{
+                    fatalError("Product Id is Found nil")
+                }
+                viewModel.createProductVariants(id:productID, variants: variantDTOs)
+                viewModel.creationStages = .forthStage
                 progress = 1
                 stageNumber = 4
             }
@@ -203,5 +201,5 @@ struct ThirdStageView : View {
         .environmentObject(AddProductViewModel(
             createProductUseCase: CreateProductUsecase(networkService: NetworkService()),
             createProductOptionsUseCase: CreateProductOptionsUsecase(networkService: NetworkService()),
-            createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()), createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService())))
+            createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()), createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService()), updateProductVariantUsecase: UpdateProductVariantUsecase(networkService: NetworkService()), setInventoryQuantityUseCase: SetInventoryQuantityUsecase(networkService: NetworkService())))
 }
