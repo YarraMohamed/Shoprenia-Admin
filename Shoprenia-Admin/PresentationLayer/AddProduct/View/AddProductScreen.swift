@@ -19,8 +19,9 @@ struct AddProductScreen: View {
                 FirstStageView(progress : $progress , stageNumber: $stageNumber, viewModel : viewModel)
             case .secondStage:
                 SecondStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber)
-            case .thirdStage(_, let options):
-                ThirdStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber, options: options)
+            case .thirdStage :
+                EmptyView()
+                //ThirdStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber, options: options)
                 
             case .forthStage:
                 Text("Hello")
@@ -196,10 +197,3 @@ struct ThirdStageView : View {
 }
 
 
-#Preview {
-    AddProductScreen()
-        .environmentObject(AddProductViewModel(
-            createProductUseCase: CreateProductUsecase(networkService: NetworkService()),
-            createProductOptionsUseCase: CreateProductOptionsUsecase(networkService: NetworkService()),
-            createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()), createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService()), updateProductVariantUsecase: UpdateProductVariantUsecase(networkService: NetworkService()), setInventoryQuantityUseCase: SetInventoryQuantityUsecase(networkService: NetworkService())))
-}

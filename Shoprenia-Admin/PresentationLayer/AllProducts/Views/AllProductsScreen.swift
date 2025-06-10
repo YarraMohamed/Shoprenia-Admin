@@ -51,7 +51,7 @@ struct AllProductsScreen: View {
         }
     }
         init(path : Binding<NavigationPath>) {
-            _viewModel = StateObject(wrappedValue: AllProductsViewModel(usecase: FetchProductsUsecase(networkService: NetworkService()),deleteProductUsecase: DeleteProductUsecase(networkService: NetworkService())))
+            _viewModel = StateObject(wrappedValue: AllProductsViewModel(usecase: FetchProductsUsecase(networkService: NetworkServiceImpl.shared),deleteProductUsecase: DeleteProductUsecase(networkService: NetworkServiceImpl.shared)))
             self._path = path
         }
     

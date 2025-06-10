@@ -65,11 +65,7 @@ struct FirstStageView : View {
                 .frame(maxWidth: .infinity)
             
             CustomButton(title: "Next") {
-                viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor)
-//                guard let productID = viewModel.product?.id else{
-//                    fatalError("Product Id is Found nil")
-//                }
-                viewModel.creationStages = .secondStage
+                viewModel.createProduct(product: ProductEntity(id: nil, title: title, descriptionHTML: description, isGiftCard: nil, totalInventory: nil, vendor: vendor, productType: type, tags: nil, variants: nil, options: nil, media: nil, inventoryItemId: nil))
                 progress = 0.5
                 stageNumber = 2
                 

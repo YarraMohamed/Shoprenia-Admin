@@ -7,7 +7,7 @@ public class CreateProductOptionsMutation: GraphQLMutation {
   public static let operationName: String = "CreateProductOptions"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) { productOptionsCreate(productId: $id, options: $productOptions) { __typename product { __typename variants(first: 100) { __typename nodes { __typename id price title } } options(first: 10) { __typename id values name } } userErrors { __typename field message } } }"#
+      #"mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) { productOptionsCreate(productId: $id, options: $productOptions) { __typename product { __typename id variants(first: 100) { __typename nodes { __typename id price title } } options(first: 10) { __typename id values name } } userErrors { __typename field message } } }"#
     ))
 
   public var id: ID
@@ -70,10 +70,13 @@ public class CreateProductOptionsMutation: GraphQLMutation {
         public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Product }
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
+          .field("id", Shopify.ID.self),
           .field("variants", Variants.self, arguments: ["first": 100]),
           .field("options", [Option].self, arguments: ["first": 10]),
         ] }
 
+        /// A globally-unique ID.
+        public var id: Shopify.ID { __data["id"] }
         /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
         /// If querying a single product at the root, you can fetch up to 2000 variants.
         public var variants: Variants { __data["variants"] }

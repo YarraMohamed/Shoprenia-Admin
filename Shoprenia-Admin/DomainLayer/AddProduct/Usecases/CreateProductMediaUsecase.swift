@@ -11,14 +11,14 @@ import Shopify
 
 class CreateProductMediaUsecase : CreateProductMediaUsecaseProtocol {
     
-    let networkService: NetworkServiceProtocol
+    let networkService: NetworkService
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkService) {
         self.networkService = networkService
     }
     
     func excute(id : ID, media : [CreateMediaInput], completionHandeler: @escaping (Result<Bool, any Error>) -> Void) {
-        networkService.createProductMedia(id: id, media: media, completionHandler: completionHandeler)
+        NetworkServiceImpl.shared.createProductMedia(id: id, media: media, completionHandler: completionHandeler)
     }
     
 }

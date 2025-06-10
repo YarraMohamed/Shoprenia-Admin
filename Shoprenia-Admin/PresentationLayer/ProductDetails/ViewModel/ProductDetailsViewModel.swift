@@ -10,11 +10,11 @@ import Shopify
 
 class ProductDetailsViewModel : ObservableObject {
     
-    let usecase : GetProductByIdUsecaseProtocol
-    @Published var product : GetProductByIDQuery.Data.Product? = nil
+    let usecase : GetProductByIdUsecase
+    @Published var product : ProductEntity? = nil
     
     func getProductById(id: ID) {
-        usecase.excute(id: id) { [weak self] result in
+        usecase.execute(id: id) { [weak self] result in
             switch result {
             case .success(let product) :
                 self?.product = product
@@ -24,7 +24,7 @@ class ProductDetailsViewModel : ObservableObject {
         }
     }
     
-    init(usecase: GetProductByIdUsecaseProtocol) {
+    init(usecase: GetProductByIdUsecase) {
         self.usecase = usecase
     }
     

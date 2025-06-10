@@ -8,8 +8,8 @@
 import Foundation
 import Shopify
 
-protocol GetProductByIdUsecaseProtocol{
+protocol GetProductByIdUsecase{
     
-    func excute(id : ID,completionHandler : @escaping (Result<GetProductByIDQuery.Data.Product,Error>)->Void)
+    func execute(id : ID,completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
     
 }

@@ -9,12 +9,12 @@ import Foundation
 import Shopify
 
 class CreateProductVariantsUsecase : CreateProductVariantsUsecaseProtocol {
-    let networkService: NetworkServiceProtocol
+    let networkService: NetworkService
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkService) {
         self.networkService = networkService
     }
     func excute(id: ID, variants: [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        networkService.createProductVariants(id: id, variants: variants, completionHandler: completionHandler)
+        NetworkServiceImpl.shared.createProductVariants(id: id, variants: variants, completionHandler: completionHandler)
     }
 }

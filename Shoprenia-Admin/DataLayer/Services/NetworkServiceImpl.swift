@@ -9,19 +9,21 @@ import Apollo
 import Foundation
 import Shopify
 
-class NetworkService : NetworkServiceProtocol {
+class NetworkServiceImpl : NetworkService {
     
-    static let shared = NetworkService()
-    private lazy var store = ApolloStore()
+    static let shared = NetworkServiceImpl()
+    private var store = ApolloStore()
     private let accessToken = ProcessInfo.processInfo.environment["Admin_Access_Token"] ?? ""
-
-    private(set) lazy var apollo: ApolloClient = {
+    
+    let apollo: ApolloClient
+    
+    private init() {
         let url = URL(string: "https://mad45-ios1-sv.myshopify.com/admin/api/2025-04/graphql.json")!
         let config = URLSessionConfiguration.ephemeral
         let sessionClient = URLSessionClient(sessionConfiguration: config)
 
         let transport = RequestChainNetworkTransport(
-            interceptorProvider: DefaultInterceptorProvider(client: sessionClient, shouldInvalidateClientOnDeinit: true, store: store),
+            interceptorProvider: DefaultInterceptorProvider(client: sessionClient, shouldInvalidateClientOnDeinit: true, store: self.store),
             endpointURL: url,
             additionalHeaders: [
                 "X-Shopify-Access-Token": accessToken,
@@ -29,11 +31,11 @@ class NetworkService : NetworkServiceProtocol {
             ]
         )
         
-        return ApolloClient(networkTransport: transport, store: store)
-    }()
+        apollo = ApolloClient(networkTransport: transport, store: self.store)
+    }
     
     func getAllProducts(completionHandler : @escaping (Result<[GetProductsQuery.Data.Products.Node],Error>)->Void) {
-        NetworkService.shared.apollo.fetch(query: GetProductsQuery(),cachePolicy: .fetchIgnoringCacheCompletely){ result in
+        NetworkServiceImpl.shared.apollo.fetch(query: GetProductsQuery(),cachePolicy: .fetchIgnoringCacheCompletely){ result in
             switch result {
             case .success(let graphQLResult):
                 if let products = graphQLResult.data?.products.nodes {
@@ -51,7 +53,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func getAllVendors(completionHandler: @escaping (Result<[GetAllVendorsQuery.Data.Collections.Node], Error>) -> Void) {
-        NetworkService.shared.apollo.fetch(query: GetAllVendorsQuery(),cachePolicy: .fetchIgnoringCacheCompletely) { result in
+        NetworkServiceImpl.shared.apollo.fetch(query: GetAllVendorsQuery(),cachePolicy: .fetchIgnoringCacheCompletely) { result in
             switch result {
             case .success(let graphQLResult):
                 if let vendors = graphQLResult.data?.collections.nodes{
@@ -68,7 +70,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func getVendorProducts(vendorName :String,completionHandler: @escaping (Result<[GetVendorProductsQuery.Data.Products.Node], any Error>) -> Void){
-        NetworkService.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName),cachePolicy: .fetchIgnoringCacheCompletely){ result in
+        NetworkServiceImpl.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName),cachePolicy: .fetchIgnoringCacheCompletely){ result in
             switch result {
             case .success(let graphQlResult) :
                 if let products = graphQlResult.data?.products.nodes{
@@ -84,56 +86,9 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
-    func getProductByID(productID : ID ,completionHandler: @escaping (Result<GetProductByIDQuery.Data.Product,Error>)->Void){
-        NetworkService.shared.apollo.fetch(query: GetProductByIDQuery(id: productID),cachePolicy: .fetchIgnoringCacheCompletely){ result in
-            switch result {
-            case .success(let graohQLResult) :
-                if let product = graohQLResult.data?.product{
-                    completionHandler(.success(product))
-                }else{
-                    completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
-                }
-            case .failure(let error) :
-                completionHandler(.failure(error))
-            }
-            
-        }
-    }
-    
-    func createProduct(title: String, description: String, productType: String, vendor: String, completionHandler: @escaping (Result<CreateProductMutation.Data.ProductCreate.Product, any Error>) -> Void) {
-        NetworkService.shared.apollo.perform(mutation: CreateProductMutation(title: title, descriptionHtml: description, productType: productType, vendor: vendor)){ result in
-            switch result {
-                 case .success(let graphQLRresult) :
-                if let product = graphQLRresult.data?.productCreate?.product{
-                    print(product.id)
-                    completionHandler(.success(product))
-                }else{
-                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
-                }
-            case .failure(let error) :
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    func createProductOptions(id : ID, productOptions : [OptionCreateInput] ,completionHandler : @escaping (Result<CreateProductOptionsMutation.Data.ProductOptionsCreate.Product,Error>)->Void){
-        NetworkService.shared.apollo.perform(mutation: CreateProductOptionsMutation(id: id, productOptions: productOptions)){ result in
-            switch result {
-                case .success(let response) :
-                if let product = response.data?.productOptionsCreate?.product{
-                    print(product.options)
-                    completionHandler(.success(product))
-                }else{
-                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
-                }
-            case .failure(let error) :
-                completionHandler(.failure(error))
-            }
-        }
-    }
     
     func createProductMedia(id : ID, media : [CreateMediaInput], completionHandler : @escaping (Result<Bool,Error>)->Void){
-        NetworkService.shared.apollo.perform(mutation: CreateProductMediaMutation(id: id, media: media)){ result in
+        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductMediaMutation(id: id, media: media)){ result in
             switch result {
                 case .success(_) :
                 completionHandler(.success(true))
@@ -144,7 +99,7 @@ class NetworkService : NetworkServiceProtocol {
     }
 
     func createProductVariants(id: ID, variants: [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkService.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: id, variants: variants)){
+        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: id, variants: variants)){
             result in
             switch result {
             case .success(let response):
@@ -160,7 +115,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func deleteProductByID(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkService.shared.apollo.perform(mutation: DeleteProductByIDMutation(id: id)){ result in
+        NetworkServiceImpl.shared.apollo.perform(mutation: DeleteProductByIDMutation(id: id)){ result in
             switch result{
             case .success(let result):
                 if let id = result.data?.productDelete?.deletedProductId{
@@ -177,7 +132,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func updateProductVariant(productID: ID, variants : [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkService.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: productID, variants: variants)){ result in
+        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: productID, variants: variants)){ result in
             switch result{
                 case .success(let result):
                 if let variants = result.data?.productVariantsBulkCreate?.product?.variants{
@@ -193,7 +148,7 @@ class NetworkService : NetworkServiceProtocol {
     }
     
     func setInventoryQuantity(inventoryQuantity: InventorySetQuantitiesInput, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkService.shared.apollo.perform(mutation: SetInventoryQuantityMutation(input: inventoryQuantity)){ result in
+        NetworkServiceImpl.shared.apollo.perform(mutation: SetInventoryQuantityMutation(input: inventoryQuantity)){ result in
             switch result{
             case .success(let graphQLResult) :
                 print(graphQLResult)
@@ -204,4 +159,13 @@ class NetworkService : NetworkServiceProtocol {
         }
     }
     
+    
+    func queryRequest<Q: GraphQLQuery>(query : Q, completionHandler : @escaping (Result<GraphQLResult<Q.Data>, any Error>)->Void){
+        NetworkServiceImpl.shared.apollo.fetch(query: query, cachePolicy: .fetchIgnoringCacheCompletely, resultHandler: completionHandler)
+    }
+    
+    func mutaionRequest<M: GraphQLMutation>(mutation : M , completionHandler : @escaping (Result<GraphQLResult<M.Data>,any Error>)->Void){
+        NetworkServiceImpl.shared.apollo.perform(mutation: mutation , resultHandler: completionHandler)
+    }
 }
+        

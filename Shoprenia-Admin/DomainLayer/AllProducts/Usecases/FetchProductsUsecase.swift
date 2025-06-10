@@ -10,13 +10,13 @@ import Shopify
 
 class FetchProductsUsecase : FetchProductsUsecaseProtocol{
     
-    let networkService : NetworkServiceProtocol
+    let networkService : NetworkService
     
     func excute(completionHandler: @escaping (Result<[GetProductsQuery.Data.Products.Node], any Error>) -> Void) {
-        networkService.getAllProducts(completionHandler: completionHandler)
+        NetworkServiceImpl.shared.getAllProducts(completionHandler: completionHandler)
     }
 
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkService) {
         self.networkService = networkService
     }
 }

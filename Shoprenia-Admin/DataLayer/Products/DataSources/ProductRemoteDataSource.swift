@@ -1,0 +1,18 @@
+//
+//  ProductRemoteDataSource.swift
+//  Shoprenia-Admin
+//
+//  Created by Abdullah Raed on 09/06/2025.
+//
+
+import Foundation
+import Shopify
+
+protocol ProductRemoteDataSource{
+   
+    func getProductById(productID : ID , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
+    func createProduct(product : ProductEntity , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
+    func createProductOptions(product : ProductEntity , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
+    func updateProductVariant(product : ProductEntity , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
+    func setInventory(inventory : InventoryEntity, completionHandler : @escaping (Result<Bool,Error>)->Void)
+}

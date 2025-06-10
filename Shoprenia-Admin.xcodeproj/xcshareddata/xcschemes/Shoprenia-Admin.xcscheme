@@ -53,7 +53,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "Admin_Access_Token"
-            value = "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"
+            value = "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"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

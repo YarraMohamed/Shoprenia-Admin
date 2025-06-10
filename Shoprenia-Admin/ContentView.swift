@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    var networkService = NetworkService()
     var body: some View {
 
         VStack {
@@ -19,7 +18,7 @@ struct ContentView: View {
         }
         .padding()
         .onAppear{
-            networkService.getAllProducts { result in
+            NetworkServiceImpl.shared.getAllProducts { result in
                 switch result {
                 case .success(let products):
                     for product in products {

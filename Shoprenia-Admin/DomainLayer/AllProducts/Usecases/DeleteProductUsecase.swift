@@ -11,13 +11,13 @@ import Shopify
 
 class DeleteProductUsecase : DeleteProductUsecaseProtocol {
     
-    let networkService : NetworkServiceProtocol
+    let networkService : NetworkService
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkService) {
         self.networkService = networkService
     }
     
     func excute(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        networkService.deleteProductByID(id: id, completionHandler: completionHandler)
+        NetworkServiceImpl.shared.deleteProductByID(id: id, completionHandler: completionHandler)
     }
 }

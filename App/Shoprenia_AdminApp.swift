@@ -9,20 +9,26 @@ import SwiftUI
 
 @main
 struct Shoprenia_AdminApp: App {
+    
+    @StateObject var addProductViewModel = {
+        let productsRemoteDataSource = ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let productsRepository = ProductRepositoryImpl(productRemoteDataSource: productsRemoteDataSource)
+        let createProductUseCase = CreateProductUsecaseImpl(repository: productsRepository)
+        let createProductOptionsUseCase = CreateProductOptionsUsecaseImpl(repository: productsRepository)
+        let createProductmediaUseCase = CreateProductMediaUsecase(networkService: NetworkServiceImpl.shared)
+        let createProductVariantUseCase = CreateProductVariantsUsecase(networkService: NetworkServiceImpl.shared)
+        let updateProductVariantUsecase = UpdateProductVariantUsecaseImpl(repository: productsRepository)
+        let setInventoryQuantityUseCase: SetInventoryQuantityUsecase = SetInventoryQuantityUsecaseImpl(repository: productsRepository)
+        return AddProductViewModel(createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductMediaUseCase: createProductmediaUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryQuantityUseCase: setInventoryQuantityUseCase)
+    }()
+    
     init(){
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor(named: "shopreniaBlue") ?? ""]
     }
     var body: some Scene {
         WindowGroup {
             AuthenticationScreen()
-                .environmentObject(AddProductViewModel(
-                    createProductUseCase: CreateProductUsecase(networkService: NetworkService()),
-                    createProductOptionsUseCase: CreateProductOptionsUsecase(networkService: NetworkService()),
-                    createProductMediaUseCase: CreateProductMediaUsecase(networkService: NetworkService()),
-                    createProductVariantUseCase: CreateProductVariantsUsecase(networkService: NetworkService()),
-                    updateProductVariantUsecase: UpdateProductVariantUsecase(networkService: NetworkService()),
-                    setInventoryQuantityUseCase: SetInventoryQuantityUsecase(networkService: NetworkService()))
-                )
+                .environmentObject(addProductViewModel)
         }
     }
 }

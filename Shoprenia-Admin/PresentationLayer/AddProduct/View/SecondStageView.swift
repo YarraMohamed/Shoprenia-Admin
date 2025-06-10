@@ -30,17 +30,14 @@ struct SecondStageView : View {
                 Text("Add Size Options Section : ")
                     .foregroundStyle(Color("shopreniaBlue"))
                     .font(.system(size: 20, weight: .medium, design: .default))
-                AddSizeOptionSection(viewModel: viewModel, size: $size, sizes: $sizes, disableButton: $disableSizeButton)
+                AddSizeOptionSection(viewModel: viewModel, size: $size, sizes: $sizes, disableButton: $disableSizeButton,colors: $colors)
                 AddPriceAndQuantitySection(viewModel: viewModel)
             }.padding()
             
         }
         CustomButton(title: "Next") {
             progress = 0.75
-            guard let productID = viewModel.product?.id else{
-                fatalError("Product Id is Found nil")
-            }
-            viewModel.creationStages = .thirdStage(id:productID, options: viewModel.options)
+            viewModel.creationStages = .thirdStage
             stageNumber = 3
         }
     }
@@ -58,17 +55,6 @@ struct AddColorOptionSection : View {
                 Button {
                     if !color.isEmpty {
                         colors.append(color)
-                        let colorValues = colors.map { OptionValueCreateInput(name: GraphQLNullable<String>.some($0)) }
-                        let options :[OptionCreateInput] = [
-                            OptionCreateInput(
-                                name: "Color",
-                                values: GraphQLNullable<[OptionValueCreateInput]>.some(colorValues)
-                            )
-                        ]
-                        guard let productID = viewModel.product?.id else{
-                            fatalError("Product Id is Found nil")
-                        }
-                        viewModel.createProductOptions(id:productID, productOptions: options)
                         color = ""
                         disableButton = true
                     }
@@ -104,6 +90,7 @@ struct AddSizeOptionSection : View {
     @Binding var size : String
     @Binding var sizes : [String]
     @Binding var disableButton : Bool
+    @Binding var colors : [String]
     var body : some View {
         VStack(spacing : 10){
             HStack(spacing : 20){
@@ -111,16 +98,6 @@ struct AddSizeOptionSection : View {
                 Button {
                     if !size.isEmpty{
                         sizes.append(size)
-                        let sizeValues = sizes.map{OptionValueCreateInput(name: GraphQLNullable<String>.some($0))}
-                        let options = [ OptionCreateInput(
-                            name : "Size",
-                            values : GraphQLNullable<[OptionValueCreateInput]>.some(sizeValues)
-                            )
-                        ]
-                        guard let productID = viewModel.product?.id else{
-                            fatalError("Product Id is Found nil")
-                        }
-                        viewModel.createProductOptions(id:productID, productOptions: options)
                         size = ""
                         disableButton = true
                     }
@@ -145,6 +122,9 @@ struct AddSizeOptionSection : View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
             }
+        }
+        CustomButton(title: "Submit Color and Size"){
+            viewModel.createProductOptions(color: colors.first ?? "", size: sizes.first ?? "")
         }
     }
 }
@@ -174,14 +154,11 @@ struct AddPriceAndQuantitySection : View {
                     if !price.isEmpty && !quantityS.isEmpty{
                         let quantity = Quantity(price: price, quantity: quantityS)
                         quantities.append(quantity)
+                        viewModel.updateProductVariants(price: price,quantity: quantityS)
                         price = ""
                         quantityS = ""
                         disableButton = true
-                        guard let productID = viewModel.product?.id else{
-                            fatalError("Product Id is Found nil")
-                        }
-                        viewModel.updateProductVariants(productID:productID,
-                                                        variants: viewModel.prepareVariantInput(quantities:quantities),quantities: quantities)
+                        
                         }
                 }label :{
                     Text("Add").foregroundStyle(Color("shopreniaBlue"))

@@ -10,13 +10,13 @@ import Shopify
 
 class FetchVendorsUsecase : FetchVendorsUsecaseProtocol {
     
-    private let networkSercive : NetworkServiceProtocol
+    private let networkSercive : NetworkService
     
     func excute(completionHandler: @escaping (Result<[Shopify.GetAllVendorsQuery.Data.Collections.Node], any Error>) -> Void) {
-        networkSercive.getAllVendors(completionHandler: completionHandler)
+        NetworkServiceImpl.shared.getAllVendors(completionHandler: completionHandler)
     }
     
-    init(networkSercive: NetworkServiceProtocol) {
+    init(networkSercive: NetworkService) {
         self.networkSercive = networkSercive
     }
     
