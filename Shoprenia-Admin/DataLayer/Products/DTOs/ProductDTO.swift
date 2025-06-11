@@ -42,11 +42,13 @@ struct OptionValueEntity: Codable {
 }
 
 struct VariantEntity: Codable {
-   var availableForSale: Bool? = nil
+    var availableForSale: Bool? = nil
     var id : String? = nil
     var price : String? = nil
     var title: String? = nil
-   var inventoryQuantity: Int? = nil
+    var inventoryQuantity: Int? = nil
+    var variantValues : [VariantValue]? = nil // array of two objects one for colorOption and its value (Red) and the other for sizeOption and its value (small)
+    
 }
 
 
@@ -62,4 +64,9 @@ struct InventoryQuantity : Codable {
     var inventoryItemId : String? = nil
     var locationId : String = "gid://shopify/Location/72874229834"
     var quantity : Int? = nil
+}
+
+struct VariantValue : Codable {
+    var optionName : String? = nil
+    var value : String? = nil
 }

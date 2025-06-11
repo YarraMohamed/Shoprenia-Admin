@@ -112,8 +112,18 @@ extension VariantEntity{
         return ProductVariantsBulkInput(
             // WARNING: Do not send empty string; send nil.
             id : id.toGraphQLNullable(),
-            price: price.toGraphQLNullable(),
+            inventoryQuantities: [InventoryLevelInput(
+                availableQuantity: self.inventoryQuantity ?? 0, locationId:"gid://shopify/Location/72874229834")],
+            optionValues: GraphQLNullable.some(variantValues?.map{$0.toDTO()} ?? []) ,
+            price: price.toGraphQLNullable()
         )
+    }
+}
+
+
+extension VariantValue{
+    func toDTO()-> VariantOptionValueInput{
+        return VariantOptionValueInput(id: nil, name: self.value.toGraphQLNullable(), linkedMetafieldValue: nil, optionId: nil, optionName: self.optionName.toGraphQLNullable())
     }
 }
 
@@ -131,7 +141,9 @@ extension UpdateProductVariantsMutation.Data.ProductVariantsBulkUpdate.Product.V
                       id: id,
                       price: price,
                       title: title,
-                      inventoryQuantity: nil)
+                      inventoryQuantity: nil,
+                      variantValues: nil
+        )
     }
 }
 
@@ -156,5 +168,36 @@ extension String? {
         } else {
             GraphQLNullable<String>.none
         }
+    }
+}
+
+extension CreateProductVariantsMutation.Data.ProductVariantsBulkCreate.Product{
+    func toDomainModel()-> ProductEntity{
+        return ProductEntity(
+            id : id,
+            title: title,
+            descriptionHTML: descriptionHtml,
+            vendor: vendor,
+            variants: self.variants.nodes.map{$0.toDomainModel()},
+            options: self.options.map{$0.toDomainModel()}
+            )
+    }
+}
+
+extension CreateProductVariantsMutation.Data.ProductVariantsBulkCreate.Product.Variants.Node{
+    func toDomainModel()-> VariantEntity{
+        return VariantEntity(availableForSale: nil, id: id, price: price, title: title, inventoryQuantity: inventoryQuantity)
+    }
+}
+
+extension CreateProductVariantsMutation.Data.ProductVariantsBulkCreate.Product.Option{
+    func toDomainModel()-> OptionEntity{
+        return OptionEntity(id: id, name: name, optionValues: self.values.map{value in
+        OptionValueEntity(
+            hasVariants: nil ,
+            id: nil ,
+            name: value
+        )}
+        )
     }
 }

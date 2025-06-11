@@ -14,6 +14,8 @@ struct FirstStageView : View {
     @State var vendor : String = ""
     @Binding var progress : Double
     @Binding var stageNumber : Int
+    let productTypes : [String] = ["SHOES","T-SHIRTS","ACCESSORIES"]
+    let availableVendors : [String] = ["vans","adidas","nike","converse","puma","asic-tiger","palladium","supra","timberland","dr-martens","herschel","flex-fit"]
     var viewModel : AddProductViewModel
     var body : some View {
         VStack(spacing : 20){
@@ -37,24 +39,12 @@ struct FirstStageView : View {
                         
                 }
                 .padding(.horizontal)
-                HStack{
-                    Text("Product Type")
-                        .font(.system(size: 18, weight: .bold, design: .default))
-                        .foregroundStyle(Color("shopreniaBlue"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    CustomTextField(title: "Type", input: $type , width: 170)
-                    Spacer()
-                    
+                HStack(spacing : 10){
+                    CustomMenu(sentData: productTypes, menuLabel: "Select Product Type", textLabel: "Product Type",type: $type)
                 }
                 .padding(.horizontal)
                 HStack{
-                    Text("Product Vendor")
-                        .font(.system(size: 18, weight: .bold, design: .default))
-                        .foregroundStyle(Color("shopreniaBlue"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    CustomTextField(title: "Vendor", input: $vendor , width: 170)
-                    Spacer()
-                    
+                    CustomMenu(sentData: availableVendors, menuLabel: "Select Product Vendor", textLabel: "Product Vendor", type: $vendor)
                 }
                 .padding(.horizontal)
                 
@@ -73,4 +63,38 @@ struct FirstStageView : View {
         }.padding(.top , 80)
             .padding()
     }
+}
+
+
+struct CustomMenu : View {
+    var sentData : [String]
+    var menuLabel : String
+    var textLabel : String
+    @Binding var type : String
+    var body: some View {
+        HStack{
+            Text(textLabel)
+                .font(.system(size: 18, weight: .bold, design: .default))
+                .foregroundStyle(Color("shopreniaBlue"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Menu {
+                ForEach(sentData, id: \.self) { value in
+                    Button(value){
+                        type = value
+                        print(value)
+                    }
+                }
+            } label: {
+                HStack{
+                    Text(menuLabel)
+                        .font(.system(size: 16, weight: .light, design: .default))
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Image(systemName: "chevron.down")
+                }
+            }
+            Spacer()
+        }
+    }
+    
 }

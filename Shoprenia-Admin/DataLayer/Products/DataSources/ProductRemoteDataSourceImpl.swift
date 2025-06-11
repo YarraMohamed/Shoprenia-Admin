@@ -1,4 +1,3 @@
-//
 //  ProductRemoteDataSourceImpl.swift
 //  Shoprenia-Admin
 //
@@ -106,6 +105,28 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             switch result {
             case .success(_):
                 completionHandler(.success(true))
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
+    }
+    
+    func createProductVariants(product: ProductEntity, completionHandler: @escaping (Result<ProductEntity, any Error>) -> Void) {
+        guard let productID = product.id else {
+            completionHandler(.failure(ProductError.missingValue(field: "product id")))
+            return
+        }
+        let mutation = CreateProductVariantsMutation(id: productID, variants: product.variants?.map{$0.toDomainDTO()} ?? [])
+        networkService.mutaionRequest(mutation: mutation) { result in
+            switch result {
+            case .success(let graphQlResult):
+                if let product = graphQlResult.data?.productVariantsBulkCreate?.product{
+                    let entity = product.toDomainModel()
+                    completionHandler(.success(entity))
+                }else if let errors = graphQlResult.data?.productVariantsBulkCreate?.userErrors{
+                    let message = errors.first?.message ?? "No Variant"
+                    completionHandler(.failure(NSError(domain: message, code: -1)))
+                }
             case .failure(let failure):
                 completionHandler(.failure(failure))
             }

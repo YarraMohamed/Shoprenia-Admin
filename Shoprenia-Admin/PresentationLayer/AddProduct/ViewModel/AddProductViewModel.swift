@@ -13,7 +13,7 @@ class AddProductViewModel : ObservableObject{
     private let createProductUseCase: CreateProductUsecase
     private let createProductOptionsUseCase: CreateProductOptionsUsecase
     private let createProductMediaUseCase: CreateProductMediaUsecaseProtocol
-    private let createProductVariantUseCase: CreateProductVariantsUsecaseProtocol
+    private let createProductVariantUseCase: CreateProductVariantsUsecase
     private let updateProductVariantUsecase : UpdateProductVariantUsecase
     private let setInventoryquantityUseCase : SetInventoryQuantityUsecase
     
@@ -27,7 +27,7 @@ class AddProductViewModel : ObservableObject{
     init (createProductUseCase: CreateProductUsecase,
           createProductOptionsUseCase: CreateProductOptionsUsecase,
           createProductMediaUseCase: CreateProductMediaUsecaseProtocol,
-          createProductVariantUseCase : CreateProductVariantsUsecaseProtocol,
+          createProductVariantUseCase : CreateProductVariantsUsecase,
           updateProductVariantUsecase : UpdateProductVariantUsecase,
           setInventoryQuantityUseCase : SetInventoryQuantityUsecase
     ){
@@ -46,12 +46,10 @@ class AddProductViewModel : ObservableObject{
             case .success(let product):
                 self.errorMessage = nil
                 self.product = product
-                self.isLoading = false
                 self.creationStages = .secondStage
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
             case .failure(let failure):
                 self.errorMessage = failure.localizedDescription
-                self.isLoading = false
             }
         }
     }
@@ -93,32 +91,10 @@ class AddProductViewModel : ObservableObject{
         }
     }
     
-    func createProductMedia(id : ID, media : [CreateMediaInput]){
-        createProductMediaUseCase.excute(id: id, media: media) { result in
-            switch result {
-            case .success(_):
-                print("Successfully Product Media Creation")
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
-    
-    func createProductVariants(id : ID, variants : [ProductVariantsBulkInput]){
-        createProductVariantUseCase.excute(id: id, variants: variants) { result in
-            switch result {
-            case .success(_):
-                print("Successfully Product Variants Creation")
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
-    
     func updateProductVariants(price : String , quantity : String){
         guard var product = self.product else { return }
         guard let variantID = product.variants?.first?.id else { return }
-        
+
         let variant = VariantEntity(availableForSale: nil, id: variantID, price: price , title: product.variants?.first?.title, inventoryQuantity: nil)
         product.variants = [variant]
         updateProductVariantUsecase.execute(product: product) { result in
@@ -154,6 +130,54 @@ class AddProductViewModel : ObservableObject{
             }
         }
     }
+    
+    func appendProductVariants(size : String , color : String , price : String, quantity : String){
+        let variant : VariantEntity = VariantEntity(
+            availableForSale: nil,
+            id: nil,
+            price: price,
+            title: nil,
+            inventoryQuantity: Int(quantity) ?? 0,
+            variantValues: [VariantValue(
+                optionName: "Color",
+                value: color
+            ),VariantValue(
+                optionName: "Size",
+                value: size
+            )])
+        self.product?.variants?.append(variant)
+        print(self.product?.variants ?? [])
+    }
+        
+    func createProductVariants(){
+        guard var product = self.product else {return}
+        let variant = product.variants?.first
+        product.variants?.remove(at: 0)
+        createProductVariantUseCase.execute(product: product) { result in
+            switch result {
+            case .success(let product):
+                print("Successfully Product Variant Creation")
+                print(product.variants ?? [])
+                //Delete the Default Variant here
+                //self.creationStages = .forthStage
+                print(product.variants ?? [])
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
+    func createProductMedia(id : ID, media : [CreateMediaInput]){
+        createProductMediaUseCase.excute(id: id, media: media) { result in
+            switch result {
+            case .success(let product):
+                print("Successfully Product Media Creation")
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
     
 }
 

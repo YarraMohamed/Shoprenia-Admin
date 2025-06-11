@@ -35,4 +35,8 @@ class ProductRepositoryImpl: ProductRepository {
     func setInventory(inventory: InventoryEntity, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
         productRemoteDataSource.setInventory(inventory: inventory, completionHandler: completionHandler)
     }
+    
+    func createProductVariants(product: ProductEntity, completionHandler: @escaping (Result<ProductEntity, any Error>) -> Void) {
+        productRemoteDataSource.createProductVariants(product: product, completionHandler: completionHandler)
+    }
 }
