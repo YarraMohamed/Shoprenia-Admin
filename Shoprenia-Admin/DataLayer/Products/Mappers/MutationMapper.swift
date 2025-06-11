@@ -109,14 +109,21 @@ extension CreateProductOptionsMutation.Data.ProductOptionsCreate.Product.Variant
 // MARK
 extension VariantEntity{
     func toDomainDTO()-> ProductVariantsBulkInput{
-        return ProductVariantsBulkInput(
-            // WARNING: Do not send empty string; send nil.
-            id : id.toGraphQLNullable(),
-            inventoryQuantities: [InventoryLevelInput(
-                availableQuantity: self.inventoryQuantity ?? 0, locationId:"gid://shopify/Location/72874229834")],
-            optionValues: GraphQLNullable.some(variantValues?.map{$0.toDTO()} ?? []) ,
-            price: price.toGraphQLNullable()
-        )
+        if inventoryQuantity != nil{
+            return ProductVariantsBulkInput(
+                id : id.toGraphQLNullable(),
+                inventoryQuantities: [InventoryLevelInput(
+                    availableQuantity: self.inventoryQuantity ?? 0, locationId:"gid://shopify/Location/72874229834")],
+                optionValues: GraphQLNullable.some(variantValues?.map{$0.toDTO()} ?? []) ,
+                price: price.toGraphQLNullable()
+            )
+        }else{
+            return ProductVariantsBulkInput(
+                id : id.toGraphQLNullable(),
+                optionValues: GraphQLNullable.some(variantValues?.map{$0.toDTO()} ?? []) ,
+                price: price.toGraphQLNullable()
+                )
+        }
     }
 }
 
@@ -201,3 +208,41 @@ extension CreateProductVariantsMutation.Data.ProductVariantsBulkCreate.Product.O
         )
     }
 }
+
+extension ImageEntity{
+    func toDTO()->CreateMediaInput{
+        return CreateMediaInput(
+            originalSource: originalSource ?? "",
+            alt : alt ?? "",
+            mediaContentType: GraphQLEnum(imageContentType.rawValue)
+        )
+    }
+}
+
+extension MediaType? {
+    func toGraphQLNullable() -> GraphQLEnum<MediaContentType> {
+        return if let value = self {
+            GraphQLEnum(rawValue: value.rawValue)
+        }else{
+            GraphQLEnum.case(.image)
+        }
+    }
+}
+
+extension CreateMediaInput{
+    func toDomainModel()->ImageEntity{
+        return ImageEntity(
+            originalSource: originalSource,
+            alt: alt.toDomailModel(),
+            imageContentType: mediaContentType.toDomainModel()
+        )
+    }
+}
+
+extension GraphQLEnum<MediaContentType> {
+    func toDomainModel()-> MediaType{
+        return MediaType(rawValue: self.rawValue) ?? .image
+    }
+}
+
+

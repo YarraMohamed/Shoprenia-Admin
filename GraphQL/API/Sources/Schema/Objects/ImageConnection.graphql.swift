@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// The original source for an image.
-  static let MediaImageOriginalSource = ApolloAPI.Object(
-    typename: "MediaImageOriginalSource",
+  /// An auto-generated type for paginating through multiple Images.
+  static let ImageConnection = ApolloAPI.Object(
+    typename: "ImageConnection",
     implementedInterfaces: [],
     keyFields: nil
   )

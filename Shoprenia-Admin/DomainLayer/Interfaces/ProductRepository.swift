@@ -15,4 +15,5 @@ protocol ProductRepository{
     func updateProductVariant(product: ProductEntity, completionHandler: @escaping (Result<ProductEntity, any Error>) -> Void)
     func setInventory(inventory : InventoryEntity , completionHandler : @escaping (Result<Bool,Error>)->Void)
     func createProductVariants(product: ProductEntity, completionHandler: @escaping (Result<ProductEntity, any Error>) -> Void)
+    func publishProduct(productID : ID , completionHandler : @escaping (Result<Bool,Error>)->Void)
 }

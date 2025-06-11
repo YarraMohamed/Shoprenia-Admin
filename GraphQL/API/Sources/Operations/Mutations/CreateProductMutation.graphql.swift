@@ -7,31 +7,35 @@ public class CreateProductMutation: GraphQLMutation {
   public static let operationName: String = "CreateProduct"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateProduct($title: String!, $descriptionHtml: String!, $productType: String!, $vendor: String!) { productCreate( product: { title: $title descriptionHtml: $descriptionHtml productType: $productType vendor: $vendor } ) { __typename product { __typename id title descriptionHtml vendor productType tags variants(first: 10) { __typename nodes { __typename inventoryItem { __typename id } } } } userErrors { __typename field message } } }"#
+      #"mutation CreateProduct($title: String!, $descriptionHtml: String!, $productType: String!, $vendor: String!, $media: [CreateMediaInput!]!) { productCreate( product: { title: $title descriptionHtml: $descriptionHtml productType: $productType vendor: $vendor } media: $media ) { __typename product { __typename id title descriptionHtml vendor productType tags variants(first: 10) { __typename nodes { __typename inventoryItem { __typename id } } } images(first: 10) { __typename nodes { __typename id originalSrc } } } userErrors { __typename field message } } }"#
     ))
 
   public var title: String
   public var descriptionHtml: String
   public var productType: String
   public var vendor: String
+  public var media: [CreateMediaInput]
 
   public init(
     title: String,
     descriptionHtml: String,
     productType: String,
-    vendor: String
+    vendor: String,
+    media: [CreateMediaInput]
   ) {
     self.title = title
     self.descriptionHtml = descriptionHtml
     self.productType = productType
     self.vendor = vendor
+    self.media = media
   }
 
   public var __variables: Variables? { [
     "title": title,
     "descriptionHtml": descriptionHtml,
     "productType": productType,
-    "vendor": vendor
+    "vendor": vendor,
+    "media": media
   ] }
 
   public struct Data: Shopify.SelectionSet {
@@ -40,12 +44,15 @@ public class CreateProductMutation: GraphQLMutation {
 
     public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Mutation }
     public static var __selections: [ApolloAPI.Selection] { [
-      .field("productCreate", ProductCreate?.self, arguments: ["product": [
-        "title": .variable("title"),
-        "descriptionHtml": .variable("descriptionHtml"),
-        "productType": .variable("productType"),
-        "vendor": .variable("vendor")
-      ]]),
+      .field("productCreate", ProductCreate?.self, arguments: [
+        "product": [
+          "title": .variable("title"),
+          "descriptionHtml": .variable("descriptionHtml"),
+          "productType": .variable("productType"),
+          "vendor": .variable("vendor")
+        ],
+        "media": .variable("media")
+      ]),
     ] }
 
     /// Creates a [product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product)
@@ -104,6 +111,7 @@ public class CreateProductMutation: GraphQLMutation {
           .field("productType", String.self),
           .field("tags", [String].self),
           .field("variants", Variants.self, arguments: ["first": 10]),
+          .field("images", Images.self, arguments: ["first": 10]),
         ] }
 
         /// A globally-unique ID.
@@ -132,6 +140,9 @@ public class CreateProductMutation: GraphQLMutation {
         /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
         /// If querying a single product at the root, you can fetch up to 2000 variants.
         public var variants: Variants { __data["variants"] }
+        /// The images associated with the product.
+        @available(*, deprecated, message: "Use `media` instead.")
+        public var images: Images { __data["images"] }
 
         /// ProductCreate.Product.Variants
         ///
@@ -181,6 +192,46 @@ public class CreateProductMutation: GraphQLMutation {
               /// A globally-unique ID.
               public var id: Shopify.ID { __data["id"] }
             }
+          }
+        }
+
+        /// ProductCreate.Product.Images
+        ///
+        /// Parent Type: `ImageConnection`
+        public struct Images: Shopify.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ImageConnection }
+          public static var __selections: [ApolloAPI.Selection] { [
+            .field("__typename", String.self),
+            .field("nodes", [Node].self),
+          ] }
+
+          /// A list of nodes that are contained in ImageEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
+          public var nodes: [Node] { __data["nodes"] }
+
+          /// ProductCreate.Product.Images.Node
+          ///
+          /// Parent Type: `Image`
+          public struct Node: Shopify.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.Image }
+            public static var __selections: [ApolloAPI.Selection] { [
+              .field("__typename", String.self),
+              .field("id", Shopify.ID?.self),
+              .field("originalSrc", Shopify.URL.self),
+            ] }
+
+            /// A unique ID for the image.
+            public var id: Shopify.ID? { __data["id"] }
+            /// The location of the original image as a URL.
+            ///
+            /// If there are any existing transformations in the original source URL, they will remain and not be stripped.
+            @available(*, deprecated, message: "Use `url` instead.")
+            public var originalSrc: Shopify.URL { __data["originalSrc"] }
           }
         }
       }

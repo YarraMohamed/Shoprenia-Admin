@@ -1,0 +1,18 @@
+mutation PublishProduct($productId: ID!, $publicationId: ID!) {
+  publishablePublish(
+    id: $productId
+    input: {
+      publicationId: $publicationId
+    }
+  ) {
+    publishable {
+      ... on Product {
+        bodyHtml
+      }
+    }
+    userErrors {
+            message
+            field
+        }
+  }
+}

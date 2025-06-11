@@ -12,11 +12,10 @@ class AddProductViewModel : ObservableObject{
     
     private let createProductUseCase: CreateProductUsecase
     private let createProductOptionsUseCase: CreateProductOptionsUsecase
-    private let createProductMediaUseCase: CreateProductMediaUsecaseProtocol
     private let createProductVariantUseCase: CreateProductVariantsUsecase
     private let updateProductVariantUsecase : UpdateProductVariantUsecase
     private let setInventoryquantityUseCase : SetInventoryQuantityUsecase
-    
+    private let publishProductUsecase : PublishProductUsecase
     @Published var creationStages : CreationStage = .firstStage
     @Published var product : ProductEntity? = nil
     @Published var options : [OptionEntity] = []
@@ -26,21 +25,24 @@ class AddProductViewModel : ObservableObject{
     
     init (createProductUseCase: CreateProductUsecase,
           createProductOptionsUseCase: CreateProductOptionsUsecase,
-          createProductMediaUseCase: CreateProductMediaUsecaseProtocol,
           createProductVariantUseCase : CreateProductVariantsUsecase,
           updateProductVariantUsecase : UpdateProductVariantUsecase,
-          setInventoryQuantityUseCase : SetInventoryQuantityUsecase
+          setInventoryQuantityUseCase : SetInventoryQuantityUsecase,
+          publishProductUsecase : PublishProductUsecase
     ){
         self.createProductUseCase = createProductUseCase
         self.createProductOptionsUseCase = createProductOptionsUseCase
-        self.createProductMediaUseCase = createProductMediaUseCase
         self.createProductVariantUseCase = createProductVariantUseCase
         self.updateProductVariantUsecase = updateProductVariantUsecase
         self.setInventoryquantityUseCase = setInventoryQuantityUseCase
+        self.publishProductUsecase = publishProductUsecase
     }
     
-    func createProduct(product : ProductEntity){
-        isLoading = true
+    func createProduct(title : String , description : String , productType : String , vendor : String , imageSources : [String]){
+        let imageEntity = imageSources.map{ imageSource in
+            ImageEntity(originalSource: imageSource, alt: nil, imageContentType: .image)
+        }
+        let product = ProductEntity(id: nil, title: title, descriptionHTML: description, isGiftCard: nil, totalInventory: nil, vendor: vendor, productType: productType, tags: nil, variants: nil, options: nil, media: imageEntity, inventoryItemId: nil)
         createProductUseCase.execute(product: product) { result in
             switch result {
             case .success(let product):
@@ -48,6 +50,7 @@ class AddProductViewModel : ObservableObject{
                 self.product = product
                 self.creationStages = .secondStage
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
+                print(product.media?.first?.originalSource ?? "No media found")
             case .failure(let failure):
                 self.errorMessage = failure.localizedDescription
             }
@@ -92,12 +95,17 @@ class AddProductViewModel : ObservableObject{
     }
     
     func updateProductVariants(price : String , quantity : String){
-        guard var product = self.product else { return }
-        guard let variantID = product.variants?.first?.id else { return }
-
-        let variant = VariantEntity(availableForSale: nil, id: variantID, price: price , title: product.variants?.first?.title, inventoryQuantity: nil)
-        product.variants = [variant]
-        updateProductVariantUsecase.execute(product: product) { result in
+        guard let variantID = self.product?.variants?.first?.id else { return }
+        let variant = VariantEntity(
+            availableForSale: nil,
+            id: variantID,
+            price: price ,
+            title: nil,
+            inventoryQuantity: nil
+        )
+        self.product?.variants = [variant]
+        guard let product = self.product else { return }
+        updateProductVariantUsecase.execute(product: product ) { result in
             switch result {
             case .success(let product):
                 if let variants = product.variants{
@@ -119,6 +127,7 @@ class AddProductViewModel : ObservableObject{
         let inventory = InventoryEntity(quantities: [InventoryQuantity(
             inventoryItemId: product?.inventoryItemId, quantity: Int(quantity)
         )])
+        self.product?.totalInventory = Int(quantity)
         setInventoryquantityUseCase.execute(inventory: inventory) { result in
             switch result{
             case .success(_):
@@ -151,15 +160,12 @@ class AddProductViewModel : ObservableObject{
         
     func createProductVariants(){
         guard var product = self.product else {return}
-        let variant = product.variants?.first
         product.variants?.remove(at: 0)
         createProductVariantUseCase.execute(product: product) { result in
             switch result {
             case .success(let product):
                 print("Successfully Product Variant Creation")
                 print(product.variants ?? [])
-                //Delete the Default Variant here
-                //self.creationStages = .forthStage
                 print(product.variants ?? [])
             case .failure(let failure):
                 print(failure.localizedDescription)
@@ -167,17 +173,17 @@ class AddProductViewModel : ObservableObject{
         }
     }
     
-    func createProductMedia(id : ID, media : [CreateMediaInput]){
-        createProductMediaUseCase.excute(id: id, media: media) { result in
-            switch result {
-            case .success(let product):
-                print("Successfully Product Media Creation")
-            case .failure(let failure):
+    func publishProduct(){
+        guard let productID = self.product?.id else {return}
+        publishProductUsecase.execute(productID:productID) { result in
+            switch result{
+                case .success(_):
+                print("Congratulation you have create your product successfully")
+                case .failure(let failure):
                 print(failure.localizedDescription)
             }
         }
     }
-    
     
 }
 

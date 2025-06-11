@@ -22,7 +22,7 @@ struct ProductDetailsScreen: View {
         let sizeOptions = viewModel.product?.options?.first(where: {$0.name?.lowercased() == "size"})?.optionValues ?? []
         ScrollView{
             VStack{
-                if let imageUrl = viewModel.product?.media?.first?.url{
+                if let imageUrl = viewModel.product?.media?.first?.originalSource{
                     ProductImage(url: URL(string: imageUrl)!)
                 }
                 HStack{

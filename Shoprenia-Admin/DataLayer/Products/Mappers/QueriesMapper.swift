@@ -20,7 +20,7 @@ extension GetProductByIDQuery.Data.Product {
                              , tags: tags
                              , variants: variants.toDomainModel()
                              , options: self.options.map{ $0.toDomainModel() }
-                             , media: self.media.nodes.compactMap{ ImageEntity(url: $0.asMediaImage?.image?.url) }
+                             , media: self.media.nodes.compactMap{ ImageEntity(originalSource: $0.asMediaImage?.image?.url, alt: nil, imageContentType: .image) }
                              ,inventoryItemId: nil
         )
         
@@ -55,22 +55,3 @@ extension GetProductByIDQuery.Data.Product.Option {
 }
 
 
-extension CreateProductMutation {
-    static func from(entity: ProductEntity) -> CreateProductMutation? {
-        guard
-            let title = entity.title,
-            let descriptionHtml = entity.descriptionHTML,
-            let productType = entity.productType,
-            let vendor = entity.vendor
-        else {
-            return nil
-        }
-
-        return CreateProductMutation(
-            title: title,
-            descriptionHtml: descriptionHtml,
-            productType: productType,
-            vendor: vendor
-        )
-    }
-}

@@ -26,7 +26,9 @@ struct ProductEntity: Codable {
 }
 
 struct ImageEntity: Codable {
-    var url: String? = nil
+    var originalSource : String? = nil
+    var alt : String? = nil
+    var imageContentType : MediaType = .image
 }
 
 struct OptionEntity: Codable {
@@ -48,7 +50,6 @@ struct VariantEntity: Codable {
     var title: String? = nil
     var inventoryQuantity: Int? = nil
     var variantValues : [VariantValue]? = nil // array of two objects one for colorOption and its value (Red) and the other for sizeOption and its value (small)
-    
 }
 
 
@@ -69,4 +70,11 @@ struct InventoryQuantity : Codable {
 struct VariantValue : Codable {
     var optionName : String? = nil
     var value : String? = nil
+}
+
+enum MediaType : String,Codable {
+    case video = "VIDEO"
+    case externalVideo = "EXTERNAL_VIDEO"
+    case model3D = "MODEL_3D"
+    case image = "IMAGE"
 }

@@ -15,11 +15,10 @@ struct Shoprenia_AdminApp: App {
         let productsRepository = ProductRepositoryImpl(productRemoteDataSource: productsRemoteDataSource)
         let createProductUseCase = CreateProductUsecaseImpl(repository: productsRepository)
         let createProductOptionsUseCase = CreateProductOptionsUsecaseImpl(repository: productsRepository)
-        let createProductmediaUseCase = CreateProductMediaUsecase(networkService: NetworkServiceImpl.shared)
         let createProductVariantUseCase = CreateProductVariantsUsecaseImpl(repository: productsRepository)
         let updateProductVariantUsecase = UpdateProductVariantUsecaseImpl(repository: productsRepository)
         let setInventoryQuantityUseCase: SetInventoryQuantityUsecase = SetInventoryQuantityUsecaseImpl(repository: productsRepository)
-        return AddProductViewModel(createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductMediaUseCase: createProductmediaUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryQuantityUseCase: setInventoryQuantityUseCase)
+        return AddProductViewModel(createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryQuantityUseCase: setInventoryQuantityUseCase, publishProductUsecase: PublishProductUsecaseImpl(repository: productsRepository))
     }()
     
     init(){

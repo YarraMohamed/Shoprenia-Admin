@@ -87,33 +87,6 @@ class NetworkServiceImpl : NetworkService {
     }
     
     
-    func createProductMedia(id : ID, media : [CreateMediaInput], completionHandler : @escaping (Result<Bool,Error>)->Void){
-        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductMediaMutation(id: id, media: media)){ result in
-            switch result {
-                case .success(_) :
-                completionHandler(.success(true))
-            case .failure(let error) :
-                completionHandler(.failure(error))
-            }
-        }
-    }
-
-    func createProductVariants(id: ID, variants: [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: id, variants: variants)){
-            result in
-            switch result {
-            case .success(let response):
-                let variants = response.data?.productVariantsBulkCreate?.product?.variants.nodes
-                print(variants?.count ?? 0)
-                print(variants?.first?.title ?? "No Title Found for this variant")
-                print(response.data?.productVariantsBulkCreate?.userErrors.first?.message  ?? "No Error Found")
-                completionHandler(.success(true))
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
     func deleteProductByID(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
         NetworkServiceImpl.shared.apollo.perform(mutation: DeleteProductByIDMutation(id: id)){ result in
             switch result{
@@ -125,34 +98,6 @@ class NetworkServiceImpl : NetworkService {
                 }else{
                     completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
                 }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    func updateProductVariant(productID: ID, variants : [ProductVariantsBulkInput], completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkServiceImpl.shared.apollo.perform(mutation: CreateProductVariantsMutation(id: productID, variants: variants)){ result in
-            switch result{
-                case .success(let result):
-                if let variants = result.data?.productVariantsBulkCreate?.product?.variants{
-                    print(variants.nodes.first?.title ?? "No Variants")
-                    completionHandler(.success(true))
-                }else {
-                    completionHandler(.failure(NSError(domain: "No Variants Found", code: 404, userInfo: nil)))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    func setInventoryQuantity(inventoryQuantity: InventorySetQuantitiesInput, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkServiceImpl.shared.apollo.perform(mutation: SetInventoryQuantityMutation(input: inventoryQuantity)){ result in
-            switch result{
-            case .success(let graphQLResult) :
-                print(graphQLResult)
-                completionHandler(.success(true))
             case .failure(let error):
                 completionHandler(.failure(error))
             }

@@ -17,8 +17,9 @@ struct FirstStageView : View {
     let productTypes : [String] = ["SHOES","T-SHIRTS","ACCESSORIES"]
     let availableVendors : [String] = ["vans","adidas","nike","converse","puma","asic-tiger","palladium","supra","timberland","dr-martens","herschel","flex-fit"]
     var viewModel : AddProductViewModel
+    @State var urls : [String] = []
     var body : some View {
-        VStack(spacing : 20){
+        ScrollView{
             VStack(spacing : 20){
                 VStack(alignment : .leading){
                     Text("Product Title")
@@ -48,14 +49,30 @@ struct FirstStageView : View {
                 }
                 .padding(.horizontal)
                 
+               
             }.padding()
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
                 .frame(maxWidth: .infinity)
             
-            CustomButton(title: "Next") {
-                viewModel.createProduct(product: ProductEntity(id: nil, title: title, descriptionHTML: description, isGiftCard: nil, totalInventory: nil, vendor: vendor, productType: type, tags: nil, variants: nil, options: nil, media: nil, inventoryItemId: nil))
+            Text("Add Media Section : ")
+                .foregroundStyle(Color("shopreniaBlue"))
+                .font(.system(size: 28, weight: .medium, design: .default))
+            AddMediaSection(viewModel: viewModel, urls: $urls)
+            LazyVStack(alignment: .leading, spacing: 5) {
+                ForEach(urls, id: \.self) { url in
+                        Text(url)
+                            .padding(.horizontal)
+                            .padding(.vertical, 5)
+                            .frame(maxWidth : .infinity)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
+                }
+            }
+            
+                CustomButton(title: "Next") {
+                    viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor, imageSources: urls)
                 progress = 0.5
                 stageNumber = 2
                 
@@ -68,7 +85,7 @@ struct FirstStageView : View {
 
 struct CustomMenu : View {
     var sentData : [String]
-    var menuLabel : String
+    @State var menuLabel : String
     var textLabel : String
     @Binding var type : String
     var body: some View {
@@ -81,6 +98,7 @@ struct CustomMenu : View {
                 ForEach(sentData, id: \.self) { value in
                     Button(value){
                         type = value
+                        menuLabel = value
                         print(value)
                     }
                 }
@@ -97,4 +115,59 @@ struct CustomMenu : View {
         }
     }
     
+}
+
+struct AddMediaSection : View {
+    var viewModel : AddProductViewModel
+    @State var mediaUrl: String = ""
+    @Binding var urls : [String]
+    @State var verifyImage : Bool = false
+    var body: some View {
+       VStack{
+       CustomTextField(title: "add media url", input: $mediaUrl, width: 300)
+           if let url = URL(string: mediaUrl){
+               VerificationImage(url: url)
+            }
+           Button{
+               if !mediaUrl.isEmpty{
+                   urls.append(mediaUrl)
+                   mediaUrl = ""
+                   verifyImage = true
+               }
+           }label: {
+               Text("Add URL")
+               Image(.addCircle)
+           }
+       }.padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
+            .frame(maxWidth: .infinity)
+    }
+}
+
+struct VerificationImage : View {
+    var url : Foundation.URL
+    var body: some View {
+        AsyncImage(url: url){ phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+                    .frame(width: 150, height: 160)
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, height: 160)
+                    .clipped()
+            case .failure(_):
+                Text("Invalid URL Please enter correct one !")
+                    .font(.system(size: 18, weight: .bold, design: .default))
+                    .foregroundStyle(.red)
+            @unknown default:
+                EmptyView()
+            }
+            
+        }
+    }
 }

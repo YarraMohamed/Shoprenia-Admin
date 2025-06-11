@@ -37,7 +37,8 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
                 title: product.title ?? ""
               ,descriptionHtml: product.descriptionHTML ?? ""
               ,productType: product.productType ?? ""
-              , vendor: product.vendor ?? "")) { result in
+                , vendor: product.vendor ?? "",
+                media: product.media?.map{$0.toDTO()} ?? [])) { result in
             switch result {
             case .success(let GraphQLResult):
                 if let product = GraphQLResult.data?.productCreate?.product{
@@ -87,6 +88,7 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
         networkService.mutaionRequest(mutation: UpdateProductVariantsMutation(productId: productID, variants: product.variants?.map{$0.toDomainDTO()} ?? [])) { result in
             switch result {
             case .success(let graphQLResult):
+                print(graphQLResult.data?.productVariantsBulkUpdate?.userErrors ?? "")
                 if let product = graphQLResult.data?.productVariantsBulkUpdate?.product{
                     let entity = product.toDomainModel()
                     completionHandler(.success(entity))
@@ -132,6 +134,24 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             }
         }
     }
+    
+    func publishProduct(productID: ID, completionhandler: @escaping (Result<Bool, any Error>) -> Void) {
+        networkService.mutaionRequest(mutation: PublishProductMutation(
+            productId: productID,
+            publicationId: "gid://shopify/Publication/132736286794")) { resilt in
+                switch resilt {
+                case .success(let graphQLResult):
+                    if let data = graphQLResult.data{
+                        completionhandler(.success(true))
+                    }else if let error = graphQLResult.data?.publishablePublish?.userErrors{
+                        completionhandler(.failure(NSError(domain: error.first?.message ?? "No Error Found", code: -1)))
+                    }
+                case .failure(let failure):
+                    completionhandler(.failure(failure))
+                }
+        }
+    }
+    
 }
 
 enum ProductError: Error {

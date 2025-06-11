@@ -2,7 +2,8 @@ mutation CreateProduct(
   $title: String!,
   $descriptionHtml: String!,
   $productType: String!,
-  $vendor: String!
+  $vendor: String!,
+  $media: [CreateMediaInput!]!
 ) {
   productCreate(
     product: {
@@ -10,7 +11,8 @@ mutation CreateProduct(
       descriptionHtml: $descriptionHtml
       productType: $productType
       vendor: $vendor
-    }
+    },
+    media : $media
   ) {
     product {
       id
@@ -26,6 +28,12 @@ mutation CreateProduct(
           }
         }
       }
+       images(first: 10) {
+                nodes {
+                    id
+                    originalSrc
+                }
+            }
     }
     userErrors {
       field

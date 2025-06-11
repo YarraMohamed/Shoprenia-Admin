@@ -19,9 +19,9 @@ struct ThirdStageView : View {
     @State var showError : Bool = false
     @State var isHidden : Bool = false
     @State var variants : [VariantModel] = []
-    
+   
     var body: some View{
-        VStack(spacing : 20){
+        ScrollView{
             Text("Add Variants Section : ")
                 .foregroundStyle(Color("shopreniaBlue"))
                 .font(.system(size: 28, weight: .medium, design: .default))
@@ -38,7 +38,7 @@ struct ThirdStageView : View {
                     .foregroundStyle(.red)
                     .font(.system(size: 22, weight: .medium, design: .default))
             }else{
-                List{
+                LazyVStack(alignment: .leading, spacing: 10){
                     ForEach(variants, id: \.self){ variant in
                         VStack {
                             HStack{
@@ -56,16 +56,20 @@ struct ThirdStageView : View {
                                 Spacer()
                                 Text(String(format: "EGP %.2f", variant.price))
                             }
-                        }
+                        }.padding(.horizontal)
+                            .padding(.vertical, 5)
+                            .frame(maxWidth : .infinity)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
                     }
                 }
             }
             
-            CustomButton(title: "Next") {
+            Spacer()
+            CustomButton(title: "Save and Publish") {
                 if !variants.isEmpty{
                     viewModel.createProductVariants()
-                    progress = 1
-                    stageNumber = 4
+                    viewModel.publishProduct()
                 }
             }
         }.padding(.top , 30)
@@ -83,7 +87,7 @@ struct AddVariantSection : View {
     @Binding var showError : Bool
     @Binding var variants : [VariantModel]
     var body: some View {
-        VStack{
+        VStack(alignment: .leading,spacing: 20){
             VStack(alignment : .leading, spacing : 20){
                 HStack(spacing : 20){
                     Text("Add Color")
@@ -131,4 +135,6 @@ struct AddVariantSection : View {
         }
     }
 }
+
+
 

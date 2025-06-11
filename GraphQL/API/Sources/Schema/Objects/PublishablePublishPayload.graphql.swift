@@ -4,9 +4,9 @@
 import ApolloAPI
 
 public extension Objects {
-  /// Return type for `productCreateMedia` mutation.
-  static let ProductCreateMediaPayload = ApolloAPI.Object(
-    typename: "ProductCreateMediaPayload",
+  /// Return type for `publishablePublish` mutation.
+  static let PublishablePublishPayload = ApolloAPI.Object(
+    typename: "PublishablePublishPayload",
     implementedInterfaces: [],
     keyFields: nil
   )

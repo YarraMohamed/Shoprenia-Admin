@@ -178,6 +178,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "GiftCardTransactionUserError": return Shopify.Objects.GiftCardTransactionUserError
     case "GiftCardUserError": return Shopify.Objects.GiftCardUserError
     case "Image": return Shopify.Objects.Image
+    case "ImageConnection": return Shopify.Objects.ImageConnection
     case "InventoryAdjustQuantitiesUserError": return Shopify.Objects.InventoryAdjustQuantitiesUserError
     case "InventoryAdjustmentGroup": return Shopify.Objects.InventoryAdjustmentGroup
     case "InventoryBulkToggleActivationUserError": return Shopify.Objects.InventoryBulkToggleActivationUserError
@@ -210,9 +211,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MarketingActivityUserError": return Shopify.Objects.MarketingActivityUserError
     case "MarketingEvent": return Shopify.Objects.MarketingEvent
     case "MediaConnection": return Shopify.Objects.MediaConnection
-    case "MediaError": return Shopify.Objects.MediaError
     case "MediaImage": return Shopify.Objects.MediaImage
-    case "MediaImageOriginalSource": return Shopify.Objects.MediaImageOriginalSource
     case "MediaUserError": return Shopify.Objects.MediaUserError
     case "Menu": return Shopify.Objects.Menu
     case "MenuCreateUserError": return Shopify.Objects.MenuCreateUserError
@@ -276,7 +275,6 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "ProductBundleOperation": return Shopify.Objects.ProductBundleOperation
     case "ProductChangeStatusUserError": return Shopify.Objects.ProductChangeStatusUserError
     case "ProductConnection": return Shopify.Objects.ProductConnection
-    case "ProductCreateMediaPayload": return Shopify.Objects.ProductCreateMediaPayload
     case "ProductCreatePayload": return Shopify.Objects.ProductCreatePayload
     case "ProductDeleteOperation": return Shopify.Objects.ProductDeleteOperation
     case "ProductDeletePayload": return Shopify.Objects.ProductDeletePayload
@@ -310,6 +308,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "Publication": return Shopify.Objects.Publication
     case "PublicationResourceOperation": return Shopify.Objects.PublicationResourceOperation
     case "PublicationUserError": return Shopify.Objects.PublicationUserError
+    case "PublishablePublishPayload": return Shopify.Objects.PublishablePublishPayload
     case "QuantityPriceBreak": return Shopify.Objects.QuantityPriceBreak
     case "QuantityPricingByVariantUserError": return Shopify.Objects.QuantityPricingByVariantUserError
     case "QuantityRuleUserError": return Shopify.Objects.QuantityRuleUserError
