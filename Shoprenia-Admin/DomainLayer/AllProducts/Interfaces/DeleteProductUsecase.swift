@@ -8,6 +8,6 @@
 import Foundation
 import Shopify
 
-protocol DeleteProductUsecaseProtocol{
-    func excute(id : ID , completionHandler : @escaping (Result<Bool,Error>) -> Void)
+protocol DeleteProductUsecase{
+    func execute(productID : ID , completionHandler : @escaping (Result<Bool,Error>) -> Void)
 }

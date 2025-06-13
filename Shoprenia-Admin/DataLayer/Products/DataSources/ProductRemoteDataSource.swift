@@ -17,4 +17,5 @@ protocol ProductRemoteDataSource{
     func setInventory(inventory : InventoryEntity, completionHandler : @escaping (Result<Bool,Error>)->Void)
     func createProductVariants(product : ProductEntity , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
     func publishProduct(productID : ID ,completionhandler : @escaping (Result<Bool,Error>)->Void)
+    func deleteProduct(productID : ID ,completionhandler : @escaping (Result<Bool,Error>)->Void)
 }

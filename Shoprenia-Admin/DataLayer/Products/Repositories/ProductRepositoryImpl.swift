@@ -43,4 +43,8 @@ class ProductRepositoryImpl: ProductRepository {
     func publishProduct(productID: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
         productRemoteDataSource.publishProduct(productID: productID, completionhandler: completionHandler)
     }
+    
+    func deleteProduct(productID: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        productRemoteDataSource.deleteProduct(productID: productID, completionhandler: completionHandler)
+    }
 }

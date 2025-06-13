@@ -11,7 +11,7 @@ import Shopify
 class AllProductsViewModel : ObservableObject {
     
     let usecase : FetchProductsUsecaseProtocol
-    let deleteProductUsecase : DeleteProductUsecaseProtocol
+    let deleteProductUsecase : DeleteProductUsecase
     @Published var products : [GetProductsQuery.Data.Products.Node] = []
     
     func fetchAllProducts(){
@@ -26,7 +26,7 @@ class AllProductsViewModel : ObservableObject {
     }
     
     func deleteProductByID(productID : ID){
-        deleteProductUsecase.excute(id: productID) { result in
+        deleteProductUsecase.execute(productID : productID) { result in
             switch result {
             case .success(_):
                 print("Deletion Success")
@@ -36,7 +36,7 @@ class AllProductsViewModel : ObservableObject {
         }
     }
     
-    init(usecase: FetchProductsUsecaseProtocol, deleteProductUsecase: DeleteProductUsecaseProtocol){
+    init(usecase: FetchProductsUsecaseProtocol, deleteProductUsecase: DeleteProductUsecase){
         self.usecase = usecase
         self.deleteProductUsecase = deleteProductUsecase
     }

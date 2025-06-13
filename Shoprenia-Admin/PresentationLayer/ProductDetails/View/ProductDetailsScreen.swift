@@ -132,8 +132,11 @@ struct ProductDetailsScreen: View {
                         viewModel.getProductById(id: productID)
                     }
             }.sheet(isPresented: $showEditSheet) {
-                BottomSheetView(showBottomSheet: $showEditSheet)
-                    .presentationDetents([.medium])
+                if let product = viewModel.product {
+                    UpdateSheetView(product: product ,showBottomSheet: $showEditSheet)
+                        .presentationDetents([.large])
+                }
+                
             }
         }
     }

@@ -45,7 +45,8 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
                     let productEntity = product.toDomailModel()
                     completionHandler(.success(productEntity))
                 }else{
-                    completionHandler(.failure((GraphQLResult.errors?.first)!))
+                    let message = GraphQLResult.data?.productCreate?.userErrors.first?.message
+                    completionHandler(.failure(NSError(domain:message ?? "UnKnown Error" , code: 404)))
                 }
             case .failure(let failure):
                 completionHandler(.failure(failure))
@@ -118,7 +119,9 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             completionHandler(.failure(ProductError.missingValue(field: "product id")))
             return
         }
-        let mutation = CreateProductVariantsMutation(id: productID, variants: product.variants?.map{$0.toDomainDTO()} ?? [])
+        let variants = product.variants?.map{$0.toDomainDTO()} ?? []
+        print("variants : \n \(variants)")
+        let mutation = CreateProductVariantsMutation(id: productID, variants:variants )
         networkService.mutaionRequest(mutation: mutation) { result in
             switch result {
             case .success(let graphQlResult):
@@ -141,7 +144,7 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             publicationId: "gid://shopify/Publication/132736286794")) { resilt in
                 switch resilt {
                 case .success(let graphQLResult):
-                    if let data = graphQLResult.data{
+                    if graphQLResult.data != nil{
                         completionhandler(.success(true))
                     }else if let error = graphQLResult.data?.publishablePublish?.userErrors{
                         completionhandler(.failure(NSError(domain: error.first?.message ?? "No Error Found", code: -1)))
@@ -152,6 +155,20 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
         }
     }
     
+    func deleteProduct(productID: ID, completionhandler: @escaping (Result<Bool, any Error>) -> Void) {
+        networkService.mutaionRequest(mutation: DeleteProductByIDMutation(id: productID)) { result in
+            switch result {
+            case .success(let graphQLResult):
+                if graphQLResult.data != nil{
+                    completionhandler(.success(true))
+                }else if let error = graphQLResult.data?.productDelete?.userErrors{
+                    completionhandler(.failure(NSError(domain: error.first?.message ?? "No Error Found", code: -1)))
+                }
+            case .failure(let failure):
+                completionhandler(.failure(failure))
+            }
+        }
+    }
 }
 
 enum ProductError: Error {

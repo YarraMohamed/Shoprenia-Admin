@@ -9,8 +9,8 @@ import SwiftUI
 import Shopify
 struct AuthenticationScreen: View {
     var viewModel : AuthenticationViewModel = AuthenticationViewModel()
-    @State var email : String = ""
-    @State var password : String = ""
+    @State var email : String = "Admin"
+    @State var password : String = "12345678"
     @State var showMessage : Bool = false
     @State var path = NavigationPath()
     @State var message : String = ""

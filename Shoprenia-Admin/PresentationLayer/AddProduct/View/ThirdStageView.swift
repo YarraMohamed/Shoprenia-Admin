@@ -114,24 +114,26 @@ struct AddVariantSection : View {
                     .font(.system(size: 20, weight: .medium, design: .default))
                 CustomTextField(title: "Quantity", input: $quantity, width: 200)
             }
-            Button {
-                if !color.isEmpty && !size.isEmpty && !price.isEmpty && !quantity.isEmpty {
-                    let variant = VariantModel(color: color, size: size, quantity: Int(quantity)!, price: Double(price)!)
-                    showError = false
-                    viewModel.appendProductVariants(size: size ,color: color, price: price, quantity: quantity)
-                    variants.append(variant)
-                    color = ""
-                    size = ""
-                    price = ""
-                    quantity = ""
-                }else{
-                    showError = true
+            HStack{
+                Button {
+                    if !color.isEmpty && !size.isEmpty && !price.isEmpty && !quantity.isEmpty {
+                        let variant = VariantModel(color: color, size: size, quantity: Int(quantity)!, price: Double(price)!)
+                        showError = false
+                        viewModel.appendProductVariants(size: size ,color: color, price: price, quantity: quantity)
+                        variants.append(variant)
+                        color = ""
+                        size = ""
+                        price = ""
+                        quantity = ""
+                    }else{
+                        showError = true
+                    }
+                    
+                } label: {
+                    Text("Add Variant")
+                    Image(.addCircle)
                 }
-                
-            } label: {
-                Text("Add Variant")
-                Image(.addCircle)
-            }
+            }.frame(maxWidth: .infinity, alignment: .center)
         }
     }
 }

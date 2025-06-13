@@ -42,11 +42,12 @@ struct AddProductScreen: View {
     
 }
 
-struct VariantModel: Hashable {
-    let color : String
-    let size : String
-    let quantity : Int
-    let price : Double
+struct VariantModel: Identifiable, Hashable {
+    let id = UUID()
+    var color: String
+    var size: String
+    var quantity: Int
+    var price: Double
 }
 
 
