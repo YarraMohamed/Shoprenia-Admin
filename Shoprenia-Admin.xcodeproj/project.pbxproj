@@ -10,11 +10,13 @@
 		3871B8A42DE7DDE800693FE8 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A32DE7DDE800693FE8 /* Apollo */; };
 		3871B8A62DE7DDE800693FE8 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A52DE7DDE800693FE8 /* ApolloWebSocket */; };
 		3871B8B42DE7E62200693FE8 /* Shopify in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8B32DE7E62200693FE8 /* Shopify */; };
+		38AC73DA2DFBC453006BBEFE /* secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC73D92DFBC44C006BBEFE /* secrets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3871B8AC2DE7E56500693FE8 /* API */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = API; sourceTree = "<group>"; };
 		3871B8AE2DE7E56500693FE8 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		38AC73D92DFBC44C006BBEFE /* secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secrets.swift; sourceTree = "<group>"; };
 		38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shoprenia-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -75,6 +77,7 @@
 		38ADCE1D2DE630F8005EEC69 = {
 			isa = PBXGroup;
 			children = (
+				38AC73D92DFBC44C006BBEFE /* secrets.swift */,
 				3891BEC12DEA123500F5550E /* Assets */,
 				3891BEC02DEA122600F5550E /* App */,
 				3871B8AF2DE7E56500693FE8 /* GraphQL */,
@@ -175,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38AC73DA2DFBC453006BBEFE /* secrets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

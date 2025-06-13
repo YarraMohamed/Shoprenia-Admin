@@ -13,7 +13,7 @@ class NetworkServiceImpl : NetworkService {
     
     static let shared = NetworkServiceImpl()
     private var store = ApolloStore()
-    private let accessToken = ProcessInfo.processInfo.environment["Admin_Access_Token"] ?? ""
+    private let accessToken = ADMIN_ACCESS_TOKEN
     
     let apollo: ApolloClient
     
