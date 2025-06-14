@@ -54,4 +54,64 @@ extension GetProductByIDQuery.Data.Product.Option {
     }
 }
 
+extension GetVendorProductsQuery.Data.Products.Node{
+    func toDomainModel()->ProductEntity{
+        return ProductEntity(
+            id: id,
+            title: title,
+            descriptionHTML: nil,
+            isGiftCard: nil,
+            totalInventory: totalInventory,
+            vendor: nil,
+            productType: nil,
+            tags: nil,
+            variants: variants.nodes.map{$0.toDomainModel()},
+            options: nil,
+            media: media.nodes.map{$0.toDomainModel()},
+            inventoryItemId: nil
+        )
+    }
+}
 
+extension GetVendorProductsQuery.Data.Products.Node.Variants.Node{
+    func toDomainModel() -> VariantEntity{
+        return VariantEntity(availableForSale:self.availableForSale , id: nil, price: self.price, title: nil, inventoryQuantity: nil, variantValues: nil)
+    }
+}
+
+extension GetVendorProductsQuery.Data.Products.Node.Media.Node{
+    func toDomainModel()->ImageEntity{
+        return ImageEntity(originalSource: self.asMediaImage?.image?.url, alt:nil, imageContentType: .image)
+    }
+}
+
+extension GetProductsQuery.Data.Products.Node{
+    func toDomainModel()->ProductEntity{
+        return ProductEntity(
+            id: id,
+            title: title,
+            descriptionHTML: nil,
+            isGiftCard: nil,
+            totalInventory: totalInventory,
+            vendor: nil,
+            productType: nil,
+            tags: nil,
+            variants: variants.nodes.map{$0.toDomainModel()},
+            options: nil,
+            media: media.nodes.map{$0.toDomainModel()},
+            inventoryItemId: nil
+        )
+    }
+}
+
+extension GetProductsQuery.Data.Products.Node.Media.Node{
+    func toDomainModel()->ImageEntity{
+        return ImageEntity(originalSource: self.asMediaImage?.image?.url, alt:nil, imageContentType: .image)
+    }
+}
+
+extension GetProductsQuery.Data.Products.Node.Variants.Node{
+    func toDomainModel() -> VariantEntity{
+        return VariantEntity(availableForSale:self.availableForSale , id: nil, price: self.price, title: nil, inventoryQuantity: nil, variantValues: nil)
+    }
+}

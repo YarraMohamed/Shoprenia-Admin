@@ -1,0 +1,38 @@
+mutation CreateDiscountCode(
+  $title: String!,
+  $startsAt: DateTime!,
+  $endsAt: DateTime,
+  $usageLimit: Int,
+  $code: String!,
+  $percentage: Float!,
+  $minSubtotal: Decimal!
+) {
+  discountCodeBasicCreate(
+    basicCodeDiscount: {
+      title: $title
+      startsAt: $startsAt
+      endsAt: $endsAt
+      usageLimit: $usageLimit
+      customerSelection: { all: true }
+      code: $code
+      customerGets: {
+        value: { percentage: $percentage },
+        items: { all: true }
+      }
+      appliesOncePerCustomer: true
+      minimumRequirement: {
+        subtotal: {
+          greaterThanOrEqualToSubtotal: $minSubtotal
+        }
+      }
+    }
+  ) {
+    codeDiscountNode {
+      id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

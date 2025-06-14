@@ -16,7 +16,7 @@ struct RootView: View {
                     Image(systemName: "house")
                     Text("Home")
                 }
-            AllProductsScreen(path: $path)
+            AllProductsScreen(path: $path,vendorName: nil)
                 .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {

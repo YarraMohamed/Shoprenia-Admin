@@ -32,8 +32,8 @@ struct VendorsRow : View {
             .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
             .onTapGesture {
                 print(vendor?.handle ?? "No Value")
-                guard let title = vendor?.title else { return }
-                path.append(AppRoute.vendorProducts(vendorName: vendor?.title ?? ""))
+                guard let title = vendor?.handle else { return }
+                path.append(AppRoute.allProducts(vendorName: title))
             }
         
     }

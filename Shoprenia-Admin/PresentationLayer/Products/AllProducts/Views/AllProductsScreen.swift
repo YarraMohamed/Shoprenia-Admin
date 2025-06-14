@@ -12,6 +12,7 @@ struct AllProductsScreen: View {
     @Binding var path : NavigationPath
     @State var showAlert : Bool = false
     @State var productToDeleteID : ID = ID.init()
+    var vendorName : String?
     var coloumns = [GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
         ZStack(alignment: .topTrailing){
@@ -29,8 +30,12 @@ struct AllProductsScreen: View {
                             }
                         }
                     }.refreshable {
-                        viewModel.fetchAllProducts()
-                        print("Counts is : \(viewModel.products.count)")
+                        if vendorName == nil{
+                            viewModel.fetchAllProducts()
+                        }else{
+                            guard let vendorName = vendorName else{return}
+                            viewModel.getVendorProducts(vendorName: vendorName)
+                        }
                     }
                 }
                 
@@ -45,14 +50,25 @@ struct AllProductsScreen: View {
             } message: {
                 Text("Are you sure you want to delete this product !")
             }.onAppear{
-                viewModel.fetchAllProducts()
+                if vendorName == nil{
+                    viewModel.fetchAllProducts()
+                }else{
+                    guard let vendorName = vendorName else{return}
+                    viewModel.getVendorProducts(vendorName: vendorName)
+                }
+                
             }
             
         }
     }
-        init(path : Binding<NavigationPath>) {
-            _viewModel = StateObject(wrappedValue: AllProductsViewModel(usecase: FetchProductsUsecase(networkService: NetworkServiceImpl.shared),deleteProductUsecase: DeleteProductUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource: ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)))))
+    init(path : Binding<NavigationPath>,vendorName : String?) {
+            _viewModel = StateObject(
+                wrappedValue:
+                    AllProductsViewModel(usecase: FetchProductsUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource: ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared))),
+                         deleteProductUsecase: DeleteProductUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource:   ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared))),
+                                 getVendorProductsUsecase: VectorProductsUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource: ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)))))
             self._path = path
+            self.vendorName = vendorName
         }
     
 }

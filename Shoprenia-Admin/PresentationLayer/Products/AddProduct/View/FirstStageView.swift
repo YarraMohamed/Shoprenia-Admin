@@ -21,6 +21,9 @@ struct FirstStageView : View {
     var body : some View {
         ScrollView{
             VStack(spacing : 20){
+                Text("Add Product Info Section : ")
+                    .foregroundStyle(Color("shopreniaBlue"))
+                    .font(.system(size: 28, weight: .medium, design: .default))
                 VStack(alignment : .leading){
                     Text("Product Title")
                         .font(.system(size: 18, weight: .bold, design: .default))
@@ -29,14 +32,15 @@ struct FirstStageView : View {
                     CustomTextField(title: "Title", input: $title,width: 350)
                         
                 }
-                .padding(.top , 20)
-                .padding(.horizontal)
+                .padding(.top , 10)
+               // .padding(.horizontal)
                 VStack(alignment : .leading){
                     Text("Product Description")
                         .font(.system(size: 18, weight: .bold, design: .default))
                         .foregroundStyle(Color("shopreniaBlue"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    CustomTextField(title: "Description", input: $description,width: 350)
+                   // CustomTextField(title: "Description", input: $description,width: 350)
+                    DescriptionInputView(description: $description)
                         
                 }
                 .padding(.horizontal)
@@ -56,9 +60,6 @@ struct FirstStageView : View {
                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
                 .frame(maxWidth: .infinity)
             
-            Text("Add Media Section : ")
-                .foregroundStyle(Color("shopreniaBlue"))
-                .font(.system(size: 28, weight: .medium, design: .default))
             AddMediaSection(viewModel: viewModel, urls: $urls)
             LazyVStack(alignment: .leading, spacing: 5) {
                 ForEach(urls, id: \.self) { url in
@@ -123,26 +124,31 @@ struct AddMediaSection : View {
     @Binding var urls : [String]
     @State var verifyImage : Bool = false
     var body: some View {
-       VStack{
-       CustomTextField(title: "add media url", input: $mediaUrl, width: 300)
-           if let url = URL(string: mediaUrl){
-               VerificationImage(url: url)
-            }
-           Button{
-               if !mediaUrl.isEmpty{
-                   urls.append(mediaUrl)
-                   mediaUrl = ""
-                   verifyImage = true
-               }
-           }label: {
-               Text("Add URL")
-               Image(.addCircle)
-           }
-       }.padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
-            .frame(maxWidth: .infinity)
+        VStack(alignment: .leading ,spacing : 20){
+            Text("Add Media Section : ")
+                .foregroundStyle(Color("shopreniaBlue"))
+                .font(.system(size: 28, weight: .medium, design: .default))
+            VStack(alignment: .leading){
+                CustomTextField(title: "add media url", input: $mediaUrl, width: 300)
+                if let url = URL(string: mediaUrl){
+                    VerificationImage(url: url)
+                }
+                Button{
+                    if !mediaUrl.isEmpty{
+                        urls.append(mediaUrl)
+                        mediaUrl = ""
+                        verifyImage = true
+                    }
+                }label: {
+                    Text("Add URL")
+                    Image(.addCircle)
+                }
+            }.padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
+                .frame(maxWidth: .infinity)
+        }
     }
 }
 

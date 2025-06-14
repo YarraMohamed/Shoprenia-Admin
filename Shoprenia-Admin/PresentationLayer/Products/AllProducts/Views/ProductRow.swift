@@ -10,14 +10,14 @@ import Shopify
 
 struct ProductRow: View {
     @Binding var path : NavigationPath
-    var product : GetProductsQuery.Data.Products.Node?
+    var product : ProductEntity?
     @Binding var showAlert : Bool
     @Binding var productState : ID
     var body: some View {
         ZStack(alignment : .topTrailing){
             
             VStack(alignment : .center){
-                if let imageURL = product?.media.nodes.first?.asMediaImage?.image?.url ,
+                if let imageURL = product?.media?.first?.originalSource ,
                    let imageUrl = URL(string : imageURL) {
                     VendorImage(imageUrl:imageUrl).padding(.bottom,10)
                 }else{
@@ -34,7 +34,7 @@ struct ProductRow: View {
                     .font(.system(size: 12, weight: .medium, design: .default))
                     .multilineTextAlignment(.center)
                     .padding(.bottom,5)
-                Text("\(product?.variants.nodes.first?.price ?? "No Price") egp")
+                Text("\(product?.variants?.first?.price ?? "No Price") egp")
                     .font(.system(size: 12, weight: .medium, design: .default))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.shopreniaBlue)
@@ -45,13 +45,13 @@ struct ProductRow: View {
                 .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
                 .onTapGesture {
                     print(product?.title ?? "No Title")
-                    guard let product = product else { return }
-                    path.append(AppRoute.productDetails(productID: product.id))
+                    guard let productID = product?.id else { return }
+                    path.append(AppRoute.productDetails(productID: productID))
                 }
             Button{
                 showAlert = true
-                guard let product = product else { return }
-                productState = product.id
+                guard let productID = product?.id else { return }
+                productState = productID
             }label: {
                 Image(.delete)
             }.padding(.top , 5)

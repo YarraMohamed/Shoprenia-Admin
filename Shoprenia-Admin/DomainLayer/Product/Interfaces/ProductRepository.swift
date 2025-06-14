@@ -9,6 +9,8 @@ import Foundation
 import Shopify
 
 protocol ProductRepository{
+    func getAllProducts(completionHandler : @escaping (Result<[ProductEntity],Error>)->Void)
+    func getVendorProducts(vendorName : String , completionHandler : @escaping (Result<[ProductEntity],Error>)->Void)
     func getProductById(productID : ID , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
     func createProduct(product : ProductEntity , completionHandler : @escaping (Result<ProductEntity,Error>)->Void)
     func createProductOptions(product: ProductEntity, completionHandler: @escaping (Result<ProductEntity, any Error>) -> Void)

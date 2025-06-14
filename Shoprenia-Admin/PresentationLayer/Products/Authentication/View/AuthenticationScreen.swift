@@ -56,8 +56,6 @@ struct AuthenticationScreen: View {
                                         } label: {
                                             Image(.edit)
                                         }
-                                        
-                                        
                                         Button {
                                             path.append(AppRoute.addProduct)
                                         } label: {
@@ -67,8 +65,8 @@ struct AuthenticationScreen: View {
                                     }
                                 }
                             }
-                    case .vendorProducts(vendorName: let vendorName):
-                        Text("Vendor products")
+                    case .allProducts(vendorName: let vendorName):
+                        AllProductsScreen(path: $path, vendorName: vendorName)
                             .navigationTitle("Shoprenia")
                     case .addProduct:
                         AddProductScreen()

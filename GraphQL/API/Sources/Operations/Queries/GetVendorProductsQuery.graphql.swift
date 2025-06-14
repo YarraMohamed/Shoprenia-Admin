@@ -7,7 +7,7 @@ public class GetVendorProductsQuery: GraphQLQuery {
   public static let operationName: String = "GetVendorProducts"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetVendorProducts($vendor: String!) { products(query: $vendor, first: 20) { __typename nodes { __typename id media(first: 1) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } title totalInventory variants(first: 1) { __typename nodes { __typename availableForSale price } } } } }"#
+      #"query GetVendorProducts($vendor: String!) { products(query: $vendor, first: 20) { __typename nodes { __typename id title totalInventory variants(first: 100) { __typename nodes { __typename availableForSale price } } media(first: 1) { __typename nodes { __typename ... on MediaImage { image { __typename url } } } } } } }"#
     ))
 
   public var vendor: String
@@ -60,16 +60,14 @@ public class GetVendorProductsQuery: GraphQLQuery {
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("id", Shopify.ID.self),
-          .field("media", Media.self, arguments: ["first": 1]),
           .field("title", String.self),
           .field("totalInventory", Int.self),
-          .field("variants", Variants.self, arguments: ["first": 1]),
+          .field("variants", Variants.self, arguments: ["first": 100]),
+          .field("media", Media.self, arguments: ["first": 1]),
         ] }
 
         /// A globally-unique ID.
         public var id: Shopify.ID { __data["id"] }
-        /// The [media](https://shopify.dev/docs/apps/build/online-store/product-media) associated with the product. Valid media are images, 3D models, videos.
-        public var media: Media { __data["media"] }
         /// The name for the product that displays to customers. The title is used to construct the product's handle.
         /// For example, if a product is titled "Black Sunglasses", then the handle is `black-sunglasses`.
         public var title: String { __data["title"] }
@@ -78,6 +76,45 @@ public class GetVendorProductsQuery: GraphQLQuery {
         /// A list of [variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) associated with the product.
         /// If querying a single product at the root, you can fetch up to 2000 variants.
         public var variants: Variants { __data["variants"] }
+        /// The [media](https://shopify.dev/docs/apps/build/online-store/product-media) associated with the product. Valid media are images, 3D models, videos.
+        public var media: Media { __data["media"] }
+
+        /// Products.Node.Variants
+        ///
+        /// Parent Type: `ProductVariantConnection`
+        public struct Variants: Shopify.SelectionSet {
+          public let __data: DataDict
+          public init(_dataDict: DataDict) { __data = _dataDict }
+
+          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantConnection }
+          public static var __selections: [ApolloAPI.Selection] { [
+            .field("__typename", String.self),
+            .field("nodes", [Node].self),
+          ] }
+
+          /// A list of nodes that are contained in ProductVariantEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
+          public var nodes: [Node] { __data["nodes"] }
+
+          /// Products.Node.Variants.Node
+          ///
+          /// Parent Type: `ProductVariant`
+          public struct Node: Shopify.SelectionSet {
+            public let __data: DataDict
+            public init(_dataDict: DataDict) { __data = _dataDict }
+
+            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariant }
+            public static var __selections: [ApolloAPI.Selection] { [
+              .field("__typename", String.self),
+              .field("availableForSale", Bool.self),
+              .field("price", Shopify.Money.self),
+            ] }
+
+            /// Whether the product variant is available for sale.
+            public var availableForSale: Bool { __data["availableForSale"] }
+            /// The price of the product variant in the default shop currency.
+            public var price: Shopify.Money { __data["price"] }
+          }
+        }
 
         /// Products.Node.Media
         ///
@@ -149,43 +186,6 @@ public class GetVendorProductsQuery: GraphQLQuery {
                 public var url: Shopify.URL { __data["url"] }
               }
             }
-          }
-        }
-
-        /// Products.Node.Variants
-        ///
-        /// Parent Type: `ProductVariantConnection`
-        public struct Variants: Shopify.SelectionSet {
-          public let __data: DataDict
-          public init(_dataDict: DataDict) { __data = _dataDict }
-
-          public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariantConnection }
-          public static var __selections: [ApolloAPI.Selection] { [
-            .field("__typename", String.self),
-            .field("nodes", [Node].self),
-          ] }
-
-          /// A list of nodes that are contained in ProductVariantEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve.
-          public var nodes: [Node] { __data["nodes"] }
-
-          /// Products.Node.Variants.Node
-          ///
-          /// Parent Type: `ProductVariant`
-          public struct Node: Shopify.SelectionSet {
-            public let __data: DataDict
-            public init(_dataDict: DataDict) { __data = _dataDict }
-
-            public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.ProductVariant }
-            public static var __selections: [ApolloAPI.Selection] { [
-              .field("__typename", String.self),
-              .field("availableForSale", Bool.self),
-              .field("price", Shopify.Money.self),
-            ] }
-
-            /// Whether the product variant is available for sale.
-            public var availableForSale: Bool { __data["availableForSale"] }
-            /// The price of the product variant in the default shop currency.
-            public var price: Shopify.Money { __data["price"] }
           }
         }
       }

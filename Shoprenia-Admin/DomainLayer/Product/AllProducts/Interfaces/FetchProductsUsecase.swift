@@ -8,6 +8,6 @@
 import Foundation
 import Shopify
 
-protocol FetchProductsUsecaseProtocol {
-    func excute(completionHandler : @escaping (Result<[GetProductsQuery.Data.Products.Node],Error>)->Void)
+protocol FetchProductsUsecase {
+    func execute(completionHandler : @escaping (Result<[ProductEntity],Error>)->Void)
 }

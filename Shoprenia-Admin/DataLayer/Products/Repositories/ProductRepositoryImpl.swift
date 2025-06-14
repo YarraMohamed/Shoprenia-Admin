@@ -47,4 +47,12 @@ class ProductRepositoryImpl: ProductRepository {
     func deleteProduct(productID: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
         productRemoteDataSource.deleteProduct(productID: productID, completionhandler: completionHandler)
     }
+    
+    func getVendorProducts(vendorName: String, completionHandler: @escaping (Result<[ProductEntity], any Error>) -> Void) {
+        productRemoteDataSource.getVendorProducts(vendorName: vendorName, completionHandler: completionHandler)
+    }
+    
+    func getAllProducts(completionHandler: @escaping (Result<[ProductEntity], any Error>) -> Void) {
+        productRemoteDataSource.getAllProducts(completionHandler: completionHandler)
+    }
 }

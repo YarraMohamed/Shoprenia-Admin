@@ -69,42 +69,6 @@ class NetworkServiceImpl : NetworkService {
         }
     }
     
-    func getVendorProducts(vendorName :String,completionHandler: @escaping (Result<[GetVendorProductsQuery.Data.Products.Node], any Error>) -> Void){
-        NetworkServiceImpl.shared.apollo.fetch(query: GetVendorProductsQuery(vendor: vendorName),cachePolicy: .fetchIgnoringCacheCompletely){ result in
-            switch result {
-            case .success(let graphQlResult) :
-                if let products = graphQlResult.data?.products.nodes{
-                    completionHandler(.success(products))
-                } else {
-                    completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
-                }
-            case .failure(let error) :
-                print("Error: \(error)")
-                completionHandler(.failure(error))
-            }
-            
-        }
-    }
-    
-    
-    func deleteProductByID(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        NetworkServiceImpl.shared.apollo.perform(mutation: DeleteProductByIDMutation(id: id)){ result in
-            switch result{
-            case .success(let result):
-                if let id = result.data?.productDelete?.deletedProductId{
-                    print(id)
-                    print(result.data?.productDelete?.userErrors.first?.message ?? "No error")
-                    completionHandler(.success(true))
-                }else{
-                    completionHandler(.failure(NSError(domain: "No ID Found", code: 404, userInfo: nil)))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    
     func queryRequest<Q: GraphQLQuery>(query : Q, completionHandler : @escaping (Result<GraphQLResult<Q.Data>, any Error>)->Void){
         NetworkServiceImpl.shared.apollo.fetch(query: query, cachePolicy: .fetchIgnoringCacheCompletely, resultHandler: completionHandler)
     }

@@ -11,6 +11,6 @@ import Shopify
 enum AppRoute : Hashable {
     case rootView
     case productDetails(productID : ID)
-    case vendorProducts(vendorName : String)
     case addProduct
+    case allProducts(vendorName : String)
 }

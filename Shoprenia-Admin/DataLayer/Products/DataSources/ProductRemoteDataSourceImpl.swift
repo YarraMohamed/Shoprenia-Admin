@@ -169,6 +169,38 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             }
         }
     }
+    
+    func getVendorProducts(vendorName: String, completionHandler: @escaping (Result<[ProductEntity], any Error>) -> Void) {
+        networkService.queryRequest(query: GetVendorProductsQuery(vendor: vendorName)) { result in
+            switch result {
+            case .success(let graphQLResult):
+                if let products = graphQLResult.data?.products.nodes{
+                    let entity = products.map{$0.toDomainModel()}
+                    completionHandler(.success(entity))
+                }else{
+                    completionHandler(.failure(NSError(domain: "No Products Found", code: 404)))
+                }
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
+    }
+    
+    func getAllProducts(completionHandler: @escaping (Result<[ProductEntity], any Error>) -> Void) {
+        networkService.queryRequest(query: GetProductsQuery()) { result in
+            switch result {
+            case .success(let graphQlResult):
+                if let products = graphQlResult.data?.products.nodes{
+                    let entity = products.map{$0.toDomainModel()}
+                    completionHandler(.success(entity))
+                }else{
+                    completionHandler(.failure(NSError(domain: "No Products Found", code: 404)))
+                }
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
+    }
 }
 
 enum ProductError: Error {
