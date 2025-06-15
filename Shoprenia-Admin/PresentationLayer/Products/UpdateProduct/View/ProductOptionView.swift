@@ -30,7 +30,6 @@ struct ProductOptionView: View {
                 SizeOptionSection(size: $initialSize, sizes: $sizes)
                 PriceAndQuantitySection(initialPrice: $initialPrice, initialQuantity: $initialQuantity, quantities: $quantities)
             }.padding()
-            
         }
     }
 }
@@ -53,7 +52,6 @@ struct ColorOptionSection : View {
                     Image(.addCircle)
                 }.disabled(disableButton)
                  .hidden(disableButton)
-                    
             }
         }.padding()
             .frame(maxWidth: .infinity)

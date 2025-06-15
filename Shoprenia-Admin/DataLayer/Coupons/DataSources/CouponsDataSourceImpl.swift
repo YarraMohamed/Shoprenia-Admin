@@ -31,8 +31,8 @@ class CouponsDataSourceImpl : CouponsDataSource {
             }
         }
     }
-    func createCoupon(coupon: CouponEntity, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        let mutation = CreateDiscountCodeBasicMutation(
+    func createPercentageDiscountCode(coupon: CouponEntity, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        let mutation = CreatePercentageDiscountCodeMutation(
             title: coupon.title ?? "", startsAt: coupon.starstAt ?? "NO Start date",
             endsAt: coupon.endsAt ?? "No end date",
             usageLimit: GraphQLNullable<Int>.some(coupon.usageLimit ?? 0)
@@ -46,13 +46,54 @@ class CouponsDataSourceImpl : CouponsDataSource {
                         completionHandler(.success(true))
                     }else{
                         let message = graphQLResult.data?.discountCodeBasicCreate?.userErrors.first?.message
-                        print(message)
+                        print(message ?? "Ambigous Error Message")
                         completionHandler(.failure(NSError(domain: message ?? "No Error Found", code: 404)))
                     }
                 case .failure(let failure):
                     completionHandler(.failure(failure))
                 }
             }
+    }
+    func createFixedDiscountCode(coupon : CouponEntity, completionHandler: @escaping (Result<Bool,Error>)->Void){
+        let mutation = CreateFixedDiscountCodeMutation(
+            title: coupon.title ?? "", startsAt: coupon.starstAt ?? "NO Start date",
+            endsAt: coupon.endsAt ?? "No end date",
+            usageLimit: coupon.usageLimit ?? 0 ,
+            code:  coupon.code ?? "",
+            discountAmount: String(coupon.amount ?? 0),
+            minimumSubtotal: String(coupon.minimumSubtotal ?? 0)
+        )
+        networkService.mutaionRequest(mutation: mutation) { result in
+                switch result {
+                case .success(let graphQLResult):
+                    if let graphQLResult = graphQLResult.data?.discountCodeBasicCreate?.codeDiscountNode?.codeDiscount.asDiscountCodeBasic{
+                        print(graphQLResult)
+                        completionHandler(.success(true))
+                    }else{
+                        let message = graphQLResult.data?.discountCodeBasicCreate?.userErrors.first?.message
+                        print(message ?? "Ambigous Error Message")
+                        completionHandler(.failure(NSError(domain: message ?? "No Error Found", code: 404)))
+                    }
+                case .failure(let failure):
+                    completionHandler(.failure(failure))
+                }
+            }
+    }
+    
+    func deleteDiscountCodeById(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        networkService.mutaionRequest(mutation: DeleteDiscountCodeMutation(ids: [id])) { result in
+            switch result {
+            case .success(let graphQLResult):
+                if let graphQLResult = graphQLResult.data?.discountCodeBulkDelete{
+                    completionHandler(.success(true))
+                }else{
+                    let message = graphQLResult.data?.discountCodeBulkDelete?.userErrors.first?.message
+                    completionHandler(.failure(NSError(domain: message ?? "Ambigous error", code: 404)))
+                }
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
     }
     
 }

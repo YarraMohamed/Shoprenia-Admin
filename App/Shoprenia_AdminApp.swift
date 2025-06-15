@@ -35,14 +35,16 @@ struct Shoprenia_AdminApp: App {
         let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
         let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
         let fetchAllCouponsUsecase = FetchAllCouponsUsecaseImpl(repository: couponsRepository)
-        return AllCouponsViewModel(fetchAllCouponsUseCase: fetchAllCouponsUsecase)
+        let deleteDiscountCodeUseCase = DeleteDiscountCodeUsecaseImpl(repository: couponsRepository)
+        return AllCouponsViewModel(fetchAllCouponsUseCase: fetchAllCouponsUsecase, deleteDiscountCodeUseCase: deleteDiscountCodeUseCase)
     }()
     
     @StateObject var createCouponsViewModel = {
         let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
         let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
-        let createCouponUsecase = CreateCouponUsecaseImpl(repository: couponsRepository)
-        return CreateCouponViewModel(createCouponUseCase: createCouponUsecase)
+        let createCouponUsecase = CreatePercentageDiscountCodeUsecaseImpl(repository: couponsRepository)
+        let createFixedCode = CreateFixedDiscountUsecaseImpl(repository: couponsRepository)
+        return CreateCouponViewModel(createPercentageDiscountCodeUsecase: createCouponUsecase, createFixedDiscountCodeUsecase: createFixedCode)
     }()
     
     init(){

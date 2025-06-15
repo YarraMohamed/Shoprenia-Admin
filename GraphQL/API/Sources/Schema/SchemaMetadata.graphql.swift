@@ -140,6 +140,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "DiscountCodeApp": return Shopify.Objects.DiscountCodeApp
     case "DiscountCodeBasic": return Shopify.Objects.DiscountCodeBasic
     case "DiscountCodeBasicCreatePayload": return Shopify.Objects.DiscountCodeBasicCreatePayload
+    case "DiscountCodeBulkDeletePayload": return Shopify.Objects.DiscountCodeBulkDeletePayload
     case "DiscountCodeBxgy": return Shopify.Objects.DiscountCodeBxgy
     case "DiscountCodeFreeShipping": return Shopify.Objects.DiscountCodeFreeShipping
     case "DiscountCodeNode": return Shopify.Objects.DiscountCodeNode

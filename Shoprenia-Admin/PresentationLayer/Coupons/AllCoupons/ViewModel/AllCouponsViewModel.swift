@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import Shopify
 
 class AllCouponsViewModel: ObservableObject {
     
    @Published var coupons : [DiscountEntity] = []
     let fetchAllCouponsUseCase : FetchAllCouponsUsecase
-    
-    init(fetchAllCouponsUseCase: FetchAllCouponsUsecase) {
+    let deleteDiscountCodeUseCase : DeleteDiscountCodeUsecase
+    init(fetchAllCouponsUseCase: FetchAllCouponsUsecase , deleteDiscountCodeUseCase : DeleteDiscountCodeUsecase) {
         self.fetchAllCouponsUseCase = fetchAllCouponsUseCase
+        self.deleteDiscountCodeUseCase = deleteDiscountCodeUseCase
     }
     
     func fetchAllCoupons(){
@@ -24,6 +26,17 @@ class AllCouponsViewModel: ObservableObject {
                 print("Successfully fetched coupons : \(coupons)")
             case .failure(let error):
                 print("Error : \(error)")
+            }
+        }
+    }
+    func deleteDiscountCodeById(id : ID){
+        deleteDiscountCodeUseCase.execute(id: id) { result in
+            switch result {
+            case .success( _):
+                print("Deletion Success")
+                self.coupons.removeAll(where: {$0.id == id})
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
         }
     }

@@ -1,4 +1,4 @@
-mutation CreateDiscountCodeBasic(
+mutation CreatePercentageDiscountCode(
   $title: String!,
   $startsAt: DateTime!,
   $endsAt: DateTime!,

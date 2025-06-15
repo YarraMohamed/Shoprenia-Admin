@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Shopify
 
 protocol CouponsDataSource{
     func getAllCoupons(completionHandler : @escaping (Result<[DiscountEntity],Error>)->Void)
-    func createCoupon(coupon : CouponEntity, completionHandler: @escaping (Result<Bool,Error>)->Void)
+    func createPercentageDiscountCode(coupon : CouponEntity, completionHandler: @escaping (Result<Bool,Error>)->Void)
+    func createFixedDiscountCode(coupon : CouponEntity, completionHandler: @escaping (Result<Bool,Error>)->Void)
+    func deleteDiscountCodeById(id : ID , completionHandler : @escaping (Result<Bool,Error>)->Void)
 }

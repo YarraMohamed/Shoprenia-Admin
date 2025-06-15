@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Shopify
 class CouponsRepositoryImpl: CouponsRepository {
     let couponsDataSource: CouponsDataSource
     
@@ -17,7 +17,15 @@ class CouponsRepositoryImpl: CouponsRepository {
     func getAllCoupons(completionHandler: @escaping (Result<[DiscountEntity], any Error>) -> Void) {
         couponsDataSource.getAllCoupons(completionHandler: completionHandler)
     }
-    func createCoupon(coupon : CouponEntity , completionHandler: @escaping (Result<Bool,Error>) -> Void){
-        couponsDataSource.createCoupon(coupon: coupon, completionHandler: completionHandler)
+    func createPercentageDiscountCode(coupon : CouponEntity , completionHandler: @escaping (Result<Bool,Error>) -> Void){
+        couponsDataSource.createPercentageDiscountCode(coupon: coupon, completionHandler: completionHandler)
+    }
+    
+    func createFixedDiscountCode(coupon : CouponEntity, completionHandler: @escaping (Result<Bool,Error>)->Void){
+        couponsDataSource.createFixedDiscountCode(coupon: coupon, completionHandler: completionHandler)
+    }
+    
+    func deleteDiscountCodeById(id: ID, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        couponsDataSource.deleteDiscountCodeById(id: id, completionHandler: completionHandler)
     }
 }

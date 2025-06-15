@@ -3,11 +3,11 @@
 
 @_exported import ApolloAPI
 
-public class CreateDiscountCodeBasicMutation: GraphQLMutation {
-  public static let operationName: String = "CreateDiscountCodeBasic"
+public class CreatePercentageDiscountCodeMutation: GraphQLMutation {
+  public static let operationName: String = "CreatePercentageDiscountCode"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateDiscountCodeBasic($title: String!, $startsAt: DateTime!, $endsAt: DateTime!, $usageLimit: Int, $code: String!, $percentage: Float!, $appliesOncePerCustomer: Boolean!, $minSubtotal: Decimal) { discountCodeBasicCreate( basicCodeDiscount: { title: $title startsAt: $startsAt endsAt: $endsAt usageLimit: $usageLimit customerSelection: { all: true } code: $code customerGets: { value: { percentage: $percentage }, items: { all: true } } appliesOncePerCustomer: $appliesOncePerCustomer minimumRequirement: { subtotal: { greaterThanOrEqualToSubtotal: $minSubtotal } } } ) { __typename userErrors { __typename field message } codeDiscountNode { __typename id codeDiscount { __typename ... on DiscountCodeBasic { title status startsAt endsAt codes(first: 1) { __typename nodes { __typename code } } } } } } }"#
+      #"mutation CreatePercentageDiscountCode($title: String!, $startsAt: DateTime!, $endsAt: DateTime!, $usageLimit: Int, $code: String!, $percentage: Float!, $appliesOncePerCustomer: Boolean!, $minSubtotal: Decimal) { discountCodeBasicCreate( basicCodeDiscount: { title: $title startsAt: $startsAt endsAt: $endsAt usageLimit: $usageLimit customerSelection: { all: true } code: $code customerGets: { value: { percentage: $percentage }, items: { all: true } } appliesOncePerCustomer: $appliesOncePerCustomer minimumRequirement: { subtotal: { greaterThanOrEqualToSubtotal: $minSubtotal } } } ) { __typename userErrors { __typename field message } codeDiscountNode { __typename id codeDiscount { __typename ... on DiscountCodeBasic { title status startsAt endsAt codes(first: 1) { __typename nodes { __typename code } } } } } } }"#
     ))
 
   public var title: String
@@ -158,7 +158,7 @@ public class CreateDiscountCodeBasicMutation: GraphQLMutation {
             public let __data: DataDict
             public init(_dataDict: DataDict) { __data = _dataDict }
 
-            public typealias RootEntityType = CreateDiscountCodeBasicMutation.Data.DiscountCodeBasicCreate.CodeDiscountNode.CodeDiscount
+            public typealias RootEntityType = CreatePercentageDiscountCodeMutation.Data.DiscountCodeBasicCreate.CodeDiscountNode.CodeDiscount
             public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.DiscountCodeBasic }
             public static var __selections: [ApolloAPI.Selection] { [
               .field("title", String.self),

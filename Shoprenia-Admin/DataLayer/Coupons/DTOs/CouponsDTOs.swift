@@ -9,6 +9,7 @@ import Foundation
 
 
 struct DiscountEntity : Codable , Hashable {
+    var id : String? = nil
     var codes : [Code]? = nil
     var summary : String? = nil
     var title : String? = nil

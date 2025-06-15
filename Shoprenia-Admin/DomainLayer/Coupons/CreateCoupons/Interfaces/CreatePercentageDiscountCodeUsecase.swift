@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol CreateCouponUsecase{
+protocol CreatePercentageDiscountCodeUsecase{
     func execute(coupon : CouponEntity , completionHandler: @escaping (Result<Bool,Error>) -> Void)
 }

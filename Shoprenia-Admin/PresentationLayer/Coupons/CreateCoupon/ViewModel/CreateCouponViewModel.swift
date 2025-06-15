@@ -9,14 +9,27 @@ import Foundation
 
 class CreateCouponViewModel : ObservableObject{
     
-    let createCouponUseCase : CreateCouponUsecase
+    let createPercentageDiscountCodeUsecase : CreatePercentageDiscountCodeUsecase
+    let createFixedDiscountCodeUsecase : CreateFixedDiscountUsecase
     
-    init(createCouponUseCase: CreateCouponUsecase) {
-        self.createCouponUseCase = createCouponUseCase
+    init(createPercentageDiscountCodeUsecase: CreatePercentageDiscountCodeUsecase, createFixedDiscountCodeUsecase: CreateFixedDiscountUsecase) {
+        self.createPercentageDiscountCodeUsecase = createPercentageDiscountCodeUsecase
+        self.createFixedDiscountCodeUsecase = createFixedDiscountCodeUsecase
     }
     
-    func createCoupon(coupon : CouponEntity){
-        createCouponUseCase.execute(coupon: coupon) { result in
+    func createPercentageDiscountCode(coupon : CouponEntity){
+        createPercentageDiscountCodeUsecase.execute(coupon: coupon) { result in
+            switch result{
+                case .success(_):
+                print("Coupon Created Successfully")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func createFixedDiscountCode(coupon : CouponEntity){
+        createFixedDiscountCodeUsecase.execute(coupon: coupon) { result in
             switch result{
                 case .success(_):
                 print("Coupon Created Successfully")

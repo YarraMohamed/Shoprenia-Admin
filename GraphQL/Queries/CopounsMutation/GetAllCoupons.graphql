@@ -1,6 +1,7 @@
 query GetAllCoupons {
   discountNodes(first: 100, reverse: true, sortKey: CREATED_AT) {
     nodes {
+    id
       discount {
         ... on DiscountCodeBasic {
           codes(first: 5) {

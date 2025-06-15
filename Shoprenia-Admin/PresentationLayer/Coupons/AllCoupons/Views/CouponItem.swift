@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Shopify
 
 struct CouponItem: View {
     var coupon: DiscountEntity
+    @Binding var id : ID
+    @Binding var showAlert : Bool
     var body: some View {
         VStack(alignment : .leading , spacing: 5){
             CouponTextHStack(text: "Code Title : ", content: coupon.title ?? "No Title")
@@ -31,6 +34,14 @@ struct CouponItem: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.black, lineWidth: 2)
             )
+            .swipeActions {
+                Button(role: .destructive) {
+                    showAlert = true
+                    id = coupon.id ?? ""
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
     }
 }
 

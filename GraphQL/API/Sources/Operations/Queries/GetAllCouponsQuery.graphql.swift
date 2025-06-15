@@ -7,7 +7,7 @@ public class GetAllCouponsQuery: GraphQLQuery {
   public static let operationName: String = "GetAllCoupons"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query GetAllCoupons { discountNodes(first: 100, reverse: true, sortKey: CREATED_AT) { __typename nodes { __typename discount { __typename ... on DiscountCodeBasic { codes(first: 5) { __typename nodes { __typename id code } } summary title status startsAt endsAt asyncUsageCount customerGets { __typename value { __typename ... on DiscountAmount { amount { __typename amount } } ... on DiscountPercentage { percentage } } } } } } } }"#
+      #"query GetAllCoupons { discountNodes(first: 100, reverse: true, sortKey: CREATED_AT) { __typename nodes { __typename id discount { __typename ... on DiscountCodeBasic { codes(first: 5) { __typename nodes { __typename id code } } summary title status startsAt endsAt asyncUsageCount customerGets { __typename value { __typename ... on DiscountAmount { amount { __typename amount } } ... on DiscountPercentage { percentage } } } } } } } }"#
     ))
 
   public init() {}
@@ -54,9 +54,12 @@ public class GetAllCouponsQuery: GraphQLQuery {
         public static var __parentType: any ApolloAPI.ParentType { Shopify.Objects.DiscountNode }
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
+          .field("id", Shopify.ID.self),
           .field("discount", Discount.self),
         ] }
 
+        /// A globally-unique ID.
+        public var id: Shopify.ID { __data["id"] }
         /// A discount that's applied at checkout or on cart.
         ///
         ///

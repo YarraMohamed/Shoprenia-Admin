@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CreateCouponUsecaseImpl: CreateCouponUsecase {
+class CreatePercentageDiscountCodeUsecaseImpl: CreatePercentageDiscountCodeUsecase {
     let repository : CouponsRepository
     
     init(repository: CouponsRepository) {
@@ -15,6 +15,6 @@ class CreateCouponUsecaseImpl: CreateCouponUsecase {
     }
     
     func execute(coupon: CouponEntity, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
-        repository.createCoupon(coupon: coupon, completionHandler: completionHandler)
+        repository.createPercentageDiscountCode(coupon: coupon, completionHandler: completionHandler)
     }
 }

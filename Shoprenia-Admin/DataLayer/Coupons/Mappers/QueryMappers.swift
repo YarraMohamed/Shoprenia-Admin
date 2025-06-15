@@ -20,6 +20,7 @@ extension GetAllCouponsQuery.Data.DiscountNodes.Node{
         let asyncUsageCount = self.discount.asDiscountCodeBasic?.asyncUsageCount
         let customerDiscounts = self.discount.asDiscountCodeBasic?.customerGets
         return DiscountEntity(
+            id: self.id ,
             codes: codes?.map{$0.toDomainModel()},
             summary: summary,
             title: title,
