@@ -56,7 +56,6 @@ struct AllProductsScreen: View {
                     guard let vendorName = vendorName else{return}
                     viewModel.getVendorProducts(vendorName: vendorName)
                 }
-                
             }
             
         }

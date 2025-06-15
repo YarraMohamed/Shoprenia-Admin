@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+class CreateCouponUsecaseImpl: CreateCouponUsecase {
+    let repository : CouponsRepository
+    
+    init(repository: CouponsRepository) {
+        self.repository = repository
+    }
+    
+    func execute(coupon: CouponEntity, completionHandler: @escaping (Result<Bool, any Error>) -> Void) {
+        repository.createCoupon(coupon: coupon, completionHandler: completionHandler)
+    }
+}

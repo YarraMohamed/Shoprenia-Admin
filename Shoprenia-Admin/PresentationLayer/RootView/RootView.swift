@@ -17,24 +17,24 @@ struct RootView: View {
                     Text("Home")
                 }
             AllProductsScreen(path: $path,vendorName: nil)
-                .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        path.append(AppRoute.addProduct)
-                    } label: {
-                        Image(.addCircle)
-                            .font(.title2)
-                    }
-                }
-            }
                 .tabItem{
                     Image(.products)
                     Text("Products")
                 }
-            Coupons()
+            AllCoupons(path: $path)
                 .tabItem {
                     Image(.coupons)
                     Text("Coupons")
+                }
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            
+                        } label: {
+                            Image(.addCircle)
+                        }
+
+                    }
                 }
         }.accentColor(Color("shopreniaBlue"))
     }

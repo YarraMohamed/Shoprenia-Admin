@@ -1,0 +1,34 @@
+query GetAllCoupons {
+  discountNodes(first: 100, reverse: true, sortKey: CREATED_AT) {
+    nodes {
+      discount {
+        ... on DiscountCodeBasic {
+          codes(first: 5) {
+            nodes {
+              id
+              code
+            }
+          }
+          summary
+          title
+          status
+          startsAt
+          endsAt
+          asyncUsageCount
+          customerGets {
+            value {
+              ... on DiscountAmount {
+                amount {
+                  amount
+                }
+              }
+              ... on DiscountPercentage {
+                percentage
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

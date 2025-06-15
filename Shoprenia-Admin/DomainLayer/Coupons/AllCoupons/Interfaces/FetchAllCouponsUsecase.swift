@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol FetchAllCouponsUsecase{
+    func execute(completionHandler : @escaping (Result<[DiscountEntity],Error>)->Void)
+}

@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol CreateCouponUsecase{
+    func execute(coupon : CouponEntity , completionHandler: @escaping (Result<Bool,Error>) -> Void)
+}

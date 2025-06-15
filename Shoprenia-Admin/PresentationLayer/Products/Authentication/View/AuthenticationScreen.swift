@@ -16,7 +16,7 @@ struct AuthenticationScreen: View {
     @State var message : String = ""
     @State var color : Color = Color(.clear)
     @State var showingEditSheet : Bool = false
-    
+    @State var showAddButtonInNavBar : Bool = true
     var body: some View {
         NavigationStack (path: $path) {
             VStack(spacing: 20){//1
@@ -70,6 +70,8 @@ struct AuthenticationScreen: View {
                             .navigationTitle("Shoprenia")
                     case .addProduct:
                         AddProductScreen()
+                    case .createCoupon:
+                        CreateCoupon()
                     }
                 }
                 .navigationTitle("Shoprenia")

@@ -13,4 +13,5 @@ enum AppRoute : Hashable {
     case productDetails(productID : ID)
     case addProduct
     case allProducts(vendorName : String)
+    case createCoupon
 }

@@ -9,4 +9,5 @@ import Foundation
 
 protocol CouponsRepository{
     func getAllCoupons(completionHandler: @escaping (Result<[DiscountEntity],Error>) -> Void)
+    func createCoupon(coupon : CouponEntity , completionHandler: @escaping (Result<Bool,Error>) -> Void)
 }

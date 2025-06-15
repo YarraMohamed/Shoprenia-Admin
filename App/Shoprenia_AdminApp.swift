@@ -31,6 +31,20 @@ struct Shoprenia_AdminApp: App {
         return UpdateProductViewModel(deleteProductUseCase: DeleteProductUsecaseImpl(repository: productsRepository), createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryquantityUseCase: setInventoryQuantityUseCase, publishProductUsecase: PublishProductUsecaseImpl(repository: productsRepository))
     }()
     
+    @StateObject var allCouponsViewModel = {
+        let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
+        let fetchAllCouponsUsecase = FetchAllCouponsUsecaseImpl(repository: couponsRepository)
+        return AllCouponsViewModel(fetchAllCouponsUseCase: fetchAllCouponsUsecase)
+    }()
+    
+    @StateObject var createCouponsViewModel = {
+        let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
+        let createCouponUsecase = CreateCouponUsecaseImpl(repository: couponsRepository)
+        return CreateCouponViewModel(createCouponUseCase: createCouponUsecase)
+    }()
+    
     init(){
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor(named: "shopreniaBlue") ?? ""]
     }
@@ -39,6 +53,8 @@ struct Shoprenia_AdminApp: App {
             AuthenticationScreen()
                 .environmentObject(addProductViewModel)
                 .environmentObject(updateProductViewModel)
+                .environmentObject(allCouponsViewModel)
+                .environmentObject(createCouponsViewModel)
         }
     }
 }

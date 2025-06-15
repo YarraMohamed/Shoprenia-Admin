@@ -47,6 +47,7 @@ struct VendorImage : View {
             case .empty:
                 ProgressView()
                     .frame(width: 150, height: 160)
+                    .background(Color.gray.opacity(0.2))
             case .success(let image):
                 image
                     .resizable()

@@ -131,12 +131,26 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "DeliveryProvince": return Shopify.Objects.DeliveryProvince
     case "DeliveryRateDefinition": return Shopify.Objects.DeliveryRateDefinition
     case "DeliveryZone": return Shopify.Objects.DeliveryZone
+    case "DiscountAmount": return Shopify.Objects.DiscountAmount
+    case "DiscountAutomaticApp": return Shopify.Objects.DiscountAutomaticApp
+    case "DiscountAutomaticBasic": return Shopify.Objects.DiscountAutomaticBasic
     case "DiscountAutomaticBxgy": return Shopify.Objects.DiscountAutomaticBxgy
+    case "DiscountAutomaticFreeShipping": return Shopify.Objects.DiscountAutomaticFreeShipping
     case "DiscountAutomaticNode": return Shopify.Objects.DiscountAutomaticNode
+    case "DiscountCodeApp": return Shopify.Objects.DiscountCodeApp
+    case "DiscountCodeBasic": return Shopify.Objects.DiscountCodeBasic
     case "DiscountCodeBasicCreatePayload": return Shopify.Objects.DiscountCodeBasicCreatePayload
+    case "DiscountCodeBxgy": return Shopify.Objects.DiscountCodeBxgy
+    case "DiscountCodeFreeShipping": return Shopify.Objects.DiscountCodeFreeShipping
     case "DiscountCodeNode": return Shopify.Objects.DiscountCodeNode
+    case "DiscountCustomerGets": return Shopify.Objects.DiscountCustomerGets
     case "DiscountNode": return Shopify.Objects.DiscountNode
+    case "DiscountNodeConnection": return Shopify.Objects.DiscountNodeConnection
+    case "DiscountOnQuantity": return Shopify.Objects.DiscountOnQuantity
+    case "DiscountPercentage": return Shopify.Objects.DiscountPercentage
+    case "DiscountRedeemCode": return Shopify.Objects.DiscountRedeemCode
     case "DiscountRedeemCodeBulkCreation": return Shopify.Objects.DiscountRedeemCodeBulkCreation
+    case "DiscountRedeemCodeConnection": return Shopify.Objects.DiscountRedeemCodeConnection
     case "DiscountUserError": return Shopify.Objects.DiscountUserError
     case "DisputeEvidenceUpdateUserError": return Shopify.Objects.DisputeEvidenceUpdateUserError
     case "Domain": return Shopify.Objects.Domain
@@ -231,6 +245,7 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "MetaobjectUserError": return Shopify.Objects.MetaobjectUserError
     case "MobilePlatformApplicationUserError": return Shopify.Objects.MobilePlatformApplicationUserError
     case "Model3d": return Shopify.Objects.Model3d
+    case "MoneyV2": return Shopify.Objects.MoneyV2
     case "Mutation": return Shopify.Objects.Mutation
     case "OnlineStoreTheme": return Shopify.Objects.OnlineStoreTheme
     case "OnlineStoreThemeFilesUserErrors": return Shopify.Objects.OnlineStoreThemeFilesUserErrors
