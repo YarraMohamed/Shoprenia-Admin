@@ -10,12 +10,12 @@ import Shopify
 
 class HomeViewModel : ObservableObject {
     
-    let usecase : FetchVendorsUsecaseProtocol
+    let usecase : FetchAllVendorsUsecase
     
-    @Published var vendors : [GetAllVendorsQuery.Data.Collections.Node] = []
+    @Published var vendors : [VendorEntity] = []
     
     func getAllVendors() {
-        usecase.excute { [weak self ] result in
+        usecase.execute { [weak self ] result in
                 switch result {
                 case .success(let vendors):
                     self?.vendors = vendors
@@ -26,7 +26,7 @@ class HomeViewModel : ObservableObject {
         
     }
     
-    init(usecase: FetchVendorsUsecaseProtocol) {
+    init(usecase: FetchAllVendorsUsecase) {
         self.usecase = usecase
     }
     

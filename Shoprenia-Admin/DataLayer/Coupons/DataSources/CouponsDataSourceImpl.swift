@@ -84,7 +84,7 @@ class CouponsDataSourceImpl : CouponsDataSource {
         networkService.mutaionRequest(mutation: DeleteDiscountCodeMutation(ids: [id])) { result in
             switch result {
             case .success(let graphQLResult):
-                if let graphQLResult = graphQLResult.data?.discountCodeBulkDelete{
+                if (graphQLResult.data?.discountCodeBulkDelete) != nil{
                     completionHandler(.success(true))
                 }else{
                     let message = graphQLResult.data?.discountCodeBulkDelete?.userErrors.first?.message

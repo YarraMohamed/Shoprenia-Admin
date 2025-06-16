@@ -115,3 +115,9 @@ extension GetProductsQuery.Data.Products.Node.Variants.Node{
         return VariantEntity(availableForSale:self.availableForSale , id: nil, price: self.price, title: nil, inventoryQuantity: nil, variantValues: nil)
     }
 }
+
+extension GetAllVendorsQuery.Data.Collections.Node{
+    func toDomainModel()->VendorEntity{
+        return VendorEntity(id: self.id, title: self.title, imageURL: self.image?.url)
+    }
+}

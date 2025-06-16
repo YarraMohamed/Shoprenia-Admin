@@ -10,10 +10,10 @@ import Shopify
 
 struct VendorsRow : View {
     @Binding var path : NavigationPath
-    var vendor : GetAllVendorsQuery.Data.Collections.Node?
+    var vendor : VendorEntity
     var body: some View {
         VStack(spacing : 20){
-            if let imageUrl = vendor?.image?.url ,
+            if let imageUrl = vendor.imageURL ,
                let imageUrl = URL(string: imageUrl) {
                 VendorImage(imageUrl: imageUrl)
             } else {
@@ -23,7 +23,7 @@ struct VendorsRow : View {
                     .frame(width:150, height: 160)
                     .clipped()
             }
-            Text(vendor?.handle ?? "NO TITLE")
+            Text(vendor.title ?? "No Title")
                 .font(.system(size: 28, weight: .medium, design: .default))
                 .multilineTextAlignment(.center)
         }.padding()
@@ -31,8 +31,8 @@ struct VendorsRow : View {
             .cornerRadius(12)
             .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
             .onTapGesture {
-                print(vendor?.handle ?? "No Value")
-                guard let title = vendor?.handle else { return }
+                print(vendor.title ?? "No Title")
+                guard let title = vendor.title else { return }
                 path.append(AppRoute.allProducts(vendorName: title))
             }
         

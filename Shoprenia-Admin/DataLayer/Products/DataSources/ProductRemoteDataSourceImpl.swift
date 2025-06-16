@@ -201,6 +201,22 @@ class ProductRemoteDataSourceImpl: ProductRemoteDataSource {
             }
         }
     }
+    
+    func getAllVendors(completionhandler: @escaping (Result<[VendorEntity], any Error>) -> Void) {
+        networkService.queryRequest(query: GetAllVendorsQuery()) { result in
+            switch result {
+            case .success(let graphQLResult):
+                if let vendors = graphQLResult.data?.collections.nodes{
+                    let entity = vendors.map{$0.toDomainModel()}
+                    completionhandler(.success(entity))
+                }else{
+                    completionhandler(.failure(NSError(domain: "No Vendors Found", code: 404)))
+                }
+            case .failure(let failure):
+                completionhandler(.failure(failure))
+            }
+        }
+    }
 }
 
 enum ProductError: Error {

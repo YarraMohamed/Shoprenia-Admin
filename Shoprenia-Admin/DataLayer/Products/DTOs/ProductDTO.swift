@@ -72,9 +72,17 @@ struct VariantValue : Codable {
     var value : String? = nil
 }
 
+
+struct VendorEntity : Codable {
+    var id : String? = nil
+    var title : String? = nil
+    var imageURL : String? = nil
+}
+
 enum MediaType : String,Codable {
     case video = "VIDEO"
     case externalVideo = "EXTERNAL_VIDEO"
     case model3D = "MODEL_3D"
     case image = "IMAGE"
 }
+

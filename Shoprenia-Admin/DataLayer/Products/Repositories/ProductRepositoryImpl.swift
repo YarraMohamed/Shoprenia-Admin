@@ -55,4 +55,8 @@ class ProductRepositoryImpl: ProductRepository {
     func getAllProducts(completionHandler: @escaping (Result<[ProductEntity], any Error>) -> Void) {
         productRemoteDataSource.getAllProducts(completionHandler: completionHandler)
     }
+    
+    func getAllVendors(completionHandler: @escaping (Result<[VendorEntity], any Error>) -> Void) {
+        productRemoteDataSource.getAllVendors(completionhandler: completionHandler)
+    }
 }

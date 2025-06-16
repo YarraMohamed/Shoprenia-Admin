@@ -34,41 +34,6 @@ class NetworkServiceImpl : NetworkService {
         apollo = ApolloClient(networkTransport: transport, store: self.store)
     }
     
-    func getAllProducts(completionHandler : @escaping (Result<[GetProductsQuery.Data.Products.Node],Error>)->Void) {
-        NetworkServiceImpl.shared.apollo.fetch(query: GetProductsQuery(),cachePolicy: .fetchIgnoringCacheCompletely){ result in
-            switch result {
-            case .success(let graphQLResult):
-                if let products = graphQLResult.data?.products.nodes {
-                    print(products)
-                    completionHandler(.success(products))
-                } else if let errors = graphQLResult.errors {
-                    print("GraphQL errors: \(errors)")
-                    completionHandler(.failure(NSError(domain: "No Products are Fetched", code: 404, userInfo: nil)))
-                }
-            case .failure(let error):
-                print("Network or decoding error: \(error)")
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    func getAllVendors(completionHandler: @escaping (Result<[GetAllVendorsQuery.Data.Collections.Node], Error>) -> Void) {
-        NetworkServiceImpl.shared.apollo.fetch(query: GetAllVendorsQuery(),cachePolicy: .fetchIgnoringCacheCompletely) { result in
-            switch result {
-            case .success(let graphQLResult):
-                if let vendors = graphQLResult.data?.collections.nodes{
-                    let filteredVendors = vendors.filter { $0.image != nil }
-                    completionHandler(.success(filteredVendors))
-                } else {
-                    completionHandler(.failure(NSError(domain: "NoVendors", code: 404, userInfo: nil)))
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
     func queryRequest<Q: GraphQLQuery>(query : Q, completionHandler : @escaping (Result<GraphQLResult<Q.Data>, any Error>)->Void){
         NetworkServiceImpl.shared.apollo.fetch(query: query, cachePolicy: .fetchIgnoringCacheCompletely, resultHandler: completionHandler)
     }

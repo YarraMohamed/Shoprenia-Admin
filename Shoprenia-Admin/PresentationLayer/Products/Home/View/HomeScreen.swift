@@ -35,9 +35,7 @@ struct HomeScreen: View {
     }
     init(path : Binding<NavigationPath>) {
         _viewModel = StateObject(
-            wrappedValue: HomeViewModel(
-                usecase: FetchVendorsUsecase(
-                    networkSercive: NetworkServiceImpl.shared)))
+            wrappedValue: HomeViewModel(usecase: FetchAllVendorsUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource: ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)))) )
         self._path = path
     }
 }
