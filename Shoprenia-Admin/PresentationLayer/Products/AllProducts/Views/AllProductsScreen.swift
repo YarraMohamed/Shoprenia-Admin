@@ -17,6 +17,7 @@ struct AllProductsScreen: View {
     var body: some View {
         ZStack(alignment: .topTrailing){
             VStack(alignment: .center){
+                CustomNavigationBar(path: $path, image: .addCircle, showButtons: true)
                 Text("All Products")
                     .font(.system(size: 36, weight: .medium, design: .default))
                     .foregroundColor(.shopreniaBlue)

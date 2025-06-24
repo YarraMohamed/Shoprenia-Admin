@@ -16,10 +16,10 @@ struct AuthenticationScreen: View {
     @State var message : String = ""
     @State var color : Color = Color(.clear)
     @State var showingEditSheet : Bool = false
-    @State var showAddButtonInNavBar : Bool = true
     var body: some View {
         NavigationStack (path: $path) {
             VStack(spacing: 20){//1
+                CustomNavigationBar(path: $path, showButtomSheet: $showingEditSheet, image: .addCircle, showButtons: false)
                 GreetingSection()
                     .padding(.bottom,20)//2
                 EmailAndPasswordSection(email: $email, password: $password)
@@ -44,37 +44,16 @@ struct AuthenticationScreen: View {
                     case .rootView :
                         RootView(path: $path)
                             .navigationBarBackButtonHidden(true)
-                            .navigationTitle("Shoprenia")
                     case .productDetails(productID: let productID):
-                        ProductDetailsScreen(productID: productID,showEditSheet:$showingEditSheet)
-                            .navigationTitle("Shoprenia")
-                            .toolbar {
-                                ToolbarItem(placement: .navigationBarTrailing) {
-                                    HStack(spacing:15){
-                                        Button {
-                                            showingEditSheet.toggle()
-                                        } label: {
-                                            Image(.edit)
-                                        }
-                                        Button {
-                                            path.append(AppRoute.addProduct)
-                                        } label: {
-                                            Image(.addCircle)
-                                        }
-                                        
-                                    }
-                                }
-                            }
+                        ProductDetailsScreen(productID: productID,showEditSheet:$showingEditSheet, path: $path)
                     case .allProducts(vendorName: let vendorName):
                         AllProductsScreen(path: $path, vendorName: vendorName)
-                            .navigationTitle("Shoprenia")
                     case .addProduct:
-                        AddProductScreen()
+                        AddProductScreen(path: $path)
                     case .createCoupon:
                         CreateCoupon()
                     }
                 }
-                .navigationTitle("Shoprenia")
             if showMessage {
                 ShowMessage(color: $color, message: $message)
             }

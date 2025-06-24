@@ -10,6 +10,7 @@ import Shopify
 import Foundation
 
 struct ProductDetailsScreen: View {
+    @Binding var path : NavigationPath
     var productID : ID
     @Binding var showEditSheet : Bool
     @StateObject var viewModel : ProductDetailsViewModel
@@ -22,6 +23,7 @@ struct ProductDetailsScreen: View {
         let sizeOptions = viewModel.product?.options?.first(where: {$0.name?.lowercased() == "size"})?.optionValues ?? []
         ScrollView{
             VStack{
+                CustomNavigationBar(path: $path ,showButtomSheet: $showEditSheet ,image: .edit, showButtons: true)
                 if let imageUrl = viewModel.product?.media?.first?.originalSource{
                     ProductImage(url: URL(string: imageUrl)!)
                 }
@@ -71,7 +73,6 @@ struct ProductDetailsScreen: View {
                 HStack{
                     ScrollView {
                         Text(viewModel.product?.descriptionHTML ?? "No Description")
-                        //.foregroundColor(Color(hex: "4C4B4B"))
                             .padding(.horizontal,16)
                         
                     }
@@ -140,10 +141,11 @@ struct ProductDetailsScreen: View {
             }
         }
     }
-    init(productID: ID , showEditSheet : Binding<Bool>) {
+    init(productID: ID , showEditSheet : Binding<Bool>, path : Binding<NavigationPath>) {
         self.productID = productID
         _viewModel = StateObject(wrappedValue: ProductDetailsViewModel(usecase: GetProductByIdUsecaseImpl(repository: ProductRepositoryImpl(productRemoteDataSource: ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)))))
         _showEditSheet = showEditSheet
+        self._path = path
     }
 }
 

@@ -30,7 +30,6 @@ class NetworkServiceImpl : NetworkService {
                 "Content-Type": "application/json"
             ]
         )
-        
         apollo = ApolloClient(networkTransport: transport, store: self.store)
     }
     

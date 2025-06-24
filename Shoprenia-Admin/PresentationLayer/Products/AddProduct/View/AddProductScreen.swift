@@ -8,11 +8,13 @@
 import SwiftUI
 import Shopify
 struct AddProductScreen: View {
+    @Binding var path : NavigationPath
     @EnvironmentObject var viewModel : AddProductViewModel
     @State private var progress: Double = 0.25
     @State private var stageNumber = 1
     var body: some View {
         VStack{
+            CustomNavigationBar(path: $path ,image: .addCircle, showButtons: false)
             switch viewModel.creationStages {
                 
             case .firstStage:

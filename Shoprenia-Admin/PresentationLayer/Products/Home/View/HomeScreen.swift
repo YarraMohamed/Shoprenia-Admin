@@ -13,6 +13,7 @@ struct HomeScreen: View {
     var coloumns = [GridItem(.flexible()),GridItem(.flexible())]
     var body: some View {
         VStack(alignment: .center, spacing: 10){
+            CustomNavigationBar(path: $path,image: .addCircle,showButtons: false)
             Text("Brands")
                 .font(.system(size: 36, weight: .medium, design: .default))
                 .foregroundColor(.shopreniaBlue)
