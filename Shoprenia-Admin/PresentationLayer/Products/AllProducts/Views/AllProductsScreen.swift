@@ -18,6 +18,7 @@ struct AllProductsScreen: View {
         ZStack(alignment: .topTrailing){
             VStack(alignment: .center){
                 CustomNavigationBar(path: $path, image: .addCircle, showButtons: true)
+                SearchView(searchText: $viewModel.searchText)
                 Text("All Products")
                     .font(.system(size: 36, weight: .medium, design: .default))
                     .foregroundColor(.shopreniaBlue)
@@ -26,7 +27,7 @@ struct AllProductsScreen: View {
                 }else{
                     ScrollView{
                         LazyVGrid(columns: coloumns, spacing: 20){
-                            ForEach(viewModel.products , id: \.id){ product in
+                            ForEach(viewModel.filteredProducts , id: \.id){ product in
                                 ProductRow( path: $path,product: product,showAlert: $showAlert,productState: $productToDeleteID)
                             }
                         }
@@ -57,6 +58,7 @@ struct AllProductsScreen: View {
                     guard let vendorName = vendorName else{return}
                     viewModel.getVendorProducts(vendorName: vendorName)
                 }
+                viewModel.addSubscribers()
             }
             
         }
@@ -71,6 +73,34 @@ struct AllProductsScreen: View {
             self.vendorName = vendorName
         }
     
+}
+
+
+
+struct SearchView: View {
+    @Binding var searchText : String
+    var body: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.gray)
+
+            TextField("Search by Name", text: $searchText)
+                .foregroundColor(.primary)
+
+            if !searchText.isEmpty {
+                Button(action: {
+                    searchText = ""
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                }
+            }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(15)
+        .padding(.horizontal)
+    }
 }
 
 #Preview {

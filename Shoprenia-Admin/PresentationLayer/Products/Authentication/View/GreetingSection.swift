@@ -11,7 +11,7 @@ struct GreetingSection : View {
     var body: some View {
         HStack{
             VStack{
-                VStack(alignment : .leading , spacing: 5){ //4
+                VStack(spacing: 5){ //4
                     Text("Hello, Admin!")
                         .foregroundStyle(Color("shopreniaBlue"))
                         .font(.system(size: 32, weight: .medium, design: .default)) //5
@@ -20,7 +20,11 @@ struct GreetingSection : View {
                         .font(.system(size: 32, weight: .medium, design: .default)) //6
                 }
             }
-            Spacer()
+            //Spacer()
         }
     }
+}
+
+#Preview {
+    GreetingSection()
 }

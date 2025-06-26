@@ -7,6 +7,8 @@
 
 import Foundation
 import Shopify
+import SwiftUI
+import Combine
 
 class AllProductsViewModel : ObservableObject {
     
@@ -14,6 +16,9 @@ class AllProductsViewModel : ObservableObject {
     let deleteProductUsecase : DeleteProductUsecase
     let getVendorProductsUsecase : VendorProductsUsecase
     @Published var products : [ProductEntity] = []
+    @Published var filteredProducts : [ProductEntity] = []
+    @Published var searchText : String = ""
+    private var cancellables : Set<AnyCancellable> = []
     
     func fetchAllProducts(){
         fetchProductsUsecase.execute { result in
@@ -54,5 +59,19 @@ class AllProductsViewModel : ObservableObject {
         self.fetchProductsUsecase = usecase
         self.deleteProductUsecase = deleteProductUsecase
         self.getVendorProductsUsecase = getVendorProductsUsecase
+    }
+    
+    func addSubscribers(){
+        $searchText
+            .combineLatest(self.$products)
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .sink { searchText, products in
+                guard !searchText.isEmpty else {
+                    self.filteredProducts = products
+                    return
+                }
+                let filteredProducts = products.filter {$0.title?.lowercased().contains(searchText.lowercased()) ?? false}
+                self.filteredProducts = filteredProducts
+            }.store(in: &cancellables)
     }
 }

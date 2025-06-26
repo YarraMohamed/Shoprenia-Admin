@@ -9,8 +9,8 @@ import SwiftUI
 import Shopify
 struct AuthenticationScreen: View {
     var viewModel : AuthenticationViewModel = AuthenticationViewModel()
-    @State var email : String = "Admin"
-    @State var password : String = "12345678"
+    @State var email : String = ""
+    @State var password : String = ""
     @State var showMessage : Bool = false
     @State var path = NavigationPath()
     @State var message : String = ""
@@ -18,10 +18,10 @@ struct AuthenticationScreen: View {
     @State var showingEditSheet : Bool = false
     var body: some View {
         NavigationStack (path: $path) {
-            VStack(spacing: 20){//1
-                CustomNavigationBar(path: $path, showButtomSheet: $showingEditSheet, image: .addCircle, showButtons: false)
+            CustomNavigationBar(path: $path, showButtomSheet: $showingEditSheet, image: .addCircle, showButtons: false)
+            VStack(spacing: 10){//1
                 GreetingSection()
-                    .padding(.bottom,20)//2
+                    .padding(.bottom,50)//2
                 EmailAndPasswordSection(email: $email, password: $password)
                 CustomButton(title: "Login") {
                     if viewModel.validatateAdminCredentials(email: email, password: password){
@@ -85,13 +85,11 @@ struct ShowMessage : View {
     @Binding var color : Color
     @Binding var message : String
     var body : some View {
-        ZStack{
-            Circle()
-                .frame(width: 150, height: 150, alignment: .bottom)
-                .foregroundStyle(color)
+       ZStack{
             Text(message)
-                .foregroundStyle(.white)
-                .font(.system(size: 15, weight: .bold, design: .default))
+                .foregroundStyle(color)
+                .font(.system(size: 25, weight: .bold, design: .default))
+                .padding(.bottom,120)
         }
     }
 }
