@@ -9,13 +9,14 @@ import SwiftUI
 import Shopify
 
 struct ThirdStageView : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @State var color : String = ""
     @State var size : String = ""
     @State var price : String = ""
     @State var quantity : String = ""
     @Binding var progress: Double
     @Binding var stageNumber: Int
+    @Binding var path : NavigationPath
     @State var showError : Bool = false
     @State var isHidden : Bool = false
     @State var variants : [VariantModel] = []
@@ -66,10 +67,14 @@ struct ThirdStageView : View {
             }
             
             Spacer()
-            CustomButton(title: "Save and Publish") {
-                if !variants.isEmpty{
-                    viewModel.createProductVariants()
-                    viewModel.publishProduct()
+            if viewModel.isLoading{
+                ProgressView()
+            }else{
+                CustomButton(title: "Save and Publish") {
+                    if !variants.isEmpty{
+                        viewModel.createProductVariants()
+                        viewModel.publishProduct(path: $path)
+                    }
                 }
             }
         }.padding(.top , 30)
@@ -79,7 +84,7 @@ struct ThirdStageView : View {
 
 
 struct AddVariantSection : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @Binding var color : String
     @Binding var size : String
     @Binding var price : String

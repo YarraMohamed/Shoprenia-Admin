@@ -42,3 +42,4 @@ struct EmailAndPasswordSection : View {
     }
     
 }
+

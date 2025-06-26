@@ -9,11 +9,13 @@ import SwiftUI
 import Shopify
 
 struct SecondStageView : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @State var color : String = ""
     @State var size : String = ""
     @State var colors : [String] = []
     @State var sizes : [String] = []
+    @State var price : String = ""
+    @State var quantity : String = ""
     @State var disableColorButton : Bool = false
     @State var disableSizeButton : Bool = false
     @Binding var progress: Double
@@ -31,20 +33,22 @@ struct SecondStageView : View {
                     .foregroundStyle(Color("shopreniaBlue"))
                     .font(.system(size: 20, weight: .medium, design: .default))
                 AddSizeOptionSection(viewModel: viewModel, size: $size, sizes: $sizes, disableButton: $disableSizeButton,colors: $colors)
-                AddPriceAndQuantitySection(viewModel: viewModel)
+                AddPriceAndQuantitySection(viewModel: viewModel,sentPrice: $price , setQuantity: $quantity)
             }.padding()
             
         }
-        CustomButton(title: "Next") {
-            progress = 0.75
-            viewModel.creationStages = .thirdStage
-            stageNumber = 3
+        if viewModel.isLoading{
+            ProgressView()
+        }else{
+            CustomButton(title: "Next") {
+                viewModel.updateProductVariants(price: price,quantity: quantity,stageNumber: $stageNumber, progress: $progress)
+            }
         }
     }
 }
 
 struct AddColorOptionSection : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @Binding var color : String
     @Binding var colors : [String]
     @Binding var disableButton : Bool
@@ -86,7 +90,7 @@ struct AddColorOptionSection : View {
 
 
 struct AddSizeOptionSection : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @Binding var size : String
     @Binding var sizes : [String]
     @Binding var disableButton : Bool
@@ -123,15 +127,21 @@ struct AddSizeOptionSection : View {
                     .cornerRadius(8)
             }
         }
-        CustomButton(title: "Submit Color and Size"){
-            viewModel.createProductOptions(color: colors.first ?? "", size: sizes.first ?? "")
+        if viewModel.isLoading{
+            ProgressView()
+        }else{
+            CustomButton(title: "Submit Color and Size"){
+                viewModel.createProductOptions(color: colors.first ?? "", size: sizes.first ?? "")
+            }
         }
     }
 }
 
 
 struct AddPriceAndQuantitySection : View {
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
+    @Binding var sentPrice : String
+    @Binding var setQuantity : String
     @State var price : String = ""
     @State var quantityS : String = ""
     @State var quantities : [Quantity] = []
@@ -154,7 +164,8 @@ struct AddPriceAndQuantitySection : View {
                     if !price.isEmpty && !quantityS.isEmpty{
                         let quantity = Quantity(price: price, quantity: quantityS)
                         quantities.append(quantity)
-                        viewModel.updateProductVariants(price: price,quantity: quantityS)
+                        sentPrice = price
+                        setQuantity = quantityS
                         price = ""
                         quantityS = ""
                         disableButton = true

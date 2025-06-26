@@ -16,7 +16,7 @@ struct FirstStageView : View {
     @Binding var stageNumber : Int
     let productTypes : [String] = ["SHOES","T-SHIRTS","ACCESSORIES"]
     let availableVendors : [String] = ["vans","adidas","nike","converse","puma","asic-tiger","palladium","supra","timberland","dr-martens","herschel","flex-fit"]
-    var viewModel : AddProductViewModel
+    @ObservedObject var viewModel : AddProductViewModel
     @State var urls : [String] = []
     var body : some View {
         ScrollView{
@@ -72,14 +72,15 @@ struct FirstStageView : View {
                 }
             }
             
-                CustomButton(title: "Next") {
-                    viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor, imageSources: urls)
-                progress = 0.5
-                stageNumber = 2
+        }.padding()
+        if viewModel.isLoading{
+            ProgressView()
+        }else{
+            CustomButton(title: "Next") {
+                viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor, imageSources: urls,stageNumber: $stageNumber, progress: $progress)
                 
             }
-        }.padding(.top , 80)
-            .padding()
+        }
     }
 }
 

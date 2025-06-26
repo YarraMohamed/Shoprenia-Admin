@@ -14,6 +14,7 @@ struct HomeScreen: View {
     var body: some View {
         VStack(alignment: .center, spacing: 10){
             CustomNavigationBar(path: $path,image: .addCircle,showButtons: false)
+            SearchView(searchText: $viewModel.searchText)
             Text("Brands")
                 .font(.system(size: 36, weight: .medium, design: .default))
                 .foregroundColor(.shopreniaBlue)
@@ -23,7 +24,7 @@ struct HomeScreen: View {
                         .frame(height: 350)
                 }else{
                     LazyVGrid(columns: coloumns,spacing: 24){//2
-                        ForEach(viewModel.vendors , id: \.id ){ vendor in
+                        ForEach(viewModel.filteredVendors , id: \.id ){ vendor in
                             VendorsRow(path: $path,vendor: vendor)
                         }
                     }.padding()

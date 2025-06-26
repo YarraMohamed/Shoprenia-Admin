@@ -7,6 +7,7 @@
 
 import Foundation
 import Shopify
+import SwiftUI
 
 class UpdateProductViewModel: ObservableObject {
     
@@ -19,6 +20,7 @@ class UpdateProductViewModel: ObservableObject {
     private let setInventoryquantityUseCase : SetInventoryQuantityUsecase
     private let publishProductUsecase : PublishProductUsecase
     @Published var finish : Bool = false
+    @Published var isLoading : Bool = false
     init(deleteProductUseCase: DeleteProductUsecase, createProductUseCase: CreateProductUsecase, createProductOptionsUseCase: CreateProductOptionsUsecase, createProductVariantUseCase: CreateProductVariantsUsecase, updateProductVariantUsecase: UpdateProductVariantUsecase, setInventoryquantityUseCase: SetInventoryQuantityUsecase, publishProductUsecase: PublishProductUsecase) {
         self.deleteProductUseCase = deleteProductUseCase
         self.createProductUseCase = createProductUseCase
@@ -41,8 +43,10 @@ class UpdateProductViewModel: ObservableObject {
         initialSize : String ,
         initialPrice : String ,
         initialQuantity : String,
-        variants : [VariantModel]
+        variants : [VariantModel],
+        showUpdateButton : Binding<Bool>
     ){
+        isLoading = true
         let imageEntity = urls.map{ImageEntity(originalSource: $0, alt: nil, imageContentType: .image)}
         
         let product = ProductEntity(id: nil, title: title, descriptionHTML: description, isGiftCard: nil, totalInventory: nil, vendor: vendor, productType: productType, tags: nil, variants: nil, options: nil, media: imageEntity, inventoryItemId: nil)
@@ -52,14 +56,15 @@ class UpdateProductViewModel: ObservableObject {
             case .success(let product):
                 self.myProduct = product
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
-                self.createProductOptions(oldProductID: oldProductID ,color: initialColor, size: initialSize, initialPrice: initialPrice , initialQuantity: initialQuantity, product: self.myProduct, variants: variants)
+                self.createProductOptions(oldProductID: oldProductID ,color: initialColor, size: initialSize, initialPrice: initialPrice , initialQuantity: initialQuantity, product: self.myProduct, variants: variants,showUpdateButton: showUpdateButton)
             case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
     
-    private func createProductOptions(oldProductID : ID ,color : String , size : String ,initialPrice : String, initialQuantity : String, product : ProductEntity,variants : [VariantModel]){
+    private func createProductOptions(oldProductID : ID ,color : String , size : String ,initialPrice : String, initialQuantity : String, product : ProductEntity,variants : [VariantModel],showUpdateButton : Binding<Bool>){
         let options = [
             OptionEntity(
                 id: nil,
@@ -80,18 +85,20 @@ class UpdateProductViewModel: ObservableObject {
                     self.myProduct.variants = product.variants
                     print("Options Created Successfully : ")
                     //\(String(describing: self.myProduct.options))
-                    self.updateProductVariants(oldProductID: oldProductID, price: initialPrice, quantity: initialQuantity, product: self.myProduct,myVariants: variants)
+                    self.updateProductVariants(oldProductID: oldProductID, price: initialPrice, quantity: initialQuantity, product: self.myProduct,myVariants: variants,showUpdateButton: showUpdateButton)
                 }else{
                     print("No options Found")
+                    self.isLoading = false
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
     
     private func updateProductVariants(oldProductID : ID ,price : String , quantity : String, product : ProductEntity, myVariants : [VariantModel]
-){
+                                       ,showUpdateButton : Binding<Bool>){
         guard let variantID = myProduct.variants?.first?.id else { return }
         let variant = VariantEntity(
             availableForSale: nil,
@@ -106,19 +113,21 @@ class UpdateProductViewModel: ObservableObject {
             case .success(let product):
                 if let variants = product.variants{
                     self.myProduct.variants = variants
-                    self.setInventoryQuantity(oldProductID: oldProductID, quantity: quantity,variants: myVariants)
+                    self.setInventoryQuantity(oldProductID: oldProductID, quantity: quantity,variants: myVariants,showUpdateButton: showUpdateButton)
                     print("Price added Successfully ")
                     //\(self.myProduct.variants?.first?.price ?? "No Price")
                 }else{
                     print("No variants found")
+                    self.isLoading = false
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
     
-    private func setInventoryQuantity(oldProductID : ID ,quantity : String, variants : [VariantModel]){
+    private func setInventoryQuantity(oldProductID : ID ,quantity : String, variants : [VariantModel],showUpdateButton : Binding<Bool>){
         let inventory = InventoryEntity(quantities: [InventoryQuantity(
             inventoryItemId: myProduct.inventoryItemId, quantity: Int(quantity)
         )])
@@ -127,14 +136,15 @@ class UpdateProductViewModel: ObservableObject {
             switch result{
             case .success(_):
                 print("Added Quantity successfully")
-                self.createProductVariants(oldProductID: oldProductID, variants: variants)
+                self.createProductVariants(oldProductID: oldProductID, variants: variants,showUpdateButton: showUpdateButton)
             case .failure(let error) :
                 print(error.localizedDescription)
+                self.isLoading = false
             }
         }
     }
     
-    private func createProductVariants(oldProductID : ID, variants : [VariantModel]){
+    private func createProductVariants(oldProductID : ID, variants : [VariantModel],showUpdateButton : Binding<Bool>){
         let variants = variants.map({$0.toVariantEntity()})
         myProduct.variants = variants
         myProduct.variants?.remove(at: 0)
@@ -144,33 +154,40 @@ class UpdateProductViewModel: ObservableObject {
                 self.myProduct.variants = product.variants
                 print("Successfully Product Variant Creation : ")
                // \(String(describing: self.myProduct.variants))
-                self.publishProduct(oldProductID: oldProductID )
+                self.publishProduct(oldProductID: oldProductID,showUpdateButton: showUpdateButton )
             case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
     
-    private func publishProduct(oldProductID : ID){
+    private func publishProduct(oldProductID : ID,showUpdateButton : Binding<Bool>){
         guard let productID = self.myProduct.id else {return}
         publishProductUsecase.execute(productID:productID) { result in
             switch result{
                 case .success(_):
                 print("Congratulation you have create your product successfully")
-                self.deleteProduct(oldProductID: oldProductID)
+                self.deleteProduct(oldProductID: oldProductID,showUpdateButton:showUpdateButton)
                 case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
-    private func deleteProduct(oldProductID : ID){
+    private func deleteProduct(oldProductID : ID,showUpdateButton : Binding<Bool>){
         deleteProductUseCase.execute(productID: oldProductID) { result in
             switch result{
             case .success(_):
-                self.finish = true
                 print("Congratulation you have delete your product successfully")
+                self.isLoading = false
+                self.finish = true
+                var buttonState = showUpdateButton.wrappedValue
+                buttonState = false
+                showUpdateButton.wrappedValue = buttonState
             case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
