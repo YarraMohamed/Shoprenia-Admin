@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "2030048B-46DA-4A37-BFD4-67E4165CA06E",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:Shoprenia-Admin.xcodeproj",
+        "identifier" : "382D4B012E05A4970021162C",
+        "name" : "Shoprenia-AdminTests"
+      }
+    }
+  ],
+  "version" : 1
+}

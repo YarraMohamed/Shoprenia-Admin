@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		382D4B022E05A4970021162C /* Shoprenia-AdminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shoprenia-AdminTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		385EEFD72E0D8624005C22C2 /* Shoprenia-AdminTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Shoprenia-AdminTests.xctestplan"; sourceTree = "<group>"; };
 		3871B8AC2DE7E56500693FE8 /* API */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = API; sourceTree = "<group>"; };
 		3871B8AE2DE7E56500693FE8 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		38AC73D92DFBC44C006BBEFE /* secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secrets.swift; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		38ADCE1D2DE630F8005EEC69 = {
 			isa = PBXGroup;
 			children = (
+				385EEFD72E0D8624005C22C2 /* Shoprenia-AdminTests.xctestplan */,
 				38AC73D92DFBC44C006BBEFE /* secrets.swift */,
 				3891BEC12DEA123500F5550E /* Assets */,
 				3891BEC02DEA122600F5550E /* App */,
@@ -181,7 +183,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					382D4B012E05A4970021162C = {
 						CreatedOnToolsVersion = 16.4;
@@ -266,6 +268,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
@@ -288,6 +291,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
