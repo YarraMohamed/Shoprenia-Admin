@@ -1,0 +1,23 @@
+mutation CreateProductOptions($id: ID!, $productOptions: [OptionCreateInput!]!) {
+  productOptionsCreate(productId: $id, options: $productOptions) {
+    product {
+            id
+            variants(first: 100) {
+                nodes {
+                    id
+                    price
+                    title
+                }
+            }
+            options(first: 10) {
+                id
+                values
+                name
+            }
+        }
+    userErrors {
+      field
+      message
+    }
+  }
+}

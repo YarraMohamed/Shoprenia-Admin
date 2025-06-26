@@ -1,0 +1,8 @@
+mutation DeleteDiscountCode($ids: [ID!]!) {
+  discountCodeBulkDelete(ids: $ids) {
+    userErrors {
+      code
+      message
+    }
+  }
+}

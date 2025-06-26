@@ -1,0 +1,55 @@
+mutation CreateFixedDiscountCode(
+  $title: String!
+  $startsAt: DateTime!
+  $endsAt: DateTime!
+  $usageLimit: Int!
+  $code: String!
+  $discountAmount: Decimal!
+  $minimumSubtotal: Decimal!
+) {
+  discountCodeBasicCreate(
+    basicCodeDiscount: {
+      title: $title
+      startsAt: $startsAt
+      endsAt: $endsAt
+      usageLimit: $usageLimit
+      customerSelection: { all: true }
+      code: $code
+      customerGets: {
+        value: {
+          discountAmount: {
+            amount: $discountAmount
+          }
+        },
+        items: { all: true }
+      }
+      appliesOncePerCustomer: true
+      minimumRequirement: {
+        subtotal: {
+          greaterThanOrEqualToSubtotal: $minimumSubtotal
+        }
+      }
+    }
+  ) {
+    userErrors {
+      field
+      message
+    }
+    codeDiscountNode {
+      id
+      codeDiscount {
+        ... on DiscountCodeBasic {
+          title
+          status
+          startsAt
+          endsAt
+          codes(first: 1) {
+            nodes {
+              code
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,0 @@
-query GetVendors {
-    productVendors(first: 100) {
-        nodes
-    }
-}
-

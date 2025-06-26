@@ -10,25 +10,63 @@
 		3871B8A42DE7DDE800693FE8 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A32DE7DDE800693FE8 /* Apollo */; };
 		3871B8A62DE7DDE800693FE8 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8A52DE7DDE800693FE8 /* ApolloWebSocket */; };
 		3871B8B42DE7E62200693FE8 /* Shopify in Frameworks */ = {isa = PBXBuildFile; productRef = 3871B8B32DE7E62200693FE8 /* Shopify */; };
+		38AC73DA2DFBC453006BBEFE /* secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC73D92DFBC44C006BBEFE /* secrets.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		382D4B062E05A4970021162C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38ADCE1E2DE630F8005EEC69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38ADCE252DE630F8005EEC69;
+			remoteInfo = "Shoprenia-Admin";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		3864DD9F2DE7F73000AE5510 /* getVendors.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getVendors.graphql; sourceTree = "<group>"; };
+		382D4B022E05A4970021162C /* Shoprenia-AdminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shoprenia-AdminTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3871B8AC2DE7E56500693FE8 /* API */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = API; sourceTree = "<group>"; };
-		3871B8AD2DE7E56500693FE8 /* getProducts.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = getProducts.graphql; sourceTree = "<group>"; };
 		3871B8AE2DE7E56500693FE8 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		38AC73D92DFBC44C006BBEFE /* secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = secrets.swift; sourceTree = "<group>"; };
 		38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shoprenia-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		382D4B032E05A4970021162C /* Shoprenia-AdminTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Shoprenia-AdminTests";
+			sourceTree = "<group>";
+		};
+		3891BEC02DEA122600F5550E /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
+		3891BEC12DEA123500F5550E /* Assets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Shoprenia-Admin";
 			sourceTree = "<group>";
 		};
+		38BCE5352DEBC2FC007CD04C /* Queries */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Queries;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		382D4AFF2E05A4970021162C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		38ADCE232DE630F8005EEC69 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -45,9 +83,8 @@
 		3871B8AF2DE7E56500693FE8 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
+				38BCE5352DEBC2FC007CD04C /* Queries */,
 				3871B8AC2DE7E56500693FE8 /* API */,
-				3871B8AD2DE7E56500693FE8 /* getProducts.graphql */,
-				3864DD9F2DE7F73000AE5510 /* getVendors.graphql */,
 				3871B8AE2DE7E56500693FE8 /* schema.graphqls */,
 			);
 			path = GraphQL;
@@ -63,8 +100,12 @@
 		38ADCE1D2DE630F8005EEC69 = {
 			isa = PBXGroup;
 			children = (
+				38AC73D92DFBC44C006BBEFE /* secrets.swift */,
+				3891BEC12DEA123500F5550E /* Assets */,
+				3891BEC02DEA122600F5550E /* App */,
 				3871B8AF2DE7E56500693FE8 /* GraphQL */,
 				38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */,
+				382D4B032E05A4970021162C /* Shoprenia-AdminTests */,
 				3871B8B52DE7E6B100693FE8 /* Frameworks */,
 				38ADCE272DE630F8005EEC69 /* Products */,
 			);
@@ -74,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				38ADCE262DE630F8005EEC69 /* Shoprenia-Admin.app */,
+				382D4B022E05A4970021162C /* Shoprenia-AdminTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,6 +123,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		382D4B012E05A4970021162C /* Shoprenia-AdminTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 382D4B082E05A4970021162C /* Build configuration list for PBXNativeTarget "Shoprenia-AdminTests" */;
+			buildPhases = (
+				382D4AFE2E05A4970021162C /* Sources */,
+				382D4AFF2E05A4970021162C /* Frameworks */,
+				382D4B002E05A4970021162C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				382D4B072E05A4970021162C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				382D4B032E05A4970021162C /* Shoprenia-AdminTests */,
+			);
+			name = "Shoprenia-AdminTests";
+			packageProductDependencies = (
+			);
+			productName = "Shoprenia-AdminTests";
+			productReference = 382D4B022E05A4970021162C /* Shoprenia-AdminTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		38ADCE252DE630F8005EEC69 /* Shoprenia-Admin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 38ADCE312DE630FA005EEC69 /* Build configuration list for PBXNativeTarget "Shoprenia-Admin" */;
@@ -94,6 +159,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3891BEC02DEA122600F5550E /* App */,
+				3891BEC12DEA123500F5550E /* Assets */,
 				38ADCE282DE630F8005EEC69 /* Shoprenia-Admin */,
 			);
 			name = "Shoprenia-Admin";
@@ -113,9 +180,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					382D4B012E05A4970021162C = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 38ADCE252DE630F8005EEC69;
+					};
 					38ADCE252DE630F8005EEC69 = {
 						CreatedOnToolsVersion = 16.3;
 					};
@@ -140,11 +211,19 @@
 			projectRoot = "";
 			targets = (
 				38ADCE252DE630F8005EEC69 /* Shoprenia-Admin */,
+				382D4B012E05A4970021162C /* Shoprenia-AdminTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		382D4B002E05A4970021162C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		38ADCE242DE630F8005EEC69 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,16 +234,76 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		38ADCE222DE630F8005EEC69 /* Sources */ = {
+		382D4AFE2E05A4970021162C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		38ADCE222DE630F8005EEC69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38AC73DA2DFBC453006BBEFE /* secrets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		382D4B072E05A4970021162C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38ADCE252DE630F8005EEC69 /* Shoprenia-Admin */;
+			targetProxy = 382D4B062E05A4970021162C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		382D4B092E05A4970021162C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ITI.Shoprenia-AdminTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shoprenia-Admin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Shoprenia-Admin";
+				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Debug;
+		};
+		382D4B0A2E05A4970021162C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ITI.Shoprenia-AdminTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shoprenia-Admin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Shoprenia-Admin";
+				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Release;
+		};
 		38ADCE2F2DE630FA005EEC69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -341,6 +480,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		382D4B082E05A4970021162C /* Build configuration list for PBXNativeTarget "Shoprenia-AdminTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				382D4B092E05A4970021162C /* Debug */,
+				382D4B0A2E05A4970021162C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		38ADCE212DE630F8005EEC69 /* Build configuration list for PBXProject "Shoprenia-Admin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
