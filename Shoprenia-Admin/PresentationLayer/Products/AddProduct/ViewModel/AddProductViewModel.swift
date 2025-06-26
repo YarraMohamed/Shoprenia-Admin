@@ -7,6 +7,7 @@
 
 import Foundation
 import Shopify
+import SwiftUI
 
 class AddProductViewModel : ObservableObject{
     
@@ -38,7 +39,9 @@ class AddProductViewModel : ObservableObject{
         self.publishProductUsecase = publishProductUsecase
     }
     
-    func createProduct(title : String , description : String , productType : String , vendor : String , imageSources : [String]){
+    func createProduct(title : String , description : String , productType : String , vendor : String , imageSources : [String]
+                       ,stageNumber : Binding<Int> , progress : Binding<Double>){
+        isLoading = true
         let imageEntity = imageSources.map{ imageSource in
             ImageEntity(originalSource: imageSource, alt: nil, imageContentType: .image)
         }
@@ -46,12 +49,16 @@ class AddProductViewModel : ObservableObject{
         createProductUseCase.execute(product: product) { result in
             switch result {
             case .success(let product):
+                self.isLoading = false
+                self.creationStages = .secondStage
+                stageNumber.wrappedValue = 2
+                progress.wrappedValue = 0.5
                 self.errorMessage = nil
                 self.product = product
-                self.creationStages = .secondStage
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
                 print(product.media?.first?.originalSource ?? "No media found")
             case .failure(let failure):
+                self.isLoading = false
                 self.errorMessage = failure.localizedDescription
             }
         }
@@ -59,6 +66,7 @@ class AddProductViewModel : ObservableObject{
     
     func createProductOptions(color : String , size : String){
         guard var product = self.product else { return }
+        isLoading = true
         let options = [OptionEntity(
             id: nil,
             name: "Color",
@@ -77,6 +85,7 @@ class AddProductViewModel : ObservableObject{
         createProductOptionsUseCase.execute(product: product) { result in
             switch result {
             case .success(let product):
+                self.isLoading = false
                 self.product?.options = product.options
                 self.product?.variants = product.variants
                 if let options = product.options {
@@ -88,14 +97,16 @@ class AddProductViewModel : ObservableObject{
                     print(self.errorMessage ?? "ERROOOOOOOR")
                 }
             case .failure(let failure):
+                self.isLoading = false
                 self.errorMessage = failure.localizedDescription
                 print(self.errorMessage ?? "ERROOOOOOOR") 
             }
         }
     }
     
-    func updateProductVariants(price : String , quantity : String){
+    func updateProductVariants(price : String , quantity : String, stageNumber : Binding<Int> , progress : Binding<Double>){
         guard let variantID = self.product?.variants?.first?.id else { return }
+        isLoading = true
         let variant = VariantEntity(
             availableForSale: nil,
             id: variantID,
@@ -110,20 +121,22 @@ class AddProductViewModel : ObservableObject{
             case .success(let product):
                 if let variants = product.variants{
                     self.variants = variants
-                    self.setInventoryQuantity(quantity: quantity)
+                    self.setInventoryQuantity(quantity: quantity, stageNumber: stageNumber, progress: progress)
                     print(product.variants?.first?.price ?? "No Price")
                 }else{
                     self.errorMessage = "No Variants Found"
                     print(self.errorMessage ?? "ERROOOOOOOR")
+                    self.isLoading = false
                 }
             case .failure(let failure):
                 self.errorMessage = failure.localizedDescription
                 print(self.errorMessage ?? "ERROOOOOOOOR")
+                self.isLoading = false
             }
         }
     }
     
-    private func setInventoryQuantity(quantity : String){
+    private func setInventoryQuantity(quantity : String , stageNumber : Binding<Int> , progress : Binding<Double>){
         let inventory = InventoryEntity(quantities: [InventoryQuantity(
             inventoryItemId: product?.inventoryItemId, quantity: Int(quantity)
         )])
@@ -132,8 +145,12 @@ class AddProductViewModel : ObservableObject{
             switch result{
             case .success(_):
                 print("Added Quantity successfully")
+                self.isLoading = false
                 self.creationStages = .thirdStage
+                progress.wrappedValue = 0.75
+                stageNumber.wrappedValue = 3
             case .failure(let error) :
+                self.isLoading = false
                 self.errorMessage = error.localizedDescription
                 print(self.errorMessage ?? "EROOOOOOOOOR")
             }
@@ -173,14 +190,20 @@ class AddProductViewModel : ObservableObject{
         }
     }
     
-    func publishProduct(){
+    func publishProduct(path : Binding<NavigationPath>){
         guard let productID = self.product?.id else {return}
+        isLoading = true
         publishProductUsecase.execute(productID:productID) { result in
             switch result{
-                case .success(_):
+            case .success(_):
                 print("Congratulation you have create your product successfully")
-                case .failure(let failure):
+                self.isLoading = false
+                var myPath = path.wrappedValue
+                myPath.removeLast(myPath.count-1)
+                path.wrappedValue = myPath
+            case .failure(let failure):
                 print(failure.localizedDescription)
+                self.isLoading = false
             }
         }
     }
@@ -191,5 +214,4 @@ enum CreationStage{
     case firstStage
     case secondStage
     case thirdStage
-    case forthStage
 }

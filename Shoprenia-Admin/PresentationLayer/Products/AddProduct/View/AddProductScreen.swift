@@ -8,8 +8,17 @@
 import SwiftUI
 import Shopify
 struct AddProductScreen: View {
+    @StateObject var viewModel = {
+        let productsRemoteDataSource = ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let productsRepository = ProductRepositoryImpl(productRemoteDataSource: productsRemoteDataSource)
+        let createProductUseCase = CreateProductUsecaseImpl(repository: productsRepository)
+        let createProductOptionsUseCase = CreateProductOptionsUsecaseImpl(repository: productsRepository)
+        let createProductVariantUseCase = CreateProductVariantsUsecaseImpl(repository: productsRepository)
+        let updateProductVariantUsecase = UpdateProductVariantUsecaseImpl(repository: productsRepository)
+        let setInventoryQuantityUseCase: SetInventoryQuantityUsecase = SetInventoryQuantityUsecaseImpl(repository: productsRepository)
+        return AddProductViewModel(createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryQuantityUseCase: setInventoryQuantityUseCase, publishProductUsecase: PublishProductUsecaseImpl(repository: productsRepository))
+    }()
     @Binding var path : NavigationPath
-    @EnvironmentObject var viewModel : AddProductViewModel
     @State private var progress: Double = 0.25
     @State private var stageNumber = 1
     var body: some View {
@@ -22,11 +31,8 @@ struct AddProductScreen: View {
             case .secondStage:
                 SecondStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber)
             case .thirdStage :
-                ThirdStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber)
-                
-            case .forthStage:
-                Text("Hello")
-                
+                ThirdStageView(viewModel: viewModel, progress: $progress, stageNumber: $stageNumber,path: $path
+                )
             }
             Spacer()
             VStack(alignment : .center, spacing : 20){

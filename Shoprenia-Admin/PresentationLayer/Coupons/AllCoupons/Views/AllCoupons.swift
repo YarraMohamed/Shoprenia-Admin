@@ -10,7 +10,13 @@ import Shopify
 
 struct AllCoupons: View {
     @Binding var path : NavigationPath
-    @EnvironmentObject var viewModel : AllCouponsViewModel
+    @StateObject var viewModel = {
+        let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
+        let fetchAllCouponsUsecase = FetchAllCouponsUsecaseImpl(repository: couponsRepository)
+        let deleteDiscountCodeUseCase = DeleteDiscountCodeUsecaseImpl(repository: couponsRepository)
+        return AllCouponsViewModel(fetchAllCouponsUseCase: fetchAllCouponsUsecase, deleteDiscountCodeUseCase: deleteDiscountCodeUseCase)
+    }()
     @State var id : ID = ID()
     @State var showAlert : Bool = false
     var coloumns = [GridItem(.flexible())]

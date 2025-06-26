@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct CreateCoupon: View {
-    @EnvironmentObject var viewModel : CreateCouponViewModel
+    @StateObject var viewModel = {
+        let couponsDataSource = CouponsDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let couponsRepository = CouponsRepositoryImpl(couponsDataSource: couponsDataSource)
+        let createCouponUsecase = CreatePercentageDiscountCodeUsecaseImpl(repository: couponsRepository)
+        let createFixedCode = CreateFixedDiscountUsecaseImpl(repository: couponsRepository)
+        return CreateCouponViewModel(createPercentageDiscountCodeUsecase: createCouponUsecase, createFixedDiscountCodeUsecase: createFixedCode)
+    }()
     @State var couponTitle : String = ""
     @State var startDate : String = ""
     @State var endDate : String = ""
@@ -22,18 +28,48 @@ struct CreateCoupon: View {
         VStack(alignment : .leading , spacing:20){
             VStack{
                 Text("Coupon Creation")
-                CreateCouponHStack(title: "Coupon Title : ", textFieldTitle: "Title", input: $couponTitle)
-                CreateCouponHStack(title: "Start Date : ", textFieldTitle: "Start Date", input: $startDate)
-                CreateCouponHStack(title: "End Date : ", textFieldTitle: "End Date", input: $endDate)
-                CreateCouponHStack(title: "Usage Limit : ", textFieldTitle: "Limit", input: $couponLimit)
-                CreateCouponHStack(title: "Coupon Code : ", textFieldTitle: "Code", input: $couponCode)
-                CreateCouponHStack(title: "Minimun Subtotal :", textFieldTitle: "Minimun Subtotal", input: $minimumSubtotal)
+                CreateCouponHStack(
+                    title: "Coupon Title : ",
+                    textFieldTitle: "Title",
+                    input: $couponTitle
+                )
+                CreateCouponHStack(
+                    title: "Start Date : ",
+                    textFieldTitle: "Start Date",
+                    input: $startDate
+                )
+                CreateCouponHStack(
+                    title: "End Date : ",
+                    textFieldTitle: "End Date",
+                    input: $endDate
+                )
+                CreateCouponHStack(
+                    title: "Usage Limit : ",
+                    textFieldTitle: "Limit",
+                    input: $couponLimit
+                )
+                CreateCouponHStack(
+                    title: "Coupon Code : ",
+                    textFieldTitle: "Code",
+                    input: $couponCode
+                )
+                CreateCouponHStack(
+                    title: "Minimun Subtotal :",
+                    textFieldTitle: "Minimun Subtotal",
+                    input: $minimumSubtotal
+                )
                 CustomPickerView(selectedType: $selectedType)
                 switch selectedType {
                 case .percentage:
-                    CustomDiscoountValueView(discountValue: $discountValue, title: "Percentage Value")
+                    CustomDiscoountValueView(
+                        discountValue: $discountValue,
+                        title: "Percentage Value"
+                    )
                 case .fixed:
-                    CustomDiscoountValueView(discountValue: $discountValue, title: "Fixed Value")
+                    CustomDiscoountValueView(
+                        discountValue: $discountValue,
+                        title: "Fixed Value"
+                    )
                 }
                
             }.padding()
@@ -47,31 +83,36 @@ struct CreateCoupon: View {
                 )
             
         }
-        CustomButton(title: "Create Coupon") {
-            print("Clicked")
-            switch selectedType {
-            case .fixed:
-                viewModel.createFixedDiscountCode(coupon:CouponEntity(
-                    title: couponTitle,
-                    starstAt: startDate,
-                    endsAt: endDate,
-                    usageLimit: Int(couponLimit),
-                    code: couponCode,
-                    percentage: nil,
-                    amount: Double(discountValue),
-                    minimumSubtotal: Double(minimumSubtotal))
+        if viewModel.isLoading{
+            ProgressView()
+        }
+        else{
+            CustomButton(title: "Create Coupon") {
+                print("Clicked")
+                switch selectedType {
+                case .fixed:
+                    viewModel.createFixedDiscountCode(coupon:CouponEntity(
+                        title: couponTitle,
+                        starstAt: startDate,
+                        endsAt: endDate,
+                        usageLimit: Int(couponLimit),
+                        code: couponCode,
+                        percentage: nil,
+                        amount: Double(discountValue),
+                        minimumSubtotal: Double(minimumSubtotal))
                     )
-            case .percentage:
-                viewModel.createPercentageDiscountCode(coupon: CouponEntity(
-                    title: couponTitle,
-                    starstAt: startDate,
-                    endsAt: endDate,
-                    usageLimit: Int(couponLimit),
-                    code: couponCode,
-                    percentage: Double(discountValue),
-                    minimumSubtotal: Double(minimumSubtotal)
+                case .percentage:
+                    viewModel.createPercentageDiscountCode(coupon: CouponEntity(
+                        title: couponTitle,
+                        starstAt: startDate,
+                        endsAt: endDate,
+                        usageLimit: Int(couponLimit),
+                        code: couponCode,
+                        percentage: Double(discountValue),
+                        minimumSubtotal: Double(minimumSubtotal)
                     )
-                )
+                    )
+                }
             }
             
             

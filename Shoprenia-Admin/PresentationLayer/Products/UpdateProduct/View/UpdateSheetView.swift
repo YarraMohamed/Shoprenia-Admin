@@ -19,7 +19,16 @@ struct UpdateSheetView : View {
     @State var initialPrice:String
     @State var initialQuantity: String
     @State var variants : [VariantModel]
-    @EnvironmentObject var viewModel : UpdateProductViewModel
+    @StateObject var viewModel = {
+        let productsRemoteDataSource = ProductRemoteDataSourceImpl(networkService: NetworkServiceImpl.shared)
+        let productsRepository = ProductRepositoryImpl(productRemoteDataSource: productsRemoteDataSource)
+        let createProductUseCase = CreateProductUsecaseImpl(repository: productsRepository)
+        let createProductOptionsUseCase = CreateProductOptionsUsecaseImpl(repository: productsRepository)
+        let createProductVariantUseCase = CreateProductVariantsUsecaseImpl(repository: productsRepository)
+        let updateProductVariantUsecase = UpdateProductVariantUsecaseImpl(repository: productsRepository)
+        let setInventoryQuantityUseCase: SetInventoryQuantityUsecase = SetInventoryQuantityUsecaseImpl(repository: productsRepository)
+        return UpdateProductViewModel(deleteProductUseCase: DeleteProductUsecaseImpl(repository: productsRepository), createProductUseCase: createProductUseCase, createProductOptionsUseCase: createProductOptionsUseCase, createProductVariantUseCase: createProductVariantUseCase, updateProductVariantUsecase: updateProductVariantUsecase, setInventoryquantityUseCase: setInventoryQuantityUseCase, publishProductUsecase: PublishProductUsecaseImpl(repository: productsRepository))
+    }()
     var product : ProductEntity
     @Binding var showBottomSheet : Bool
     @State var selectedTab : Tabs = .MainInfo
@@ -45,23 +54,25 @@ struct UpdateSheetView : View {
                 print(product.media ?? [])
             }
             .padding()
-            CustomButton(title: "Save and Update") {
-                guard let productID = product.id else{return}
-                viewModel.updateProduct(
-                    oldProductID: productID,
-                    title: title,
-                    description: description,
-                    productType: productType,
-                    vendor: vendor,
-                    urls: urls,
-                    initialColor: initialColor,
-                    initialSize: initialSize,
-                    initialPrice:initialPrice,
-                    initialQuantity: initialQuantity,
-                    variants: variants
-                )
-                if viewModel.finish{
-                    showBottomSheet = false
+            if viewModel.isLoading{
+                ProgressView()
+            }else{
+                CustomButton(title: "Save and Update") {
+                    guard let productID = product.id else{return}
+                    viewModel.updateProduct(
+                        oldProductID: productID,
+                        title: title,
+                        description: description,
+                        productType: productType,
+                        vendor: vendor,
+                        urls: urls,
+                        initialColor: initialColor,
+                        initialSize: initialSize,
+                        initialPrice:initialPrice,
+                        initialQuantity: initialQuantity,
+                        variants: variants,
+                        showUpdateButton: $showBottomSheet
+                    )
                 }
             }
         }
