@@ -108,7 +108,7 @@ struct CreateCoupon: View {
                         endsAt: endDate,
                         usageLimit: Int(couponLimit),
                         code: couponCode,
-                        percentage: Double(discountValue),
+                        percentage: (Double(discountValue) ?? 0.0)/100,
                         minimumSubtotal: Double(minimumSubtotal)
                     )
                     )

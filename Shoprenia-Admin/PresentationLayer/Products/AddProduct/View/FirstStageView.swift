@@ -71,16 +71,16 @@ struct FirstStageView : View {
                             .cornerRadius(8)
                 }
             }
-            if viewModel.isLoading{
-                ProgressView()
-            }else{
-                CustomButton(title: "Next") {
-                    viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor, imageSources: urls,stageNumber: $stageNumber, progress: $progress)
-                    
-                }
+            
+        }.padding()
+        if viewModel.isLoading{
+            ProgressView()
+        }else{
+            CustomButton(title: "Next") {
+                viewModel.createProduct(title: title, description: description, productType: type, vendor: vendor, imageSources: urls,stageNumber: $stageNumber, progress: $progress)
+                
             }
-        }.padding(.top , 80)
-            .padding()
+        }
     }
 }
 
