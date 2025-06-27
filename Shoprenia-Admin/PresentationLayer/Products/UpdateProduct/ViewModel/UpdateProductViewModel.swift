@@ -44,7 +44,8 @@ class UpdateProductViewModel: ObservableObject {
         initialPrice : String ,
         initialQuantity : String,
         variants : [VariantModel],
-        showUpdateButton : Binding<Bool>
+        showUpdateButton : Binding<Bool>,
+        path : Binding<NavigationPath>
     ){
         isLoading = true
         let imageEntity = urls.map{ImageEntity(originalSource: $0, alt: nil, imageContentType: .image)}
@@ -56,7 +57,7 @@ class UpdateProductViewModel: ObservableObject {
             case .success(let product):
                 self.myProduct = product
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
-                self.createProductOptions(oldProductID: oldProductID ,color: initialColor, size: initialSize, initialPrice: initialPrice , initialQuantity: initialQuantity, product: self.myProduct, variants: variants,showUpdateButton: showUpdateButton)
+                self.createProductOptions(oldProductID: oldProductID ,color: initialColor, size: initialSize, initialPrice: initialPrice , initialQuantity: initialQuantity, product: self.myProduct, variants: variants,showUpdateButton: showUpdateButton,path: path)
             case .failure(let failure):
                 print(failure.localizedDescription)
                 self.isLoading = false
@@ -64,7 +65,7 @@ class UpdateProductViewModel: ObservableObject {
         }
     }
     
-    private func createProductOptions(oldProductID : ID ,color : String , size : String ,initialPrice : String, initialQuantity : String, product : ProductEntity,variants : [VariantModel],showUpdateButton : Binding<Bool>){
+    private func createProductOptions(oldProductID : ID ,color : String , size : String ,initialPrice : String, initialQuantity : String, product : ProductEntity,variants : [VariantModel],showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         let options = [
             OptionEntity(
                 id: nil,
@@ -85,7 +86,7 @@ class UpdateProductViewModel: ObservableObject {
                     self.myProduct.variants = product.variants
                     print("Options Created Successfully : ")
                     //\(String(describing: self.myProduct.options))
-                    self.updateProductVariants(oldProductID: oldProductID, price: initialPrice, quantity: initialQuantity, product: self.myProduct,myVariants: variants,showUpdateButton: showUpdateButton)
+                    self.updateProductVariants(oldProductID: oldProductID, price: initialPrice, quantity: initialQuantity, product: self.myProduct,myVariants: variants,showUpdateButton: showUpdateButton,path: path)
                 }else{
                     print("No options Found")
                     self.isLoading = false
@@ -98,7 +99,7 @@ class UpdateProductViewModel: ObservableObject {
     }
     
     private func updateProductVariants(oldProductID : ID ,price : String , quantity : String, product : ProductEntity, myVariants : [VariantModel]
-                                       ,showUpdateButton : Binding<Bool>){
+                                       ,showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         guard let variantID = myProduct.variants?.first?.id else { return }
         let variant = VariantEntity(
             availableForSale: nil,
@@ -113,7 +114,7 @@ class UpdateProductViewModel: ObservableObject {
             case .success(let product):
                 if let variants = product.variants{
                     self.myProduct.variants = variants
-                    self.setInventoryQuantity(oldProductID: oldProductID, quantity: quantity,variants: myVariants,showUpdateButton: showUpdateButton)
+                    self.setInventoryQuantity(oldProductID: oldProductID, quantity: quantity,variants: myVariants,showUpdateButton: showUpdateButton,path: path)
                     print("Price added Successfully ")
                     //\(self.myProduct.variants?.first?.price ?? "No Price")
                 }else{
@@ -127,7 +128,7 @@ class UpdateProductViewModel: ObservableObject {
         }
     }
     
-    private func setInventoryQuantity(oldProductID : ID ,quantity : String, variants : [VariantModel],showUpdateButton : Binding<Bool>){
+    private func setInventoryQuantity(oldProductID : ID ,quantity : String, variants : [VariantModel],showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         let inventory = InventoryEntity(quantities: [InventoryQuantity(
             inventoryItemId: myProduct.inventoryItemId, quantity: Int(quantity)
         )])
@@ -136,7 +137,7 @@ class UpdateProductViewModel: ObservableObject {
             switch result{
             case .success(_):
                 print("Added Quantity successfully")
-                self.createProductVariants(oldProductID: oldProductID, variants: variants,showUpdateButton: showUpdateButton)
+                self.createProductVariants(oldProductID: oldProductID, variants: variants,showUpdateButton: showUpdateButton,path: path)
             case .failure(let error) :
                 print(error.localizedDescription)
                 self.isLoading = false
@@ -144,7 +145,7 @@ class UpdateProductViewModel: ObservableObject {
         }
     }
     
-    private func createProductVariants(oldProductID : ID, variants : [VariantModel],showUpdateButton : Binding<Bool>){
+    private func createProductVariants(oldProductID : ID, variants : [VariantModel],showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         let variants = variants.map({$0.toVariantEntity()})
         myProduct.variants = variants
         myProduct.variants?.remove(at: 0)
@@ -154,7 +155,7 @@ class UpdateProductViewModel: ObservableObject {
                 self.myProduct.variants = product.variants
                 print("Successfully Product Variant Creation : ")
                // \(String(describing: self.myProduct.variants))
-                self.publishProduct(oldProductID: oldProductID,showUpdateButton: showUpdateButton )
+                self.publishProduct(oldProductID: oldProductID,showUpdateButton: showUpdateButton ,path: path)
             case .failure(let failure):
                 print(failure.localizedDescription)
                 self.isLoading = false
@@ -162,20 +163,20 @@ class UpdateProductViewModel: ObservableObject {
         }
     }
     
-    private func publishProduct(oldProductID : ID,showUpdateButton : Binding<Bool>){
+    private func publishProduct(oldProductID : ID,showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         guard let productID = self.myProduct.id else {return}
         publishProductUsecase.execute(productID:productID) { result in
             switch result{
                 case .success(_):
                 print("Congratulation you have create your product successfully")
-                self.deleteProduct(oldProductID: oldProductID,showUpdateButton:showUpdateButton)
+                self.deleteProduct(oldProductID: oldProductID,showUpdateButton:showUpdateButton,path: path)
                 case .failure(let failure):
                 print(failure.localizedDescription)
                 self.isLoading = false
             }
         }
     }
-    private func deleteProduct(oldProductID : ID,showUpdateButton : Binding<Bool>){
+    private func deleteProduct(oldProductID : ID,showUpdateButton : Binding<Bool>, path : Binding<NavigationPath>){
         deleteProductUseCase.execute(productID: oldProductID) { result in
             switch result{
             case .success(_):
@@ -185,6 +186,7 @@ class UpdateProductViewModel: ObservableObject {
                 var buttonState = showUpdateButton.wrappedValue
                 buttonState = false
                 showUpdateButton.wrappedValue = buttonState
+                path.wrappedValue.removeLast()
             case .failure(let failure):
                 print(failure.localizedDescription)
                 self.isLoading = false

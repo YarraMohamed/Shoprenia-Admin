@@ -31,6 +31,7 @@ struct UpdateSheetView : View {
     }()
     var product : ProductEntity
     @Binding var showBottomSheet : Bool
+    @Binding var path : NavigationPath
     @State var selectedTab : Tabs = .MainInfo
     var body: some View {
         VStack(spacing : 10){
@@ -71,13 +72,14 @@ struct UpdateSheetView : View {
                         initialPrice:initialPrice,
                         initialQuantity: initialQuantity,
                         variants: variants,
-                        showUpdateButton: $showBottomSheet
+                        showUpdateButton: $showBottomSheet,
+                        path : $path
                     )
                 }
             }
         }
     }
-    init(product : ProductEntity,showBottomSheet : Binding<Bool>){
+    init(product : ProductEntity,showBottomSheet : Binding<Bool>,path : Binding<NavigationPath>){
         self.product = product
         title = product.title ?? ""
         description = product.descriptionHTML ?? ""
@@ -92,6 +94,7 @@ struct UpdateSheetView : View {
         initialQuantity = String(product.variants?.first?.inventoryQuantity ?? 0)
         variants = product.variants?.map{$0.toVariantModel()} ?? []
         self._showBottomSheet = showBottomSheet
+        self._path = path
     }
 }
 

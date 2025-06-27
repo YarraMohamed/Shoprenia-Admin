@@ -20,7 +20,7 @@ struct FirstStageView : View {
     @State var urls : [String] = []
     var body : some View {
         ScrollView{
-            VStack(spacing : 20){
+            VStack(spacing : 10){
                 Text("Add Product Info Section : ")
                     .foregroundStyle(Color("shopreniaBlue"))
                     .font(.system(size: 28, weight: .medium, design: .default))
@@ -81,6 +81,9 @@ struct FirstStageView : View {
                 
             }
         }
+        if viewModel.showMessage{
+            ShowMessage(color: $viewModel.color, message: $viewModel.message)
+        }
     }
 }
 
@@ -129,20 +132,22 @@ struct AddMediaSection : View {
             Text("Add Media Section : ")
                 .foregroundStyle(Color("shopreniaBlue"))
                 .font(.system(size: 28, weight: .medium, design: .default))
-            VStack(alignment: .leading){
+            VStack{
                 CustomTextField(title: "add media url", input: $mediaUrl, width: 300)
                 if let url = URL(string: mediaUrl){
                     VerificationImage(url: url)
                 }
-                Button{
-                    if !mediaUrl.isEmpty{
-                        urls.append(mediaUrl)
-                        mediaUrl = ""
-                        verifyImage = true
+                HStack{
+                    Button{
+                        if !mediaUrl.isEmpty{
+                            urls.append(mediaUrl)
+                            mediaUrl = ""
+                            verifyImage = true
+                        }
+                    }label: {
+                        Text("Add URL")
+                        Image(.addCircle)
                     }
-                }label: {
-                    Text("Add URL")
-                    Image(.addCircle)
                 }
             }.padding()
                 .background(Color.white)

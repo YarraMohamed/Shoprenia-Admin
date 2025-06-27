@@ -21,8 +21,10 @@ class AddProductViewModel : ObservableObject{
     @Published var product : ProductEntity? = nil
     @Published var options : [OptionEntity] = []
     @Published var variants : [VariantEntity] = []
-    @Published var errorMessage : String? = nil
     @Published var isLoading : Bool = false
+    @Published var showMessage : Bool = false
+    @Published var message : String = ""
+    @Published var color : Color = .green
     
     init (createProductUseCase: CreateProductUsecase,
           createProductOptionsUseCase: CreateProductOptionsUsecase,
@@ -42,6 +44,11 @@ class AddProductViewModel : ObservableObject{
     func createProduct(title : String , description : String , productType : String , vendor : String , imageSources : [String]
                        ,stageNumber : Binding<Int> , progress : Binding<Double>){
         isLoading = true
+        guard !title.isEmpty else{
+            showMessage(message: "Please enter Product title", color: .red)
+            isLoading = false
+            return
+        }
         let imageEntity = imageSources.map{ imageSource in
             ImageEntity(originalSource: imageSource, alt: nil, imageContentType: .image)
         }
@@ -53,20 +60,23 @@ class AddProductViewModel : ObservableObject{
                 self.creationStages = .secondStage
                 stageNumber.wrappedValue = 2
                 progress.wrappedValue = 0.5
-                self.errorMessage = nil
                 self.product = product
                 print("product Id :\(product.id ?? "No ID") and product Tite \(product.title ?? "No Title")")
                 print(product.media?.first?.originalSource ?? "No media found")
             case .failure(let failure):
                 self.isLoading = false
-                self.errorMessage = failure.localizedDescription
             }
         }
     }
     
     func createProductOptions(color : String , size : String){
-        guard var product = self.product else { return }
         isLoading = true
+        guard var product = self.product else { return }
+        guard !color.isEmpty && !size.isEmpty else {
+            showMessage(message: "Please Complete Product Options", color: .red)
+            isLoading = false
+            return
+        }
         let options = [OptionEntity(
             id: nil,
             name: "Color",
@@ -90,16 +100,14 @@ class AddProductViewModel : ObservableObject{
                 self.product?.variants = product.variants
                 if let options = product.options {
                     self.options = options
-                    print("Options Created Successfully")
+                    self.showMessage(message: "Product Options Created Successfully", color: .green)
                     print(self.options)
                 }else{
-                    self.errorMessage = "No Options Found"
-                    print(self.errorMessage ?? "ERROOOOOOOR")
+                    self.showMessage(message: "No Options Found", color: .red)
                 }
             case .failure(let failure):
                 self.isLoading = false
-                self.errorMessage = failure.localizedDescription
-                print(self.errorMessage ?? "ERROOOOOOOR") 
+                self.showMessage(message: failure.localizedDescription, color: .red)
             }
         }
     }
@@ -124,13 +132,9 @@ class AddProductViewModel : ObservableObject{
                     self.setInventoryQuantity(quantity: quantity, stageNumber: stageNumber, progress: progress)
                     print(product.variants?.first?.price ?? "No Price")
                 }else{
-                    self.errorMessage = "No Variants Found"
-                    print(self.errorMessage ?? "ERROOOOOOOR")
                     self.isLoading = false
                 }
-            case .failure(let failure):
-                self.errorMessage = failure.localizedDescription
-                print(self.errorMessage ?? "ERROOOOOOOOR")
+            case .failure( _):
                 self.isLoading = false
             }
         }
@@ -149,10 +153,8 @@ class AddProductViewModel : ObservableObject{
                 self.creationStages = .thirdStage
                 progress.wrappedValue = 0.75
                 stageNumber.wrappedValue = 3
-            case .failure(let error) :
+            case .failure(_) :
                 self.isLoading = false
-                self.errorMessage = error.localizedDescription
-                print(self.errorMessage ?? "EROOOOOOOOOR")
             }
         }
     }
@@ -196,7 +198,7 @@ class AddProductViewModel : ObservableObject{
         publishProductUsecase.execute(productID:productID) { result in
             switch result{
             case .success(_):
-                print("Congratulation you have create your product successfully")
+                print("Congratulation you have create your Product successfully")
                 self.isLoading = false
                 var myPath = path.wrappedValue
                 myPath.removeLast(myPath.count-1)
@@ -205,6 +207,15 @@ class AddProductViewModel : ObservableObject{
                 print(failure.localizedDescription)
                 self.isLoading = false
             }
+        }
+    }
+    
+    private func showMessage(message : String , color : Color){
+        self.showMessage = true
+        self.color = color
+        self.message = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+            self.showMessage = false
         }
     }
     

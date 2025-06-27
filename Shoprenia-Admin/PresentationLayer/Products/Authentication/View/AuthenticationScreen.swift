@@ -88,8 +88,8 @@ struct ShowMessage : View {
        ZStack{
             Text(message)
                 .foregroundStyle(color)
-                .font(.system(size: 25, weight: .bold, design: .default))
-                .padding(.bottom,120)
+                .font(.system(size: 20, weight: .bold, design: .default))
+                .padding(.bottom,30)
         }
     }
 }

@@ -18,6 +18,7 @@ struct ThirdStageView : View {
     @Binding var stageNumber: Int
     @Binding var path : NavigationPath
     @State var showError : Bool = false
+    @State var showError2 : Bool = false
     @State var isHidden : Bool = false
     @State var variants : [VariantModel] = []
    
@@ -74,8 +75,15 @@ struct ThirdStageView : View {
                     if !variants.isEmpty{
                         viewModel.createProductVariants()
                         viewModel.publishProduct(path: $path)
+                    }else{
+                        showError2 = true
                     }
                 }
+            }
+            if showError2{
+                Text("Please Add Variant To Save And Publish your Product !")
+                    .foregroundStyle(.red)
+                    .font(.system(size: 20, weight: .medium, design: .default))
             }
         }.padding(.top , 30)
             .padding()
