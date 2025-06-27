@@ -37,12 +37,15 @@ struct SecondStageView : View {
             }.padding()
             
         }
-        if viewModel.isLoading{
-            ProgressView()
-        }else{
-            CustomButton(title: "Next") {
-                viewModel.updateProductVariants(price: price,quantity: quantity,stageNumber: $stageNumber, progress: $progress)
+        VStack(spacing : 5){
+            if viewModel.isLoading{
+                ProgressView()
+            }else{
+                CustomButton(title: "Next") {
+                    viewModel.updateProductVariants(price: price,quantity: quantity,stageNumber: $stageNumber, progress: $progress)
+                }
             }
+           
         }
     }
 }
@@ -127,11 +130,16 @@ struct AddSizeOptionSection : View {
                     .cornerRadius(8)
             }
         }
-        if viewModel.isLoading{
-            ProgressView()
-        }else{
-            CustomButton(title: "Submit Color and Size"){
-                viewModel.createProductOptions(color: colors.first ?? "", size: sizes.first ?? "")
+        VStack(spacing: 5){
+            if viewModel.isLoading{
+                ProgressView()
+            }else{
+                CustomButton(title: "Submit Color and Size"){
+                    viewModel.createProductOptions(color: colors.first ?? "", size: sizes.first ?? "")
+                }
+            }
+            if viewModel.showMessage{
+                ShowMessage(color: $viewModel.color, message: $viewModel.message)
             }
         }
     }

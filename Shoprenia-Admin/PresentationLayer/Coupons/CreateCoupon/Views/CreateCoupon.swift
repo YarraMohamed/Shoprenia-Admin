@@ -114,8 +114,9 @@ struct CreateCoupon: View {
                     )
                 }
             }
-            
-            
+        }
+        if viewModel.showMessage{
+            ShowMessage(color: $viewModel.color, message: $viewModel.message)
         }
     }
 }

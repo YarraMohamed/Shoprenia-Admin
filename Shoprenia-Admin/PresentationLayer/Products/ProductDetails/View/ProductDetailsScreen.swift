@@ -134,7 +134,7 @@ struct ProductDetailsScreen: View {
                     }
             }.sheet(isPresented: $showEditSheet) {
                 if let product = viewModel.product {
-                    UpdateSheetView(product: product ,showBottomSheet: $showEditSheet)
+                    UpdateSheetView(product: product ,showBottomSheet: $showEditSheet,path: $path)
                         .presentationDetents([.large])
                 }
                 
